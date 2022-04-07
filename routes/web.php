@@ -18,5 +18,7 @@ Route::controller(MainController::class)->group(function () {
     Route::get('/', 'home')->name('home');
 });
 
+Route::get('/quotes', [MainController::class, 'home'])->name('quotes.index');
+Route::get('/authors', [MainController::class, 'home'])->name('authors.index');
 
 require __DIR__.'/auth.php';
