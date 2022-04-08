@@ -6,10 +6,10 @@
     
     <ul class="categories-card-list">
         @foreach ($categories as $category)
-            <li class="category-card">
+            <a class="category-card" href="#">
                 <img class="category-card__image" src="{{ asset('img/categories/' . $category->image) }}" alt="{{ $category->title }}">
                 <h6 class="category-card__title">{{ $category->title }}</h6>
-            </li>
+            </a>
         @endforeach
     </div>
 </div>

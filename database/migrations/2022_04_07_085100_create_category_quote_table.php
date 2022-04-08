@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('title')->unique();
-            $table->string('image')->nullable();
-            $table->boolean('popular');
+        Schema::create('category_quote', function (Blueprint $table) {
+            $table->integer('quote_id');
+            $table->integer('category_id');
+            $table->primary(['quote_id', 'category_id']);
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('category_quote');
     }
 };
