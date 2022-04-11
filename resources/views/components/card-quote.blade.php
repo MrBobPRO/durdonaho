@@ -7,7 +7,7 @@
             <img class="card__image card__header-image--small" src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}">
 
             <div class="card__header-info">
-                <h1 class="card__title">Автор цитаты: {{ $quote->author->name }}</h1>
+                <h1 class="card__title"><span class="card__title-span">Автор цитаты:</span> {{ $quote->author->name }}</h1>
                 <ul class="card__categories">
                     @foreach ($quote->categories as $category)
                     <li>

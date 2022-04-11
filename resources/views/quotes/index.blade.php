@@ -11,18 +11,17 @@
     </div>
 
     <x-aside-categories />
-    <x-aside-quote />
-
+    <x-aside-popularity />
 </aside>
 
 <div class="main__content quotes-page-content">
-    <section class="latest-quotes carousel-section theme-styled-block">
-        <h1 class="carousel-section__title main-title">Иқтибосҳои ахир
-            <span class="carousel-section__counter">1 из 5</span>
-        </h1>
-        {{-- <x-carousel-quotes :quotes="$latestQuotes" /> --}}
-    </section>
+    <x-filter-categories title="Ҳама иқтибосҳо" />
 
+    <section class="quotes-section" id="quotes-section">
+        <div class="quotes-list" id="quotes-list">
+            <x-quotes-list-inner :quotes="$quotes"/>
+        </div>
+    </section>
 </div>
 
 @endsection

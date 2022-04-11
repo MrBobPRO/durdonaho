@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Author;
 use App\Models\Category;
+use App\Models\Quote;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -36,6 +38,15 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer(["components.aside-popular-categories"], function ($view) {
             $view->with('categories', Category::where('popular', true)->inRandomOrder()->get());
+        });
+
+        View::composer(["components.aside-popularity"], function ($view) {
+            $view->with('quote', Quote::where('popular', true)->inRandomOrder()->first())
+                ->with('author', Author::where('popular', true)->inRandomOrder()->first());
+        });
+
+        View::composer(["components.filter-categories"], function ($view) {
+            $view->with('categories', Category::orderBy('title')->get());
         });
     }
 }

@@ -8,7 +8,7 @@ $.ajaxSetup({
 window.onload = function () {
     $('.card-carousel').owlCarousel({
         loop: true,
-        margin: 20,
+        margin: 0,
         nav: true,
         navText: ['<span class="material-icons-outlined">arrow_back_ios</span>', '<span class="material-icons-outlined">arrow_forward_ios</span>'],
         items: 1,
