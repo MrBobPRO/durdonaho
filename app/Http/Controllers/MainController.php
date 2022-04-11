@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Models\Quote;
 use Illuminate\Http\Request;
-use stdClass;
 
 class MainController extends Controller
 {

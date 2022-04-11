@@ -14,7 +14,9 @@ class QuoteController extends Controller
      */
     public function index()
     {
-        //
+        $quotes = Quote::latest()->paginate(8);
+
+        return view('quotes.index', compact('quotes'));
     }
 
     /**

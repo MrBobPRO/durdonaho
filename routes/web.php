@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\QuoteController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +19,11 @@ Route::controller(MainController::class)->group(function () {
     Route::get('/', 'home')->name('home');
 });
 
-Route::get('/quotes', [MainController::class, 'home'])->name('quotes.index');
+Route::controller(QuoteController::class)->name('quotes.')->group(function () {
+    Route::get('/quotes', 'index')->name('index');
+});
+
+
 Route::get('/authors', [MainController::class, 'home'])->name('authors.index');
 
 require __DIR__.'/auth.php';
