@@ -12,7 +12,7 @@
                 @endauth
                 
                 @guest
-                    <button class="button button--transparent">Зарегистрироваться</button>
+                    <button class="header-top__register button button--transparent">Зарегистрироваться</button>
 
                     <button class="button button--main header-top__login">
                         <span class="material-icons">person</span> ВОЙТИ
@@ -37,7 +37,17 @@
                     </li>
 
                     <li class="header-nav__item">
-                        <a class="header-nav__link @if($route == "authors.own") active @endif" href="{{ route('authors.index') }}">Самиздат</a>
+                        <div class="dropdown">
+                            <button class="header-nav__link dropdown__button @if($route == "quotes.individual" || $route == 'authors.individual') active @endif" >Самиздат</button>
+
+                            <div class="dropdown__content">
+                                <div class="dropdown__background"></div>
+                                <ul class="dropdown__menu">
+                                    <li><a class="dropdown__item" href="{{ route('authors.individual') }}">Муаллифон</a></li>
+                                    <li><a class="dropdown__item" href="{{ route('quotes.individual') }}">Иқтибосҳо</a></li>
+                                </ul>
+                            </div>
+                        </div>
                     </li>
 
                     <li class="header-nav__item">

@@ -5,6 +5,8 @@ $.ajaxSetup({
     }
 });
 
+
+//card carousel
 window.onload = function () {
     $('.card-carousel').owlCarousel({
         loop: true,
@@ -18,3 +20,17 @@ window.onload = function () {
         transitionStyle:"fade"
     });
 }
+
+
+//dropdown
+document.querySelectorAll('.dropdown__button').forEach(item => {
+    item.addEventListener('click', event => {
+        item.closest('.dropdown').classList.add('dropdown--opened');
+    })
+})
+
+document.querySelectorAll('.dropdown__background').forEach(item => {
+    item.addEventListener('click', event => {
+        item.closest('.dropdown').classList.remove('dropdown--opened');
+    })
+})

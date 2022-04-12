@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text("biography");
             $table->string("image")->default("__default.jpg");
             $table->boolean('popular');
+            $table->boolean('individual'); //Самиздат
             $table->timestamps();
         });
     }

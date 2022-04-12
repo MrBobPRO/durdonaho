@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Author;
 use Illuminate\Http\Request;
 
 class AuthorController extends Controller
@@ -13,7 +14,22 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        //
+        $authors = Author::where('individual', false)->orderBy('name')->paginate(6);
+
+        return view('authors.index', compact('authors'));
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function individual()
+    {
+        $authors = Author::where('individual', true)->orderBy('name')->paginate(6);
+
+        return view('authors.individual', compact('authors'));
     }
 
     /**

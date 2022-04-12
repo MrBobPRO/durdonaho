@@ -32,6 +32,8 @@ class QuoteSeeder extends Seeder
 
         array_push($body, 'Таҳсилот ин бишнавонидани тамаддун аст.');
 
+        array_push($body, 'Дониш андар дил чароги равшан аст. Ваз хама бад бар тани ту чавшан аст.');
+
         for($i=0; $i<count($body); $i++) {
             $q = new Quote();
             $q->body = $body[$i];

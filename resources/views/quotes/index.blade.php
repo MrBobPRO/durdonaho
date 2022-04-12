@@ -19,7 +19,7 @@
 
     <section class="quotes-section" id="quotes-section">
         <div class="quotes-list" id="quotes-list">
-            <x-quotes-list-inner :quotes="$quotes"/>
+            <x-list-inner-quotes :quotes="$quotes"/>
         </div>
     </section>
 </div>

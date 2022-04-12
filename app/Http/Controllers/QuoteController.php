@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Author;
 use App\Models\Quote;
 use Illuminate\Http\Request;
 
@@ -14,9 +15,27 @@ class QuoteController extends Controller
      */
     public function index()
     {
-        $quotes = Quote::latest()->paginate(6)->fragment('quotes-section');
+        $individualAuthors = Author::where('individual', true)->pluck('id');
+
+        $quotes = Quote::whereNotIn('author_id', $individualAuthors)
+                ->latest()->paginate(6)->fragment('quotes-section');
 
         return view('quotes.index', compact('quotes'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function individual()
+    {
+        $individualAuthors = Author::where('individual', true)->pluck('id');
+
+        $quotes = Quote::whereIn('author_id', $individualAuthors)
+                ->latest()->paginate(6)->fragment('quotes-section');
+
+        return view('quotes.individual', compact('quotes'));
     }
 
     /**
