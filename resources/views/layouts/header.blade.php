@@ -51,7 +51,7 @@
                     </li>
 
                     <li class="header-nav__item">
-                        <a class="header-nav__link @if($route == "quotes.top") active @endif" href="{{ route('authors.index') }}">Лучшие цитаты</a>
+                        <a class="header-nav__link @if($route == "quotes.top") active @endif" href="{{ route('quotes.top') }}">Лучшие цитаты</a>
                     </li>
                 </ul>
             </nav>

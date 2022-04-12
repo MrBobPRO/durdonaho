@@ -38,6 +38,19 @@ class QuoteController extends Controller
         return view('quotes.individual', compact('quotes'));
     }
 
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function top()
+    {
+        $quotes = Quote::withCount('likes')->orderBy('likes_count', 'desc')->paginate(6)->fragment('quotes-section');
+
+        return view('quotes.individual', compact('quotes'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

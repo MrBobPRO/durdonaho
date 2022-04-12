@@ -23,6 +23,7 @@ Route::controller(MainController::class)->group(function () {
 Route::controller(QuoteController::class)->prefix('quotes')->name('quotes.')->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/individual', 'individual')->name('individual');
+    Route::get('/top', 'top')->name('top');
 });
 
 Route::controller(AuthorController::class)->prefix('authors')->name('authors.')->group(function () {

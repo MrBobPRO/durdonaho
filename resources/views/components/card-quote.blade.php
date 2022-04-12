@@ -29,7 +29,7 @@
             </button>
     
             <button class="card__actions-button">
-                <span class="material-icons-outlined card__actions-span">favorite_border</span> Понравилось: <span class="card__actions-counter">456</span>
+                <span class="material-icons-outlined card__actions-span">favorite_border</span> Понравилось: <span class="card__actions-counter">{{ $quote->likes->count() }}</span>
             </button>
         </div>
     </div>  {{-- Card Header end --}}
