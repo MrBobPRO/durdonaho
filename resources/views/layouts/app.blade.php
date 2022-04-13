@@ -30,6 +30,9 @@
         @include('layouts.header')
         <main class="main" role="main">
             @yield('main')
+            
+            @include('modals.login')
+            @include('modals.register')
         </main>
         @include('layouts.footer')
         

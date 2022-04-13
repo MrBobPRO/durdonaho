@@ -93,6 +93,8 @@ input {
     font-size: 14px;
     border-radius: 8px;
     transition: 0.3s;
+    justify-content: center;
+    align-items: center;
 }
 .button--main {
     background-color: var(--secondary-color);
@@ -350,6 +352,28 @@ input {
     font-weight: 500;
 }
 /* ------------ /end Aside ------------ */
+
+
+/* ------------ Terms ------------ */
+.terms {
+    display: flex;
+    gap: 12px;
+}
+.terms__divider {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.terms__label {
+    color: black;
+    cursor: pointer;
+    width: max-content;
+    line-height: 1;
+}
+.terms__link {
+    color: var(--main-color);
+}
+/* ------------ /end Terms ------------ */
 
 
 /* ------------ Home carousel ------------ */
@@ -732,9 +756,6 @@ input {
 .dropdown {
     position: relative;
 }
-.dropdown__button {
-
-}
 .dropdown__content {
     position: absolute;
     z-index: 5;
@@ -766,7 +787,177 @@ input {
     gap: 6px;
     min-width: 200px;
 }
-.dropdown__item {
-    
-}
 /* ------------ /end Dropdown ------------ */
+
+
+/* ------------ Modal ------------ */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    z-index: 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-position: bottom right;
+}
+.modal-dialog {
+    background: #bbbbbb59;
+    border-radius: 16px;
+    overflow: hidden;
+}
+.register-modal-dialog {
+    width: 520px;
+}
+.modal-dialog__header {
+    background: white;
+}
+.modal-dialog__header-inner {
+    padding: 32px 52px 32px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.modal-dialog__title {
+    margin: 0;
+    display: flex;
+    font-weight: bold;
+    color: black;
+    font-size: 24px;
+}
+.modal-dissmiss {
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+}
+.modal-dialog__body-inner {
+    padding: 20px 80px 32px;
+}
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.modal-label {
+    color: white;
+}
+.modal-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid white;
+    padding: 10px 0;
+    font-size: 16px;
+    color: white;
+}
+.modal-input:focus {
+    outline: none;
+}
+.modal-input::placeholder {
+    color: white;
+}
+.modal-radio-group {
+    color: white;
+    display: flex;
+    gap: 32px;
+}
+.modal-submit {
+    margin-top: 20px;
+}
+.modal-terms .terms__link {
+    color: white;
+}
+/* ------------ /end Modal ------------ */
+
+
+/* ------------ Form ------------ */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.radio-container {
+    position: relative;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.radio {
+    opacity: 0;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+.radio-replacer {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    position: absolute;
+    background-color: white;
+    pointer-events: none;
+}
+.radio-replacer::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    background-color: black;
+    display: none;
+}
+.radio:checked + .radio-replacer::after {
+    display: block;
+}
+.radio-label {
+    cursor: pointer;
+}
+.checkbox-container {
+    position: relative;
+}
+.checkbox {
+    opacity: 0;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+.checkbox-replacer {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    position: absolute;
+    background-color: white;
+    pointer-events: none;
+    top: 0;
+    left: 0px;
+}
+.checkbox-replacer::after {
+    content: '';
+    display: block;
+    width: 0.5em;
+    height: 1em;
+    border-style: solid;
+    border-width: 0 0.2em 0.2em 0;
+    border-color: black;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    position: absolute;
+    left: 4px;
+    bottom: 2px;
+    display: none;
+}
+.checkbox:checked + .checkbox-replacer::after {
+    display: block;
+}
+/* ------------ /end Form ------------ */
+
