@@ -25,6 +25,7 @@ class UserSeeder extends Seeder
             $user->email = $email[$i];
             $user->role = $role[$i];
             $user->password = bcrypt('12345');
+            $user->gender = 'male';
             $user->save();
         }
     }

@@ -12,9 +12,9 @@
                 @endauth
                 
                 @guest
-                    <button class="header-top__register button button--transparent">Зарегистрироваться</button>
+                    <button class="header-top__register button button--transparent" data-action="show-modal" data-target-id="register-modal">Зарегистрироваться</button>
 
-                    <button class="button button--main header-top__login">
+                    <button class="button button--main header-top__login" data-action="show-modal" data-target-id="login-modal">
                         <span class="material-icons">person</span> ВОЙТИ
                     </button>
                 @endguest

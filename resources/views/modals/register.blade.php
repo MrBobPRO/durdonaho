@@ -1,36 +1,42 @@
-<div class="modal register-modal" style="background-image: url({{ asset('img/main/modal-bg.PNG') }})">
+<div class="modal register-modal" id="register-modal" style="background-image: url({{ asset('img/main/modal-bg.PNG') }})">
+    {{-- Modal Dialog start --}}
     <div class="modal-dialog register-modal-dialog">
+        
+        {{-- Modal Header start --}}
         <div class="modal-dialog__header">
             <div class="modal-dialog__header-inner">
                 <h2 class="modal-dialog__title">Зарегестрироваться</h2>
-                <button class="modal-dissmiss" data-action="dismiss-modal">X</button>
+                <button class="modal-dissmiss" data-action="hide-modal" data-target-id="register-modal">X</button>
             </div>
-        </div>
+        </div>  {{-- Modal Header end --}}
 
+        {{-- Modal Body start --}}
         <div class="modal-dialog__body">
             <div class="modal-dialog__body-inner">
-                <form class="form modal-form" action="#">
+                <form class="form modal-form" action="/register" method="POST" id="register-form">
+                    @csrf
+
                     <div class="form-group modal-form-group">
-                        <input class="input modal-input" type="text" placeholder="Имя" name="name">
+                        <input class="input modal-input" type="text" placeholder="Имя" name="name" required autofocus>
                     </div>
                     
                     <div class="form-group modal-form-group">
-                        <input class="input modal-input" type="text" placeholder="Электронная почта" name="email">
+                        <input class="input modal-input" type="email" placeholder="Электронная почта" name="email" required>
                     </div>
 
                     <div class="form-group modal-form-group">
-                        <input class="input modal-input" type="text" placeholder="Пароль" name="password">
+                        <input class="input modal-input" type="password" placeholder="Пароль" name="password" minlength="5" required autocomplete="new-password">
                     </div>
 
                     <div class="form-group modal-form-group">
-                        <input class="input modal-input" type="text" placeholder="Подтвердите пароль" name="password_confirmation">
+                        <input class="input modal-input" type="password" placeholder="Подтвердите пароль" name="password_confirmation" minlength="5" required>
                     </div>
                     
                     <div class="form-group modal-form-group">
                         <label class="label modal-label">Ваш пол</label>
                         <div class="radio-group modal-radio-group">
                             <div class="radio-container">
-                                <input class="radio modal-radio" id="radio-male" type="radio" name="gender" value="male">
+                                <input class="radio modal-radio" id="radio-male" type="radio" name="gender" value="male" checked>
                                 <div class="radio-replacer"></div>
                                 <label class="radio-label unselectable" for="radio-male">Мужчина</label>
                             </div>
@@ -43,13 +49,15 @@
                         </div>
                     </div>
 
+                    <ul class="modal-form-errors"></ul>
+
                     <button class="button button--main modal-submit">
                         <span class="material-icons modal-submit-icon">sensor_door</span> Зарегестрироваться
                     </button>
 
                     <div class="terms modal-terms">
                         <div class="checkbox-container">
-                            <input class="checkbox terms__checkbox" type="checkbox" name="terms" value="accepted" id="register-terms-checkbox">
+                            <input class="checkbox terms__checkbox" type="checkbox" name="terms" value="accepted" id="register-terms-checkbox" required>
                             <div class="checkbox-replacer"></div>
                         </div>
 
@@ -60,7 +68,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div>  {{-- Modal Body end --}}
 
-    </div>
+    </div>  {{-- Modal Dialog end --}}
 </div>

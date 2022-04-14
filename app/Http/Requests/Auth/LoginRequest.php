@@ -45,12 +45,21 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
+        //return error if user hanst verified his email
+        // $user = User::where('email', $this->email)->first();
+        // if(!$user->email_verified_at) {
+        //     return 'email not verified';
+        // }
+
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
+            //Ajax authentication is used
+            return 'failed';
+
+            // throw ValidationException::withMessages([
+            //     'email' => trans('auth.failed'),
+            // ]);
         }
 
         RateLimiter::clear($this->throttleKey());
