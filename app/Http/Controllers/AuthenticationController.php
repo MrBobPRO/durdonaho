@@ -1,39 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 
-class RegisteredUserController extends Controller
+class AuthenticationController extends Controller
 {
-    /**
-     * Display the registration view.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
+    public function register(Request $request)
     {
-        return view('auth.register');
-    }
-
-    /**
-     * Handle an incoming registration request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request)
-    {
-        //manually validate request to return errors for ajax request
         $failedInputs = [];
         $errorMessages = [];
 
@@ -67,8 +44,8 @@ class RegisteredUserController extends Controller
             ];
         }
 
-        //else store & login user
-        $user = User::create([
+        //else store user and redirect to email verify notification page
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
@@ -76,13 +53,31 @@ class RegisteredUserController extends Controller
             'role' => 'user'
         ]);
 
-        event(new Registered($user));
-
-        // Auth::login($user);
-
         return [
             'validation' => 'success',
-            'emailVerificationUrl' => route('verification.notice')
+            'verifyNotificationUrl' => route('verification.notice')
         ];
+    }
+
+    public function login(Request $request)
+    {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], true)) {
+            $request->session()->regenerate();
+
+            return 'success';
+        } else {
+            return 'failed';
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->intended('/');
     }
 }

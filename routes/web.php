@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +17,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::controller(AuthenticationController::class)->middleware('guest')->group(function () {
+    Route::post('register', 'register');
+    Route::post('login', 'login');
+    Route::post('logout', 'logout');
+});
+
+Route::controller(VerifyEmailController::class)->middleware('guest')->name('verification.')->group(function () {
+    Route::get('verify-email', 'notice')->name('notice');
+});
 
 Route::controller(MainController::class)->group(function () {
     Route::get('/', 'home')->name('home');
@@ -31,5 +43,3 @@ Route::controller(AuthorController::class)->prefix('authors')->name('authors.')-
     Route::get('/individual', 'individual')->name('individual');
     Route::get('/{slug}', 'show')->name('show');
 });
-
-require __DIR__.'/auth.php';
