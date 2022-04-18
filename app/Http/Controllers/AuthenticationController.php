@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\EmailVerifyNotification;
 use App\Models\User;
+use App\Models\VerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthenticationController extends Controller
 {
@@ -45,17 +48,29 @@ class AuthenticationController extends Controller
         }
 
         //else store user and redirect to email verify notification page
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'verified_email' => false,
             'gender' => $request->gender,
             'role' => 'user'
         ]);
 
+        //send email veify notification
+        $token = str()->random(64);
+
+        VerifyEmail::create([
+            'user_id' => $user->id,
+            'token' => $token
+        ]);
+
+        Auth::login($user, true);
+
+        Mail::to($request->email)->send(new EmailVerifyNotification($token));
+
         return [
-            'validation' => 'success',
-            'verifyNotificationUrl' => route('verification.notice')
+            'validation' => 'success'
         ];
     }
 

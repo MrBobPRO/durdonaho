@@ -1001,3 +1001,32 @@ input {
 }
 /* ------------ /end Form ------------ */
 
+
+/* ------------ Email Verification ------------ */
+.email-verification-block {
+    padding: 32px;
+}
+.email-verification-text {
+    margin-bottom: 0;
+}
+.email-verification-text a {
+    color: var(--main-color);
+    text-decoration: underline;
+    font-weight: 500;
+}
+.email-verification-actions {
+    margin-top: 32px;
+    display: flex;
+    justify-content: space-between;
+}
+.email-verification-resend {
+    padding: 14px 24px;
+}
+.email-verification-logout {
+    padding: 14px 24px;
+    background: var(--main-color);
+    color: white;
+    border: none;
+}
+/* ------------ /end Email Verification ------------ */
+

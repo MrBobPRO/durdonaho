@@ -18,14 +18,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(AuthenticationController::class)->middleware('guest')->group(function () {
-    Route::post('register', 'register');
-    Route::post('login', 'login');
-    Route::post('logout', 'logout');
+Route::controller(AuthenticationController::class)->group(function () {
+    Route::post('register', 'register')->middleware('guest');
+    Route::post('login', 'login')->middleware('guest');
+    Route::post('logout', 'logout')->middleware('auth')->name('logout');
 });
 
-Route::controller(VerifyEmailController::class)->middleware('guest')->name('verification.')->group(function () {
+Route::controller(VerifyEmailController::class)->name('verification.')->group(function () {
     Route::get('verify-email', 'notice')->name('notice');
+    Route::get('verify-user/{token}', 'verify')->name('verify');
 });
 
 Route::controller(MainController::class)->group(function () {

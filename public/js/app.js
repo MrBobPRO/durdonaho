@@ -73,7 +73,7 @@ if (registerForm) {
             success: function (response) {
                 //reload page on success
                 if (response.validation == 'success') {
-                    window.location.href = response.verifyNotificationUrl;
+                    window.location.reload();
                 } else if (response.validation == 'failed') {
                     //else display error messages
                     let errorsList = registerForm.getElementsByClassName('modal-form-errors')[0];
