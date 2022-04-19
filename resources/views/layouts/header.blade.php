@@ -7,8 +7,47 @@
 
             <div class="header-top__actions">
                 @auth
-                    <span class="material-icons">person</span>
-                    <button class="button button--main">Добавить цитату</button>
+                    <div class="dropdown profile-dropdown">
+                        <button class="dropdown__button"><span class="material-icons">person</span></button>
+
+                        <div class="dropdown__content">
+                            <div class="dropdown__background"></div>
+                            <ul class="dropdown__menu">
+                                <li><p class="profile-dropdown__username">{{ auth()->user()->name }}</p></li>
+
+                                <li><a class="dropdown__item" href="{{ route('authors.individual') }}">
+                                    <span class="material-icons dropdown__item-icon">message</span>Личные сообщения <span class="profile-dropdown__badget">0</span>
+                                </a></li>
+
+                                <li><a class="dropdown__item" href="{{ route('quotes.individual') }}">
+                                    <span class="material-icons dropdown__item-icon">face</span> Избранные авторы
+                                </a></li>
+
+                                <li><a class="dropdown__item" href="{{ route('quotes.individual') }}">
+                                    <span class="material-icons dropdown__item-icon">bookmark</span> Избранные цитаты
+                                </a></li>
+
+                                <li><a class="dropdown__item" href="{{ route('quotes.individual') }}">
+                                    <span class="material-icons dropdown__item-icon">edit</span> Редактировать цитаты
+                                </a></li>
+
+                                <li><a class="dropdown__item" href="{{ route('quotes.individual') }}">
+                                    <span class="material-icons dropdown__item-icon">settings</span> Настройки профиля
+                                </a></li>
+
+                                <li>
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button class="dropdown__item dropdown__item--logout">
+                                            <span class="material-icons dropdown__item-icon">logout</span> Выйти
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <a class="button button--main header-top__add-quote" href="#"><span class="material-icons-outlined">drive_file_rename_outline</span> Добавить цитату</a>
                 @endauth
                 
                 @guest
