@@ -52,7 +52,7 @@
         <img class="card__image card__body-image--medium" src="{{ asset('img/authors/' . $author->image) }}" alt="{{ $author->name }}">
         <div class="card__body-text-container">
             <p class="card__body-text">{{ $author->biography }}</p>
-            <a class="button button--secondary card__body-link" href="#">Муфассал</a>
+            <a class="button button--secondary card__body-link" href="{{ route('authors.show', $author->slug) }}">Муфассал</a>
         </div>
     </div>  {{-- Card Body end --}}
 

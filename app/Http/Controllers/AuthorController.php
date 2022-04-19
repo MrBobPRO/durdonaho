@@ -59,9 +59,12 @@ class AuthorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $author = Author::where('slug', $slug)->first();
+        $quotes = $author->quotes()->latest()->paginate(6)->fragment('quotes-section');
+
+        return view('authors.show', compact('author', 'quotes'));
     }
 
     /**

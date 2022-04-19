@@ -60,12 +60,13 @@ class Helper
     }
 
     /**
-     * Return transliterated lowercased string from russian or tajik into latin
+     * Generate unique slug for given model
      *
-     * @param string $string
+     * @param string $string Generates slug from this string
+     * @param string $model Full namespace of model
      * @return string
      */
-    public static function transliterateIntoLatin($string)
+    public static function generateSlug($string, $model)
     {
         $cyrilic = [
             'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п',
@@ -86,8 +87,13 @@ class Helper
         ];
 
         $transilation = str_replace($cyrilic, $latin, $string);
+        $slug = strtolower($transilation);
 
-        return strtolower($transilation);
+        while($model::where('slug', $slug)->first()) {
+            $slug = $slug . '(1)';
+        }
+
+        return $slug;
     }
 
     /**

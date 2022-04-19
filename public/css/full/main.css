@@ -706,6 +706,9 @@ input {
     flex-direction: column;
     gap: 32px;
 }
+.authors-show-main-card {
+    margin-bottom: 32px;
+}
 /* ------------ /end Authors List ------------ */
 
 

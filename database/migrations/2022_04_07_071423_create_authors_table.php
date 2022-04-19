@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
             $table->string("name")->unique();
-            $table->string('url')->unique();
+            $table->string('slug')->unique();
             $table->text("biography");
             $table->string("image")->default("__default.jpg");
             $table->boolean('popular');

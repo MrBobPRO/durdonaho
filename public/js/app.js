@@ -206,3 +206,24 @@ if (forgotPasswordForm) {
 
     });
 };
+
+let asideSearchInput = document.getElementById('aside-search-input');
+if (asideSearchInput) {
+    let categoriesList = document.getElementById('aside-categories-list');
+    let categories = categoriesList.getElementsByTagName('li');
+
+    asideSearchInput.addEventListener('input', event => {
+        let keyword = asideSearchInput.value.toUpperCase();
+
+        for (let i = 0; i < categories.length; i++) {
+            let link = categories[i].getElementsByTagName("a")[0];
+            
+            if (link.innerHTML.toUpperCase().indexOf(keyword) > -1) {
+                categories[i].style.display = "";
+            } else {
+                categories[i].style.display = "none";
+            }
+          }
+
+    });
+}
