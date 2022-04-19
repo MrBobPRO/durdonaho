@@ -50,18 +50,26 @@ document.querySelectorAll('[data-action="hide-modal"]').forEach(item => {
         document.getElementById(item.dataset.targetId).classList.remove('modal--visible');
     });
 });
-
+//Login Modals Register button
 document.getElementById('login-modal-register-button').addEventListener('click', event => {
     document.getElementById('register-modal').classList.add('modal--visible');
     document.getElementById('login-modal').classList.remove('modal--visible');
 })
+// Login Modals Forgot Password button
+document.getElementById('login-modal-forgot-password').addEventListener('click', event => {
+    document.getElementById('forgot-password-modal').classList.add('modal--visible');
+    document.getElementById('login-modal').classList.remove('modal--visible');
+})
 
+
+let spinner = document.getElementById('spinner');
 
 //Ajax Register
 let registerForm = document.getElementById('register-form');
 if (registerForm) {
     registerForm.addEventListener('submit', event => {
         event.preventDefault();
+        spinner.classList.add('spinner--show');
 
         $.ajax({
             type: 'POST',
@@ -92,12 +100,14 @@ if (registerForm) {
                         registerForm.querySelector(`[name="${failedInput}"]`).classList.add('modal-input--error');
                     }
                 }
+
+                spinner.classList.remove('spinner--show');
             },
             error: function () {
+                spinner.classList.remove('spinner--show');
                 console.log('Ajax register failed !');
             }
         });
-
     });
 };
 
@@ -127,6 +137,70 @@ if (loginForm) {
             },
             error: function () {
                 console.log('Ajax login failed !');
+            }
+        });
+
+    });
+};
+
+
+//Ajax Verification Resend Email
+let verificationResendForm = document.getElementById('verification-resend-email-form');
+if (verificationResendForm) {
+    verificationResendForm.addEventListener('submit', event => {
+        event.preventDefault();
+        spinner.classList.add('spinner--show');
+
+        $.ajax({
+            type: 'POST',
+            enctype: 'multipart/form-data',
+            url: '/resend-email',
+            data: new FormData(verificationResendForm),
+            processData: false,
+            contentType: false,
+            success: function () {
+                window.location.reload();
+                spinner.classList.remove('spinner--show');
+            },
+            error: function () {
+                spinner.classList.remove('spinner--show');
+                console.log('Ajax Verification Resend Email failed !');
+            }
+        });
+
+    });
+};
+
+
+//Ajax Forgot Password
+let forgotPasswordForm = document.getElementById('forgot-password-form');
+if (forgotPasswordForm) {
+    forgotPasswordForm.addEventListener('submit', event => {
+        event.preventDefault();
+        spinner.classList.add('spinner--show');
+
+        $.ajax({
+            type: 'POST',
+            enctype: 'multipart/form-data',
+            url: '/forgot-password',
+            data: new FormData(forgotPasswordForm),
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                //reload page on success
+                if (response == 'success') {
+                    window.location.reload();
+                } else if (response == 'failed') {
+                    //else display error messages
+                    let errorsList = forgotPasswordForm.getElementsByClassName('modal-form-errors')[0];
+                    errorsList.innerHTML = '<li>Пользователь с такой электронной почтой не существует!</li>';
+                }
+
+                spinner.classList.remove('spinner--show');
+            },
+            error: function () {
+                spinner.classList.remove('spinner--show');
+                console.log('Ajax forgot password failed !');
             }
         });
 

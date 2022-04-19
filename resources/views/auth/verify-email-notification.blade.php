@@ -6,7 +6,7 @@
         <p class="email-verification-text">Спасибо за регистрацию! Прежде чем начать, не могли бы вы подтвердить свой адрес электронной почты, перейдя по ссылке, которую мы отправили вам по электронной почте? Если вы не получили письмо, мы с радостью вышлем вам другое.</p>
 
         <div class="email-verification-actions">
-            <form action="#">
+            <form action="{{ route('verification.resend.email') }}" method="POST" id="verification-resend-email-form">
                 @csrf
                 <button class="button button--main email-verification-resend">Переотправить письмо подтверждения</button>
             </form>

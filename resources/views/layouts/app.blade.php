@@ -33,6 +33,9 @@
             
             @include('modals.login')
             @include('modals.register')
+            @include('modals.forgot-password')
+
+            <div class="spinner" id="spinner"><span class="spinner__icon"></span></div>
         </main>
         @include('layouts.footer')
         

@@ -22,7 +22,8 @@ class VerifiedEmail
             if(!Auth::user()->verified_email) {
                 $currentRoute = Route::currentRouteName();
                 if($currentRoute != 'verification.notice') {
-                    if($currentRoute == 'logout') {
+                    //ignore routes which may enter without verifying emal
+                    if($currentRoute == 'logout' || $currentRoute == 'verification.verify' || $currentRoute == 'verification.resend.email' || $currentRoute == 'password.reset.show' || $currentRoute == 'password.reset.update') {
                         return $next($request);
                     } else {
                         return redirect()->route('verification.notice');

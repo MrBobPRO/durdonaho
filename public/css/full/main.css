@@ -897,6 +897,10 @@ input {
 }
 .login-modal__forgot-password {
     color: white;
+    background-color: transparent;
+    border: none;
+    width: max-content;
+    padding: 0;
 }
 .login-modal__register {
     color: var(--secondary-color);
@@ -913,6 +917,14 @@ input {
 }
 .modal-form-errors:empty {
     display: none;
+}
+/* Forgot Password modal */
+.forgot-password-modal-dialog {
+    max-width: 520px;
+    width: 100%;
+}
+.forgot-password-modal-text {
+    color: white;
 }
 /* ------------ /end Modal ------------ */
 
@@ -1030,3 +1042,67 @@ input {
 }
 /* ------------ /end Email Verification ------------ */
 
+
+/* ------------ Password Reset ------------ */
+.password-reset-block {
+    padding: 32px;
+}
+.password-reset-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.password-reset__label {
+    font-size: 13px;
+    font-weight: 600;
+}
+.password-reset__input {
+    padding: 10px 12px;
+    border: 1px solid #cfcfcf;
+    outline: none;
+    border-radius: 8px;
+}
+.password-reset__input--error {
+    border-color: red;
+}
+.password-reset-submit {
+    width: max-content;
+    padding: 9px 32px;
+    margin-top: 16px;
+}
+.password-reset__error-text {
+    margin: 0;
+}
+/* ------------ /end Password Reset ------------ */
+
+
+/* ------------ Spinner ------------ */
+.spinner {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 99;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffffba;
+    display: none;
+}
+.spinner--show {
+    display: flex;
+}
+.spinner__icon {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid var(--secondary-color);
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+/* ------------ /end Spinner ------------ */

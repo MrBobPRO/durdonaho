@@ -15,7 +15,7 @@
             <div class="modal-dialog__body-inner">
                 <form class="form modal-form" action="/login" method="POST" id="login-form">
                     <div class="form-group modal-form-group">
-                        <input class="input modal-input" type="text" placeholder="Электронная почта" name="email" autofocus required>
+                        <input class="input modal-input" type="email" placeholder="Электронная почта" name="email" autofocus required>
                     </div>
 
                     <div class="form-group modal-form-group">
@@ -30,7 +30,7 @@
                 </form>
 
                 <div class="login-modal__additional-actions">
-                    <a class="login-modal__forgot-password" href="#">Забыли пароль?</a>
+                    <button class="login-modal__forgot-password" href="#" id="login-modal-forgot-password">Забыли пароль?</button>
                     <button class="button--transparent login-modal__register" id="login-modal-register-button">Зарегистрируйтесь</button>
                 </div>
             </div>  {{-- Modal Body Inner end --}}
