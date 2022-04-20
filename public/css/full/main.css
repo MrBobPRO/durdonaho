@@ -46,6 +46,9 @@ input {
     -ms-user-select: none; 
     user-select: none;
 }
+.empty-query-warning {
+    padding: 32px;
+}
 
 /* ------------ Main ------------ */
 .main {

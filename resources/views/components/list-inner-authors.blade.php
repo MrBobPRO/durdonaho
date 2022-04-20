@@ -1,5 +1,5 @@
 @unless(count($authors))
-    <h3 class="no-quotes-title">Ба дархости шумо ягон муаллиф ёфт нашуд !</h3>
+    <div class="theme-styled-block empty-query-warning">Ба дархости шумо ягон муаллиф ёфт нашуд !</div>
 @endunless
 
 @foreach ($authors as $author)

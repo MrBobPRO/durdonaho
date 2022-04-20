@@ -9,16 +9,43 @@ use Illuminate\Http\Request;
 class QuoteController extends Controller
 {
     /**
+     * Filter quotes for request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function filter($request, $individual = false)
+    {
+        $quotes = Quote::query();
+
+        //individual 
+        $authorIds = Author::where('individual', $individual)->pluck('id');
+        $quotes = $quotes->whereIn('author_id', $authorIds);
+
+        //categories
+        $category_id = $request->category_id;
+        if($category_id) {
+            $categories = explode(',', $category_id);
+            $quotes = $quotes->whereHas('categories', function ($q) use ($categories) {
+                $q->whereIn('id', $categories);
+            });
+        }
+
+        $quotes = $quotes->latest()
+                        ->paginate(12)
+                        ->appends($request->except(['page', 'token']))
+                        ->fragment('quotes-section');
+
+        return $quotes;
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $individualAuthors = Author::where('individual', true)->pluck('id');
-
-        $quotes = Quote::whereNotIn('author_id', $individualAuthors)
-                ->latest()->paginate(6)->fragment('quotes-section');
+        $quotes = $this->filter($request, false);
 
         return view('quotes.index', compact('quotes'));
     }
@@ -28,12 +55,9 @@ class QuoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function individual()
+    public function individual(Request $request)
     {
-        $individualAuthors = Author::where('individual', true)->pluck('id');
-
-        $quotes = Quote::whereIn('author_id', $individualAuthors)
-                ->latest()->paginate(6)->fragment('quotes-section');
+        $quotes = $this->filter($request, true);
 
         return view('quotes.individual', compact('quotes'));
     }
@@ -46,9 +70,9 @@ class QuoteController extends Controller
      */
     public function top()
     {
-        $quotes = Quote::withCount('likes')->orderBy('likes_count', 'desc')->paginate(6)->fragment('quotes-section');
+        $quotes = Quote::withCount('likes')->orderBy('likes_count', 'desc')->take(20)->paginate(10)->fragment('quotes-section');
 
-        return view('quotes.individual', compact('quotes'));
+        return view('quotes.top', compact('quotes'));
     }
 
     /**

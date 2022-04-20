@@ -1,5 +1,5 @@
 @unless(count($quotes))
-    <h3 class="no-quotes-title">Ба дархости шумо ягон иқтибос ёфт нашуд !</h3>
+    <div class="theme-styled-block empty-query-warning">Ба дархости шумо ягон иқтибос ёфт нашуд !</div>
 @endunless
 
 @foreach ($quotes as $quote)
