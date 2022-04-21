@@ -7,7 +7,7 @@
 </aside>
 
 <div class="main__content quotes-page-content">
-    <x-filter-categories title="Ҳама иқтибосҳои самиздат" />
+    <x-filter-categories :request="$request"/>
 
     <section class="quotes-section" id="quotes-section">
         <div class="quotes-list" id="quotes-list">

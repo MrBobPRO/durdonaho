@@ -228,7 +228,7 @@ if (asideSearchInput) {
     });
 }
 
-//Categories Filter
+//------------- Categories Filter start-------------
 document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
     item.addEventListener('change', event => {
         let filterForm = document.getElementById('categories-filter-form');
@@ -241,6 +241,8 @@ document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
             for (chb of checkboxes) {
                 chb.classList.remove('categories-filter__checkbox--hidden');
             }
+
+            item.classList.add('categories-filter__checkbox--hidden');
         }
 
         // on any category click
@@ -267,6 +269,46 @@ document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
             }
         }
 
-        
+        let model = filterForm.dataset.model;
+
+        if (model == 'quote') {
+            getQuotes();
+        } else if (model == 'authors') {
+            getAuthors();
+        }
     });
 });
+
+//AJAX get quotes
+let quotesList = document.getElementById('quotes-list');
+function getQuotes() {
+    let filterForm = document.getElementById('categories-filter-form');
+    let formData = new FormData(filterForm);
+
+    //append joined arrays into FormData because FormData doesnt support arrays   
+    let categoryIds = formData.getAll('category_id');
+    let joinedIds = categoryIds.join('-');
+    formData.append('category_id', joinedIds);
+
+    $.ajax({
+        type: "POST",
+        enctype: "multipart/form-data",
+        url: filterForm.action,
+        data: formData,
+        processData: false,
+        contentType: false,
+
+        success: function (response) {
+            quotesList.innerHTML = response;
+        },
+
+        error: function () {
+            console.log("Quotes ajax filter error!");
+        }
+
+    });
+}
+
+
+
+//------------- Categories Filter end-------------

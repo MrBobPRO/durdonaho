@@ -9,6 +9,26 @@ use Illuminate\Http\Request;
 class QuoteController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function ajaxGet(Request $request)
+    {
+        $individual = filter_var($request->individual, FILTER_VALIDATE_BOOLEAN);
+
+        $quotes = $this->filter($request, $individual);
+
+        if($individual) {
+            $quotes->withPath(route('quotes.individual'));
+        } else {
+            $quotes->withPath(route('quotes.index'));
+        }
+
+        return view('components.list-inner-quotes', compact('quotes'));
+    }
+
+    /**
      * Filter quotes for request
      *
      * @return \Illuminate\Http\Response
@@ -23,16 +43,16 @@ class QuoteController extends Controller
 
         //categories
         $category_id = $request->category_id;
-        if($category_id) {
-            $categories = explode(',', $category_id);
+        if($category_id && $category_id != '') {
+            $categories = explode('-', $category_id);
             $quotes = $quotes->whereHas('categories', function ($q) use ($categories) {
                 $q->whereIn('id', $categories);
             });
         }
 
         $quotes = $quotes->latest()
-                        ->paginate(12)
-                        ->appends($request->except(['page', 'token']))
+                        ->paginate(6)
+                        ->appends($request->except(['page', 'token', 'individual']))
                         ->fragment('quotes-section');
 
         return $quotes;
@@ -59,7 +79,7 @@ class QuoteController extends Controller
     {
         $quotes = $this->filter($request, true);
 
-        return view('quotes.individual', compact('quotes'));
+        return view('quotes.individual', compact('quotes', 'request'));
     }
 
 
