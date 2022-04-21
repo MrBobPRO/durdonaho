@@ -691,6 +691,9 @@ input {
     font-weight: bold;
     border-color: var(--main-color);   
 }
+.categories-filter__checkbox--hidden + .categories-filter__label {
+    display: none;
+}
 /* ------------ /end Categories Filter ------------ */
 
 

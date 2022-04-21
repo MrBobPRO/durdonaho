@@ -47,7 +47,7 @@ class QuoteController extends Controller
     {
         $quotes = $this->filter($request, false);
 
-        return view('quotes.index', compact('quotes'));
+        return view('quotes.index', compact('quotes', 'request'));
     }
 
     /**

@@ -227,3 +227,46 @@ if (asideSearchInput) {
 
     });
 }
+
+//Categories Filter
+document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
+    item.addEventListener('change', event => {
+        let filterForm = document.getElementById('categories-filter-form');
+        let allCategoriesChb = document.getElementById('all-categories-checkbox');
+
+        // on show hidden categories click
+        if (item.id == 'show-hidden-categories-checkbox') {
+            let checkboxes = document.getElementsByClassName('categories-filter__checkbox--hidden');
+
+            for (chb of checkboxes) {
+                chb.classList.remove('categories-filter__checkbox--hidden');
+            }
+        }
+
+        // on any category click
+        else if (item.id != 'all-categories-checkbox') {
+            let checkedChbs = filterForm.querySelectorAll('input[name=category_id]:checked');
+            // check or uncheck all categories checkbox
+            if (checkedChbs.length) {
+                allCategoriesChb.checked = false;
+            } else {
+                allCategoriesChb.checked = true;
+            }
+        }
+
+        // on All categories click
+        else if (item.id == 'all-categories-checkbox') {
+            // disable checked false statement while clicking on checked statement
+            let checkboxes = filterForm.querySelectorAll('input[name=category_id]:checked');
+            item.checked = true;
+            // uncheck all other checked categories
+            for (chb of checkboxes) {
+                if (chb.id != 'show-hidden-categories-checkbox') {
+                    chb.checked = false;                    
+                }
+            }
+        }
+
+        
+    });
+});

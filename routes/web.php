@@ -45,6 +45,8 @@ Route::controller(QuoteController::class)->prefix('quotes')->name('quotes.')->gr
     Route::get('/', 'index')->name('index');
     Route::get('/individual', 'individual')->name('individual');
     Route::get('/top', 'top')->name('top');
+
+    Route::post('/ajax-get', 'ajaxGet')->name('ajax.get');
 });
 
 Route::controller(AuthorController::class)->prefix('authors')->name('authors.')->group(function () {
