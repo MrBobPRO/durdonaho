@@ -7,7 +7,7 @@
 </aside>
 
 <div class="main__content authors-page-content">
-    <x-filter-categories title="Ҳама муаллифони самоиздат" />
+    <x-filter-categories :request="$request"/>
 
     <section class="authors-section" id="authors-section">
         <div class="authors-list" id="authors-list">

@@ -53,4 +53,6 @@ Route::controller(AuthorController::class)->prefix('authors')->name('authors.')-
     Route::get('/', 'index')->name('index');
     Route::get('/individual', 'individual')->name('individual');
     Route::get('/{slug}', 'show')->name('show');
+
+    Route::post('/ajax-get', 'ajaxGet')->name('ajax.get');
 });

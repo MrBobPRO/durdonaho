@@ -1,4 +1,4 @@
-@props(['categories', 'request'])
+@props(['categories', 'request', 'authorId' => null])
 
 @php
     switch ($request->route()->getName()) {
@@ -7,6 +7,7 @@
             $model = 'quote';
             $formAction = '/quotes/ajax-get';
             $individual = 'false';
+            $placeholder = 'Ҷустуҷӯи иқтибосҳо';
             break;
         
         case 'quotes.individual':
@@ -14,6 +15,31 @@
             $model = 'quote';
             $formAction = '/quotes/ajax-get';
             $individual = 'true';
+            $placeholder = 'Ҷустуҷӯи иқтибосҳо';
+            break;
+
+        case 'authors.index':
+            $title = 'Ҳама муаллифон';
+            $model = 'author';
+            $formAction = '/authors/ajax-get';
+            $individual = 'false';
+            $placeholder = 'Ҷустуҷӯи муаллифон';
+            break;
+        
+        case 'authors.individual':
+            $title = 'Муаллифони самиздат';
+            $model = 'author';
+            $formAction = '/authors/ajax-get';
+            $individual = 'true';
+            $placeholder = 'Ҷустуҷӯи муаллифон';
+            break;
+
+        case 'authors.show':
+            $title = 'Ҳама иқтибосҳои муаллиф';
+            $model = 'quote';
+            $formAction = '/quotes/ajax-get';
+            $individual = 'false';
+            $placeholder = 'Ҷустуҷӯи иқтибосҳо';
             break;
     }
 
@@ -29,9 +55,12 @@
 
     <form class="categories-filter__form" action="{{ $formAction }}" id="categories-filter-form" data-model="{{ $model }}">
         <input type="hidden" name="individual" value="{{ $individual }}">
+        @if ($authorId)
+            <input type="hidden" name="author_id" value="{{ $authorId }}">
+        @endif
 
         <div class="search categories-filter__search">
-            <input class="search__input categories-filter__search-input" type="text" placeholder="Ҷустуҷӯи иқтибосҳо" name="keyword" value="{{ $request->keyword }}">
+            <input class="search__input categories-filter__search-input" type="text" id="categories-filter-search-input" placeholder="{{ $placeholder }}" name="keyword" value="{{ $request->keyword }}">
             <span class="material-icons search__icon">search</span>
         </div>
 

@@ -10,7 +10,9 @@
 
     <ul class="aside-categories__list" id="aside-categories-list">
         @foreach ($categories as $category)
-            <li class="aside-categories__item"><a class="aside-categories__link" href="{{ route('quotes.index') }}?category_id={{ $category->id }}">{{ $category->title }}</a></li>
+            <li class="aside-categories__item">
+                <a class="aside-categories__link" href="{{ route('quotes.index') }}?category_id={{ $category->id }}">{{ $category->title }}</a>
+            </li>
         @endforeach
     </ul>
 </div>

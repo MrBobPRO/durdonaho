@@ -15,17 +15,27 @@ class QuoteController extends Controller
      */
     public function ajaxGet(Request $request)
     {
-        $individual = filter_var($request->individual, FILTER_VALIDATE_BOOLEAN);
+        //filter only specific authors quotes (authors.show route)
+        $authorId = $request->author_id;
+        if($authorId && $authorId != '') {
+            $quotes = $this->filterSpecificAuthorsQuotes($request, $authorId);
+            $quotes->withPath(route('authors.show', Author::find($authorId)->slug));
 
-        $quotes = $this->filter($request, $individual);
-
-        if($individual) {
-            $quotes->withPath(route('quotes.individual'));
+            return view('components.list-inner-quotes', compact('quotes', 'authorId'));
+        //filter all authors quotes
         } else {
-            $quotes->withPath(route('quotes.index'));
-        }
+            $individual = filter_var($request->individual, FILTER_VALIDATE_BOOLEAN);
 
-        return view('components.list-inner-quotes', compact('quotes'));
+            $quotes = $this->filter($request, $individual);
+    
+            if($individual) {
+                $quotes->withPath(route('quotes.individual'));
+            } else {
+                $quotes->withPath(route('quotes.index'));
+            }
+
+            return view('components.list-inner-quotes', compact('quotes'));
+        }
     }
 
     /**
@@ -50,9 +60,49 @@ class QuoteController extends Controller
             });
         }
 
+        //keyword
+        $keyword = $request->keyword;
+        if($keyword && $keyword != '') {
+            $quotes = $quotes->where('body', 'LIKE', '%' . $keyword . '%');
+        }
+
         $quotes = $quotes->latest()
                         ->paginate(6)
                         ->appends($request->except(['page', 'token', 'individual']))
+                        ->fragment('quotes-section');
+
+        return $quotes;
+    }
+
+    /**
+     * Filter quotes for authors show route
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public static function filterSpecificAuthorsQuotes($request, $authorId)
+    {
+        $quotes = Quote::query();
+
+        $quotes = $quotes->where('author_id', $authorId);
+
+        //categories
+        $category_id = $request->category_id;
+        if($category_id && $category_id != '') {
+            $categories = explode('-', $category_id);
+            $quotes = $quotes->whereHas('categories', function ($q) use ($categories) {
+                $q->whereIn('id', $categories);
+            });
+        }
+
+        //keyword
+        $keyword = $request->keyword;
+        if($keyword && $keyword != '') {
+            $quotes = $quotes->where('body', 'LIKE', '%' . $keyword . '%');
+        }
+
+        $quotes = $quotes->latest()
+                        ->paginate(6)
+                        ->appends($request->except(['page', 'token', 'authorId']))
                         ->fragment('quotes-section');
 
         return $quotes;

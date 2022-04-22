@@ -6,6 +6,17 @@ $.ajaxSetup({
 });
 
 
+//debounce
+function debounce (callback, timeoutDelay = 500) {
+    let timeoutId;
+
+    return (...rest) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+    };
+}
+
+
 //card carousel
 window.onload = function () {
     $('.card-carousel').owlCarousel({
@@ -207,28 +218,22 @@ if (forgotPasswordForm) {
     });
 };
 
+
+//Aside categories search
 let asideSearchInput = document.getElementById('aside-search-input');
 if (asideSearchInput) {
-    let categoriesList = document.getElementById('aside-categories-list');
-    let categories = categoriesList.getElementsByTagName('li');
+    const categoryEls = document.querySelectorAll('.aside-categories__item');
 
-    asideSearchInput.addEventListener('input', event => {
-        let keyword = asideSearchInput.value.toUpperCase();
-
-        for (let i = 0; i < categories.length; i++) {
-            let link = categories[i].getElementsByTagName("a")[0];
-            
-            if (link.innerHTML.toUpperCase().indexOf(keyword) > -1) {
-                categories[i].style.display = "";
-            } else {
-                categories[i].style.display = "none";
-            }
-          }
-
-    });
+    asideSearchInput.addEventListener('input', debounce((evt) => {
+        categoryEls.forEach(item => {
+            item.children[0].textContent.toLowerCase().includes(evt.target.value.toLowerCase()) ? item.style.display = '' : item.style.display = 'none';
+        });
+    }));
 }
 
+
 //------------- Categories Filter start-------------
+//add 
 document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
     item.addEventListener('change', event => {
         let filterForm = document.getElementById('categories-filter-form');
@@ -273,11 +278,27 @@ document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
 
         if (model == 'quote') {
             getQuotes();
-        } else if (model == 'authors') {
+        } else if (model == 'author') {
             getAuthors();
         }
     });
 });
+
+//update quotes list on categories filter input change
+let catSearchInput = document.getElementById('categories-filter-search-input');
+if (catSearchInput) {
+    catSearchInput.addEventListener('input', debounce(event => {
+        let filterForm = document.getElementById('categories-filter-form');
+        let model = filterForm.dataset.model;
+
+        if (model == 'quote') {
+            getQuotes();
+        } else if (model == 'author') {
+            getAuthors();
+        }
+    }));
+}
+
 
 //AJAX get quotes
 let quotesList = document.getElementById('quotes-list');
@@ -309,6 +330,33 @@ function getQuotes() {
     });
 }
 
+//AJAX get authors
+let authorsList = document.getElementById('authors-list');
+function getAuthors() {
+    let filterForm = document.getElementById('categories-filter-form');
+    let formData = new FormData(filterForm);
 
+    //append joined arrays into FormData because FormData doesnt support arrays   
+    let categoryIds = formData.getAll('category_id');
+    let joinedIds = categoryIds.join('-');
+    formData.append('category_id', joinedIds);
 
+    $.ajax({
+        type: "POST",
+        enctype: "multipart/form-data",
+        url: filterForm.action,
+        data: formData,
+        processData: false,
+        contentType: false,
+
+        success: function (response) {
+            authorsList.innerHTML = response;
+        },
+
+        error: function () {
+            console.log("Authors ajax filter error!");
+        }
+
+    });
+}
 //------------- Categories Filter end-------------

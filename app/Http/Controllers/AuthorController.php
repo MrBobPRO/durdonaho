@@ -12,11 +12,69 @@ class AuthorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function ajaxGet(Request $request)
     {
-        $authors = Author::where('individual', false)->orderBy('name')->paginate(6);
+        $individual = filter_var($request->individual, FILTER_VALIDATE_BOOLEAN);
 
-        return view('authors.index', compact('authors'));
+        $authors = $this->filter($request, $individual);
+
+        if($individual) {
+            $authors->withPath(route('authors.individual'));
+        } else {
+            $authors->withPath(route('authors.index'));
+        }
+
+        return view('components.list-inner-authors', compact('authors'));
+    }
+
+    /**
+     * Filter quotes for request
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function filter($request, $individual = false)
+    {
+        $authors = Author::query();
+
+        //individual 
+        $authors = $authors->where('individual', $individual);
+
+        //categories
+        $category_id = $request->category_id;
+        if($category_id && $category_id != '') {
+            $categories = explode('-', $category_id);
+
+            $authors = $authors->whereHas('quotes', function ($q) use ($categories) {
+                $q->whereHas('categories', function ($z) use ($categories) {
+                    $z->whereIn('id', $categories);
+                });
+            });
+        }
+
+        //keyword
+        $keyword = $request->keyword;
+        if($keyword && $keyword != '') {
+            $authors = $authors->where('name', 'LIKE', '%' . $keyword . '%');
+        }
+
+        $authors = $authors->orderBy('name')
+                        ->paginate(6)
+                        ->appends($request->except(['page', 'token', 'individual']))
+                        ->fragment('authors-section');
+
+        return $authors;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $authors = $this->filter($request, false);
+
+        return view('authors.index', compact('authors', 'request'));
     }
 
 
@@ -25,11 +83,11 @@ class AuthorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function individual()
+    public function individual(Request $request)
     {
-        $authors = Author::where('individual', true)->orderBy('name')->paginate(6);
+        $authors = $this->filter($request, true);
 
-        return view('authors.individual', compact('authors'));
+        return view('authors.individual', compact('authors', 'request'));
     }
 
     /**
@@ -59,12 +117,12 @@ class AuthorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
         $author = Author::where('slug', $slug)->first();
-        $quotes = $author->quotes()->latest()->paginate(6)->fragment('quotes-section');
+        $quotes = QuoteController::filterSpecificAuthorsQuotes($request, $author->id);
 
-        return view('authors.show', compact('author', 'quotes'));
+        return view('authors.show', compact('author', 'quotes', 'request'));
     }
 
     /**
