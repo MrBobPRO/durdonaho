@@ -366,6 +366,8 @@ function getAuthors() {
 document.body.addEventListener('click', function (evt) {
     if (evt.target.dataset.action == 'like') {
         like(evt.target);
+    } else if (evt.target.dataset.action == 'bookmark') {
+        bookmark(evt.target);
     }
 });
 
@@ -386,7 +388,7 @@ function like(target) {
                 likesCount.innerHTML = response.likesCount;
                 if (response.status == 'liked') {
                     likeIcon.innerHTML = 'favorite';
-                } else {
+                } else if (response.status == 'unliked') {
                     likeIcon.innerHTML = 'favorite_border';
                 }
             });
@@ -394,6 +396,34 @@ function like(target) {
 
         error: function () {
             console.log("Ajax like error!");
+        }
+
+    });
+}
+
+function bookmark(target) {
+    $.ajax({
+        type: 'POST',
+        url: '/bookmark',
+        data: {quote_id: target.dataset.quoteId, author_id: target.dataset.authorId},
+
+        success: function (response) {
+            //change like button for all of the identic cards
+            let parentCard = target.closest('.card');
+
+            document.querySelectorAll('[data-card-id="' + parentCard.dataset.cardId + '"]').forEach(item => {
+                let bookmarkIcon = item.getElementsByClassName('card__actions-bookmark-icon')[0];
+
+                if (response.status == 'added-into-bookmarks') {
+                    bookmarkIcon.classList = 'material-icons card__actions-bookmark-icon';
+                } else if (response.status == 'removed-from-bookmarks') {
+                    bookmarkIcon.classList = 'material-icons-outlined card__actions-bookmark-icon';
+                }
+            });
+        },
+
+        error: function () {
+            console.log("Ajax bookmark error!");
         }
 
     });

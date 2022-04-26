@@ -48,7 +48,12 @@
 
             @auth
                 <button class="card__actions-button card__actions-bookmark" data-action="bookmark" data-author-id="{{ $author->id }}">
-                    <span class="material-icons-outlined card__actions-bookmark-icon">bookmarks</span> В избранные
+                    @php 
+                        $bookmarked = App\Models\Bookmark::where('user_id', auth()->user()->id)->where('author_id', $author->id)->first();
+                    @endphp
+
+                    <span class="material-icons{{ $bookmarked ? '' : '-outlined' }} card__actions-bookmark-icon">bookmarks</span>
+                    В избранные
                 </button>
         
                 <button class="card__actions-button card__actions-share">

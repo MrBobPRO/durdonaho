@@ -836,7 +836,7 @@ input {
 }
 .profile-dropdown .dropdown__item-icon {
     font-size: 18px;
-    margin-top: 2px;
+    margin-top: -2px;
 }
 .profile-dropdown .dropdown__item--logout {
     background: transparent;

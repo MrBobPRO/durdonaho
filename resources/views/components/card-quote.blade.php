@@ -36,7 +36,12 @@
 
             @auth
                 <button class="card__actions-button card__actions-bookmark" data-action="bookmark" data-quote-id="{{ $quote->id }}">
-                    <span class="material-icons-outlined card__actions-bookmark-icon">bookmarks</span> В избранные
+                    @php 
+                        $bookmarked = App\Models\Bookmark::where('user_id', auth()->user()->id)->where('quote_id', $quote->id)->first();
+                    @endphp
+
+                    <span class="material-icons{{ $bookmarked ? '' : '-outlined' }} card__actions-bookmark-icon">bookmarks</span>
+                    В избранные
                 </button>
         
                 <button class="card__actions-button card__actions-share">
@@ -48,6 +53,7 @@
                     @php 
                         $liked = App\Models\Like::where('user_id', auth()->user()->id)->where('quote_id', $quote->id)->first();
                     @endphp
+
                     <span class="material-icons-outlined card__actions-like-icon">{{ $liked ? 'favorite' : 'favorite_border' }}</span> Понравилось: <span class="card__actions-like-counter">{{ $quote->likes->count() }}</span>
                 </button>
             @endauth

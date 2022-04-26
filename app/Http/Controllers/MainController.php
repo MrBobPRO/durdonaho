@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\EmailVerifyNotification;
 use App\Models\Author;
+use App\Models\Bookmark;
 use App\Models\Like;
 use App\Models\Quote;
 use App\Models\User;
@@ -50,6 +51,32 @@ class MainController extends Controller
         return [
             'status' => $status,
             'likesCount' => $likesCount
+        ];
+    }
+
+    public function bookmark(Request $request)
+    {
+        $bookmarked = Bookmark::where('user_id', Auth::user()->id)
+                    ->where('quote_id', $request->quote_id)
+                    ->where('author_id', $request->author_id)
+                    ->first();
+
+        if($bookmarked) {
+            $bookmarked->delete();
+
+            $status = 'removed-from-bookmarks';
+        } else {
+            $bookmark = new Bookmark();
+            $bookmark->user_id = Auth::user()->id;
+            $bookmark->quote_id = $request->quote_id;
+            $bookmark->author_id = $request->author_id;
+            $bookmark->save();
+
+            $status = 'added-into-bookmarks';
+        }
+
+        return [
+            'status' => $status
         ];
     }
 }
