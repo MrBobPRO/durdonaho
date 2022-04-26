@@ -39,6 +39,8 @@ Route::controller(PasswordResetController::class)->name('password.')->group(func
 
 Route::controller(MainController::class)->group(function () {
     Route::get('/', 'home')->name('home');
+
+    Route::post('/like', 'like')->name('like');
 });
 
 Route::controller(QuoteController::class)->prefix('quotes')->name('quotes.')->group(function () {

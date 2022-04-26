@@ -265,7 +265,7 @@ input {
 
 
 /* ------------ Aside ------------ */
-/* Aside test */
+/* Aside text */
 .aside {
     min-width: 360px;
     width: 360px;
@@ -356,6 +356,10 @@ input {
     padding: 16px 12px;
     font-size: 16px;
     font-weight: 500;
+}
+
+.aside .ya-share2__item_more.ya-share2__item_has-pretty-view .ya-share2__icon_more {
+    width: 17px;
 }
 /* ------------ /end Aside ------------ */
 
@@ -482,11 +486,11 @@ input {
     font-size: 16px;
     font-weight: 500;
 }
-.card__actions-span {
+.card__actions-like-icon, .card__actions-bookmark-icon {
     color: var(--secondary-color);
     font-size: 18px;
 }
-.card__actions-counter {
+.card__actions-like-counter {
     color: var(--secondary-color);
 }
 .ya-share2__item_more.ya-share2__item_has-pretty-view .ya-share2__link_more {

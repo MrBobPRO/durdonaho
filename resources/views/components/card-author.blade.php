@@ -1,6 +1,6 @@
 @props(['author', 'class' => ''])
 
-<div class="{{ $class }} card">
+<div class="{{ $class }} card" data-card-id="author{{ $author->id }}">
     {{-- Card Header start --}}
     <div class="card__header">
         <div class="card__header-main">
@@ -31,18 +31,38 @@
         </div>
 
         <div class="card__actions">
-            <button class="card__actions-button">
-                <span class="material-icons-outlined card__actions-span">bookmarks</span> В избранные
-            </button>
-    
-            <button class="card__actions-button">
-                <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
-                    data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype"></div>
-            </button>
-    
-            <button class="card__actions-button">
-                <span class="material-icons-outlined card__actions-span">favorite_border</span> Понравилось: <span class="card__actions-counter">{{ $author->likes->count() }}</span>
-            </button>
+            @guest
+                <button class="card__actions-button card__actions-bookmark" data-action="show-modal" data-target-id="login-modal">
+                    <span class="material-icons-outlined card__actions-bookmark-icon">bookmarks</span> В избранные
+                </button>
+        
+                <button class="card__actions-button card__actions-share">
+                    <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
+                        data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype"></div>
+                </button>
+        
+                <button class="card__actions-button card__actions-like" data-action="show-modal" data-target-id="login-modal">
+                    <span class="material-icons-outlined card__actions-like-icon">favorite_border</span> Понравилось: <span class="card__actions-like-counter">{{ $author->likes->count() }}</span>
+                </button>
+            @endguest
+
+            @auth
+                <button class="card__actions-button card__actions-bookmark" data-action="bookmark" data-author-id="{{ $author->id }}">
+                    <span class="material-icons-outlined card__actions-bookmark-icon">bookmarks</span> В избранные
+                </button>
+        
+                <button class="card__actions-button card__actions-share">
+                    <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
+                        data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype"></div>
+                </button>
+        
+                <button class="card__actions-button card__actions-like" data-action="like" data-author-id="{{ $author->id }}">
+                    @php 
+                        $liked = App\Models\Like::where('user_id', auth()->user()->id)->where('author_id', $author->id)->first();
+                    @endphp
+                    <span class="material-icons-outlined card__actions-like-icon">{{ $liked ? 'favorite' : 'favorite_border' }}</span> Понравилось: <span class="card__actions-like-counter">{{ $author->likes->count() }}</span>
+                </button>
+            @endauth
         </div>
     </div>  {{-- Card Header end --}}
 

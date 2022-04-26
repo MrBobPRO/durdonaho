@@ -360,3 +360,42 @@ function getAuthors() {
     });
 }
 //------------- Categories Filter end-------------
+
+
+//------------- Like and bookmark actions-------------
+document.body.addEventListener('click', function (evt) {
+    if (evt.target.dataset.action == 'like') {
+        like(evt.target);
+    }
+});
+
+function like(target) {
+    $.ajax({
+        type: 'POST',
+        url: '/like',
+        data: {quote_id: target.dataset.quoteId, author_id: target.dataset.authorId},
+
+        success: function (response) {
+            //change like button for all of the identic cards
+            let parentCard = target.closest('.card');
+
+            document.querySelectorAll('[data-card-id="' + parentCard.dataset.cardId + '"]').forEach(item => {
+                let likeIcon = item.getElementsByClassName('card__actions-like-icon')[0];
+                let likesCount = item.getElementsByClassName('card__actions-like-counter')[0];
+    
+                likesCount.innerHTML = response.likesCount;
+                if (response.status == 'liked') {
+                    likeIcon.innerHTML = 'favorite';
+                } else {
+                    likeIcon.innerHTML = 'favorite_border';
+                }
+            });
+        },
+
+        error: function () {
+            console.log("Ajax like error!");
+        }
+
+    });
+}
+//------------- Like and bookmark actions-------------
