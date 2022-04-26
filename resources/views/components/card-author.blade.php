@@ -1,6 +1,6 @@
-@props(['author', 'class' => ''])
+@props(['author', 'class' => '', 'dataCarouselItemIndex' => ''])
 
-<div class="{{ $class }} card" data-card-id="author{{ $author->id }}">
+<div class="{{ $class }} card" data-card-id="author{{ $author->id }}" data-carousel-item-index="{{ $dataCarouselItemIndex }}">
     {{-- Card Header start --}}
     <div class="card__header">
         <div class="card__header-main">
@@ -42,7 +42,8 @@
                 </button>
         
                 <button class="card__actions-button card__actions-like" data-action="show-modal" data-target-id="login-modal">
-                    <span class="material-icons-outlined card__actions-like-icon">favorite_border</span> Понравилось: <span class="card__actions-like-counter">{{ $author->likes->count() }}</span>
+                    <span class="material-icons-outlined card__actions-like-icon">favorite_border</span> 
+                    Понравилось: <span class="card__actions-like-counter">{{ $author->likes->count() }}</span>
                 </button>
             @endguest
 
@@ -65,7 +66,8 @@
                     @php 
                         $liked = App\Models\Like::where('user_id', auth()->user()->id)->where('author_id', $author->id)->first();
                     @endphp
-                    <span class="material-icons-outlined card__actions-like-icon">{{ $liked ? 'favorite' : 'favorite_border' }}</span> Понравилось: <span class="card__actions-like-counter">{{ $author->likes->count() }}</span>
+                    <span class="material-icons-outlined card__actions-like-icon">{{ $liked ? 'favorite' : 'favorite_border' }}</span>
+                    Понравилось: <span class="card__actions-like-counter">{{ $author->likes->count() }}</span>
                 </button>
             @endauth
         </div>

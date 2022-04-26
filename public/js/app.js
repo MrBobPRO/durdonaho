@@ -17,20 +17,30 @@ function debounce (callback, timeoutDelay = 500) {
 }
 
 
-//card carousel
-window.onload = function () {
-    $('.card-carousel').owlCarousel({
+//card carousels
+let cardCarousels = $('.card-carousel');
+cardCarousels.owlCarousel({
         loop: true,
         margin: 0,
         nav: true,
         navText: ['<span class="material-icons-outlined">arrow_back_ios</span>', '<span class="material-icons-outlined">arrow_forward_ios</span>'],
         items: 1,
         dots: false,
-        singleItem : true,
-        autoHeight : true,
-        transitionStyle:"fade"
-    });
-}
+        singleItem: true,
+        autoHeight: true,
+        transitionStyle: "fade"
+});
+
+//change carousel counter on carousel item change
+cardCarousels.on('translated.owl.carousel', function(event) {
+    let carouselSection = event.target.closest('.carousel-section');
+    let counter = carouselSection.getElementsByClassName('carousel-section__counter-active');
+
+    let activeItem = event.target.querySelector('.owl-item.active');
+    let activeItemCard = activeItem.querySelector('.owl-carousel__item');
+
+    counter[0].innerHTML = activeItemCard.dataset.carouselItemIndex;
+})
 
 
 //dropdown
@@ -321,6 +331,11 @@ function getQuotes() {
 
         success: function (response) {
             quotesList.innerHTML = response;
+
+            //reinitialize yandex share buttons
+            quotesList.querySelectorAll('.ya-share2').forEach(item => {
+                Ya.share2(item, {});
+            })
         },
 
         error: function () {
@@ -351,6 +366,11 @@ function getAuthors() {
 
         success: function (response) {
             authorsList.innerHTML = response;
+
+            //reinitialize yandex share buttons
+            authorsList.querySelectorAll('.ya-share2').forEach(item => {
+                Ya.share2(item, {});
+            })
         },
 
         error: function () {

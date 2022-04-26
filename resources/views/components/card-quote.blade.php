@@ -1,6 +1,6 @@
-@props(['quote', 'class' => ''])
+@props(['quote', 'class' => '', 'dataCarouselItemIndex' => ''])
 
-<div class="{{ $class }} card" data-card-id="quote{{ $quote->id }}">
+<div class="{{ $class }} card" data-card-id="quote{{ $quote->id }}" data-carousel-item-index="{{ $dataCarouselItemIndex }}">
     {{-- Card Header start --}}
     <div class="card__header">
         <div class="card__header-main">
@@ -10,9 +10,9 @@
                 <h1 class="card__title"><span class="card__title-span">Автор цитаты:</span> {{ $quote->author->name }}</h1>
                 <ul class="card__categories">
                     @foreach ($quote->categories as $category)
-                    <li>
-                        <a class="card__categories-link" href="#">{{ $category->title }}</a>
-                    </li>
+                        <li>
+                            <a class="card__categories-link" href="{{ route('quotes.index') }}?category_id={{ $category->id }}">{{ $category->title }}</a>
+                        </li>
                     @endforeach
                 </ul>
             </div>
@@ -23,42 +23,43 @@
                 <button class="card__actions-button card__actions-bookmark" data-action="show-modal" data-target-id="login-modal">
                     <span class="material-icons-outlined card__actions-bookmark-icon">bookmarks</span> В избранные
                 </button>
-        
+
                 <button class="card__actions-button card__actions-share">
-                    <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
+                    <div class="eassehs" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
                         data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype"></div>
                 </button>
-        
+
                 <button class="card__actions-button card__actions-like" data-action="show-modal" data-target-id="login-modal">
-                    <span class="material-icons-outlined card__actions-like-icon">favorite_border</span> Понравилось: <span class="card__actions-like-counter">{{ $quote->likes->count() }}</span>
+                    <span class="material-icons-outlined card__actions-like-icon">favorite_border</span> 
+                    Понравилось: <span class="card__actions-like-counter">{{ $quote->likes->count() }}</span>
                 </button>
             @endguest
 
             @auth
                 <button class="card__actions-button card__actions-bookmark" data-action="bookmark" data-quote-id="{{ $quote->id }}">
-                    @php 
+                    @php
                         $bookmarked = App\Models\Bookmark::where('user_id', auth()->user()->id)->where('quote_id', $quote->id)->first();
                     @endphp
 
-                    <span class="material-icons{{ $bookmarked ? '' : '-outlined' }} card__actions-bookmark-icon">bookmarks</span>
-                    В избранные
+                    <span class="material-icons{{ $bookmarked ? '' : '-outlined' }} card__actions-bookmark-icon">bookmarks</span> В избранные
                 </button>
-        
+
                 <button class="card__actions-button card__actions-share">
                     <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
                         data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype"></div>
                 </button>
-        
+
                 <button class="card__actions-button card__actions-like" data-action="like" data-quote-id="{{ $quote->id }}">
-                    @php 
+                    @php
                         $liked = App\Models\Like::where('user_id', auth()->user()->id)->where('quote_id', $quote->id)->first();
                     @endphp
 
-                    <span class="material-icons-outlined card__actions-like-icon">{{ $liked ? 'favorite' : 'favorite_border' }}</span> Понравилось: <span class="card__actions-like-counter">{{ $quote->likes->count() }}</span>
+                    <span class="material-icons-outlined card__actions-like-icon">{{ $liked ? 'favorite' : 'favorite_border' }}</span> 
+                    Понравилось: <span class="card__actions-like-counter">{{ $quote->likes->count() }}</span>
                 </button>
             @endauth
         </div>
-    </div>  {{-- Card Header end --}}
+    </div> {{-- Card Header end --}}
 
     {{-- Card Body start --}}
     <div class="card__body">
@@ -68,7 +69,7 @@
             <p class="card__body-text">{{ $quote->body }}</p>
             <a class="button button--secondary card__body-link" href="#">Муфассал</a>
         </div>
-    </div>  {{-- Card Body end --}}
+    </div> {{-- Card Body end --}}
 
     {{-- Card Footer start --}}
     <div class="card__footer">
@@ -80,5 +81,5 @@
         <p class="card__footer-text">Опубликовано:</p>
         <a class="card__footer-author" href="#"><span class="material-icons">person</span> {{ $quote->author->name }}</a>
         <a class="card__footer-chat" href="#"><span class="material-icons-outlined">message</span> Написать</a>
-    </div>  {{-- Card Footer end --}}
+    </div> {{-- Card Footer end --}}
 </div>
