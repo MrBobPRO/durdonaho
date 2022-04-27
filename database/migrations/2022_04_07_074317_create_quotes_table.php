@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->text('body');
             $table->integer('author_id');
+            $table->integer('user_id'); //publisher
             $table->boolean('popular');
             $table->timestamps();
         });

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,9 +40,13 @@ Route::controller(PasswordResetController::class)->name('password.')->group(func
 
 Route::controller(MainController::class)->group(function () {
     Route::get('/', 'home')->name('home');
+    
+    Route::post('/like', 'like')->name('like')->middleware('auth');
+    Route::post('/bookmark', 'bookmark')->name('bookmark')->middleware('auth');
+});
 
-    Route::post('/like', 'like')->name('like');
-    Route::post('/bookmark', 'bookmark')->name('bookmark');
+Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
+    Route::get('/{slug}', 'show')->name('show');
 });
 
 Route::controller(QuoteController::class)->prefix('quotes')->name('quotes.')->group(function () {

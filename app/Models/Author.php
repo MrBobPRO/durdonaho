@@ -18,4 +18,9 @@ class Author extends Model
     {
         return $this->hasMany(Like::class);
     }
+
+    public function publisher()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

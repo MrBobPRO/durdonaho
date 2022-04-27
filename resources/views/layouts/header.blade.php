@@ -72,12 +72,21 @@
                     </li>
         
                     <li class="header-nav__item">
-                        <a class="header-nav__link @if($route == "authors.index" || $route == "authors.show") active @endif" href="{{ route('authors.index') }}">Муаллифон</a>
+                        <a class="header-nav__link 
+                            @if($route == 'authors.index') active 
+                            @elseif($route == 'authors.show' && !$author->individual) active
+                            @endif"
+                            href="{{ route('authors.index') }}">Муаллифон
+                        </a>
                     </li>
 
                     <li class="header-nav__item">
                         <div class="dropdown">
-                            <button class="header-nav__link dropdown__button @if($route == "quotes.individual" || $route == 'authors.individual') active @endif" >Самиздат</button>
+                            <button class="header-nav__link dropdown__button 
+                                @if($route == "quotes.individual" || $route == 'authors.individual') active 
+                                @elseif($route == 'authors.show' && $author->individual) active
+                                @endif"
+                            >Самиздат</button>
 
                             <div class="dropdown__content">
                                 <div class="dropdown__background"></div>

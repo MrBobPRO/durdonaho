@@ -38,6 +38,7 @@ class QuoteSeeder extends Seeder
             $q = new Quote();
             $q->body = $body[$i];
             $q->author_id = $i+1;
+            $q->user_id = 1;
             $q->popular = true;
             $q->save();
 

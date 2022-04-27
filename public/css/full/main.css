@@ -640,6 +640,21 @@ input {
 .card--vertical .card__footer {
     gap: 12px;
 }
+
+/* Users card */
+.users-card {
+    padding: 0;
+}
+.users-card .card__actions {
+    margin-top: 4px;
+}
+.users-card .card__body {
+    margin-top: 29px;
+}
+.users-card .card__body-text-container {
+    display: flex;
+    align-items: center;
+}
 /* ------------ /end Card ------------ */
 
 
@@ -1171,3 +1186,13 @@ input {
     100% { transform: rotate(360deg); }
   }
 /* ------------ /end Spinner ------------ */
+
+
+/* ------------ Users show page ------------ */
+.users-card-section__inner {
+    padding: 40px 200px;
+}
+.users-card-section__title {
+    margin-bottom: 40px;
+}
+/* ------------ /end Users show page ------------ */

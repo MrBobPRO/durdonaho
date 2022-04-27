@@ -23,6 +23,7 @@ class AuthorSeeder extends Seeder
         for ($i = 0; $i < count($name); $i++) {
             $a = new Author();
             $a->name = $name[$i];
+            $a->user_id = 1;
             $a->slug = Helper::generateSlug($name[$i], 'App\Models\Author');
             $a->biography = $bio[$i];
             $a->image = $name[$i] . '.jpg';

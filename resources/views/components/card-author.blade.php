@@ -91,7 +91,7 @@
 
         <p class="card__footer-date">{{ $formatted->isoFormat("DD.mm.YYYY") }}<span> в </span>{{ $formatted->isoFormat("HH:mm:ss") }}</p>
         <p class="card__footer-text">Опубликовано:</p>
-        <a class="card__footer-author" href="#"><span class="material-icons">person</span> {{ $author->name }}</a>
+        <a class="card__footer-author" href="{{ route('users.show', $author->publisher->slug) }}"><span class="material-icons">person</span> {{ $author->publisher->name }}</a>
         <a class="card__footer-chat" href="#"><span class="material-icons-outlined">message</span> Написать</a>
     </div>  {{-- Card Footer end --}}
 </div>
