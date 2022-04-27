@@ -251,10 +251,11 @@ document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
 
         // on show hidden categories click
         if (item.id == 'show-hidden-categories-checkbox') {
-            let checkboxes = document.getElementsByClassName('categories-filter__checkbox--hidden');
+            let hiddenChbs = document.getElementsByClassName('categories-filter__checkbox--hidden');
 
-            for (chb of checkboxes) {
-                chb.classList.remove('categories-filter__checkbox--hidden');
+            for (let i = 0; i < hiddenChbs.length; i++) {
+                hiddenChbs[i].classList.remove('categories-filter__checkbox--hidden');
+                console.log(hiddenChbs[i]);
             }
 
             item.classList.add('categories-filter__checkbox--hidden');
@@ -285,13 +286,7 @@ document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
         }
 
         //run AJAX function to update items list
-        let model = filterForm.dataset.model;
-
-        if (model == 'quote') {
-            getQuotes();
-        } else if (model == 'author') {
-            getAuthors();
-        }
+        ajaxUpdateList()
     });
 });
 
@@ -299,24 +294,16 @@ document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
 let catSearchInput = document.getElementById('categories-filter-search-input');
 if (catSearchInput) {
     catSearchInput.addEventListener('input', debounce(event => {
-        let filterForm = document.getElementById('categories-filter-form');
-        let model = filterForm.dataset.model;
-
-        if (model == 'quote') {
-            getQuotes();
-        } else if (model == 'author') {
-            getAuthors();
-        }
+        ajaxUpdateList();
     }));
 }
 
 
-//AJAX Quotes list update function (on categories filter or search values change)
-let quotesList = document.getElementById('quotes-list');
-function getQuotes() {
+//AJAX update quotes or authors list (on categories filter or search values change)
+function ajaxUpdateList() {
     let filterForm = document.getElementById('categories-filter-form');
-    let formData = new FormData(filterForm);
 
+    let formData = new FormData(filterForm);
     //append joined arrays into FormData because FormData doesnt support arrays   
     let categoryIds = formData.getAll('category_id');
     let joinedIds = categoryIds.join('-');
@@ -331,53 +318,18 @@ function getQuotes() {
         contentType: false,
 
         success: function (response) {
-            quotesList.innerHTML = response;
+            let list = document.getElementById('main-list');
+            list.innerHTML = response;
 
             //reinitialize yandex share buttons
-            quotesList.querySelectorAll('.ya-share2').forEach(item => {
+            list.querySelectorAll('.ya-share2').forEach(item => {
                 Ya.share2(item, {});
             })
         },
 
         error: function () {
-            console.log("Quotes ajax filter error!");
+            console.log("Ajax update list error!");
         }
-    });
-}
-
-
-//AJAX Authors list update function (on categories filter or search values change)
-let authorsList = document.getElementById('authors-list');
-function getAuthors() {
-    let filterForm = document.getElementById('categories-filter-form');
-    let formData = new FormData(filterForm);
-
-    //append joined arrays into FormData because FormData doesnt support arrays   
-    let categoryIds = formData.getAll('category_id');
-    let joinedIds = categoryIds.join('-');
-    formData.append('category_id', joinedIds);
-
-    $.ajax({
-        type: "POST",
-        enctype: "multipart/form-data",
-        url: filterForm.action,
-        data: formData,
-        processData: false,
-        contentType: false,
-
-        success: function (response) {
-            authorsList.innerHTML = response;
-
-            //reinitialize yandex share buttons
-            authorsList.querySelectorAll('.ya-share2').forEach(item => {
-                Ya.share2(item, {});
-            })
-        },
-
-        error: function () {
-            console.log("Authors ajax filter error!");
-        }
-
     });
 }
 //--------------- Categories Filter & search start---------------

@@ -3,7 +3,6 @@
     On categories checkbox change or on search input value change, fires AJAX request to update items list
 
     $title ->        Title of the block
-    $model ->        Due to the $model value, runs function for AJAX getting quotes or authors (used in js)
     $formAction ->   Used as url for AJAX request
     $individual ->   Used as filter for quotes.individual & authors.individual routes. FALSE on other routes
     $authorId ->     Filter only specific authors quotes (authors.show route). NULL on other routes
@@ -16,7 +15,6 @@
     switch ($request->route()->getName()) {
         case 'quotes.index':
             $title = 'Ҳама иқтибосҳо';
-            $model = 'quote';
             $formAction = '/quotes/ajax-get';
             $individual = 'false';
             $placeholder = 'Ҷустуҷӯи иқтибосҳо';
@@ -24,7 +22,6 @@
         
         case 'quotes.individual':
             $title = 'Иқтибосҳои самиздат';
-            $model = 'quote';
             $formAction = '/quotes/ajax-get';
             $individual = 'true';
             $placeholder = 'Ҷустуҷӯи иқтибосҳо';
@@ -32,7 +29,6 @@
 
         case 'authors.index':
             $title = 'Ҳама муаллифон';
-            $model = 'author';
             $formAction = '/authors/ajax-get';
             $individual = 'false';
             $placeholder = 'Ҷустуҷӯи муаллифон';
@@ -40,7 +36,6 @@
         
         case 'authors.individual':
             $title = 'Муаллифони самиздат';
-            $model = 'author';
             $formAction = '/authors/ajax-get';
             $individual = 'true';
             $placeholder = 'Ҷустуҷӯи муаллифон';
@@ -48,7 +43,6 @@
 
         case 'authors.show':
             $title = 'Ҳама иқтибосҳои муаллиф';
-            $model = 'quote';
             $formAction = '/quotes/ajax-get';
             $individual = 'false';
             $placeholder = 'Ҷустуҷӯи иқтибосҳо';
@@ -67,7 +61,7 @@
 <section class="categories-filter theme-styled-block">
     <h1 class="categories-filter__title main-title">{{ $title }}</h1>
 
-    <form class="categories-filter__form" action="{{ $formAction }}" id="categories-filter-form" data-model="{{ $model }}">
+    <form class="categories-filter__form" action="{{ $formAction }}" id="categories-filter-form">
         <input type="hidden" name="individual" value="{{ $individual }}">
         @if ($authorId)
             <input type="hidden" name="author_id" value="{{ $authorId }}">
