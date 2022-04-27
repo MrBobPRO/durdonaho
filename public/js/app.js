@@ -382,12 +382,12 @@ function getAuthors() {
 //------------- Categories Filter end-------------
 
 
-//------------- Like and bookmark actions-------------
+//------------- Like and Favorite actions-------------
 document.body.addEventListener('click', function (evt) {
     if (evt.target.dataset.action == 'like') {
         like(evt.target);
-    } else if (evt.target.dataset.action == 'bookmark') {
-        bookmark(evt.target);
+    } else if (evt.target.dataset.action == 'favorite') {
+        favorite(evt.target);
     }
 });
 
@@ -421,31 +421,31 @@ function like(target) {
     });
 }
 
-function bookmark(target) {
+function favorite(target) {
     $.ajax({
         type: 'POST',
-        url: '/bookmark',
+        url: '/favorite',
         data: {quote_id: target.dataset.quoteId, author_id: target.dataset.authorId},
 
         success: function (response) {
-            //change like button for all of the identic cards
+            //change favorite button for all of the identic cards
             let parentCard = target.closest('.card');
 
             document.querySelectorAll('[data-card-id="' + parentCard.dataset.cardId + '"]').forEach(item => {
-                let bookmarkIcon = item.getElementsByClassName('card__actions-bookmark-icon')[0];
+                let favoriteIcon = item.getElementsByClassName('card__actions-favorite-icon')[0];
 
-                if (response.status == 'added-into-bookmarks') {
-                    bookmarkIcon.classList = 'material-icons card__actions-bookmark-icon';
-                } else if (response.status == 'removed-from-bookmarks') {
-                    bookmarkIcon.classList = 'material-icons-outlined card__actions-bookmark-icon';
+                if (response.status == 'added-into-favorites') {
+                    favoriteIcon.classList = 'material-icons card__actions-favorite-icon';
+                } else if (response.status == 'removed-from-favorites') {
+                    favoriteIcon.classList = 'material-icons-outlined card__actions-favorite-icon';
                 }
             });
         },
 
         error: function () {
-            console.log("Ajax bookmark error!");
+            console.log("Ajax favorite error!");
         }
 
     });
 }
-//------------- Like and bookmark actions-------------
+//------------- Like and Favorite actions-------------

@@ -3,11 +3,7 @@
 
 <div class="main__content users-show-page-content">
     <section class="users-card-section">
-        <div class="theme-styled-block users-card-section__inner">
-            <h1 class="main-title users-card-section__title">Профиль пользователя</h1>
-
-            <x-card-users :user="$user" />
-        </div>
+        <x-card-users :user="$user" class="theme-styled-block card_with_medium_image card--full_width users-card" />
     </section>
 </div>
 

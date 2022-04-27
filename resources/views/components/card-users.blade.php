@@ -1,6 +1,8 @@
 @props(['user', 'class' => ''])
 
-<div class="{{ $class }} card card_with_medium_image users-card">
+<div class="{{ $class }} card">
+    <h1 class="main-title users-card__title">Профиль пользователя</h1>
+
     {{-- Card Header start --}}
     <div class="card__header">
         <div class="card__header-main">

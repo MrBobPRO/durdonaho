@@ -53,30 +53,4 @@ class MainController extends Controller
             'likesCount' => $likesCount
         ];
     }
-
-    public function bookmark(Request $request)
-    {
-        $bookmarked = Bookmark::where('user_id', Auth::user()->id)
-                    ->where('quote_id', $request->quote_id)
-                    ->where('author_id', $request->author_id)
-                    ->first();
-
-        if($bookmarked) {
-            $bookmarked->delete();
-
-            $status = 'removed-from-bookmarks';
-        } else {
-            $bookmark = new Bookmark();
-            $bookmark->user_id = Auth::user()->id;
-            $bookmark->quote_id = $request->quote_id;
-            $bookmark->author_id = $request->author_id;
-            $bookmark->save();
-
-            $status = 'added-into-bookmarks';
-        }
-
-        return [
-            'status' => $status
-        ];
-    }
 }

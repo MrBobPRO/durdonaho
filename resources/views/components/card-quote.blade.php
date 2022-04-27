@@ -20,8 +20,8 @@
 
         <div class="card__actions">
             @guest
-                <button class="card__actions-button card__actions-bookmark" data-action="show-modal" data-target-id="login-modal">
-                    <span class="material-icons-outlined card__actions-bookmark-icon">bookmarks</span> В избранные
+                <button class="card__actions-button card__actions-favorite" data-action="show-modal" data-target-id="login-modal">
+                    <span class="material-icons-outlined card__actions-favorite-icon">bookmarks</span> В избранные
                 </button>
 
                 <button class="card__actions-button card__actions-share">
@@ -36,12 +36,12 @@
             @endguest
 
             @auth
-                <button class="card__actions-button card__actions-bookmark" data-action="bookmark" data-quote-id="{{ $quote->id }}">
+                <button class="card__actions-button card__actions-favorite" data-action="favorite" data-quote-id="{{ $quote->id }}">
                     @php
-                        $bookmarked = App\Models\Bookmark::where('user_id', auth()->user()->id)->where('quote_id', $quote->id)->first();
+                        $favorited = App\Models\Favorite::where('user_id', auth()->user()->id)->where('quote_id', $quote->id)->first();
                     @endphp
 
-                    <span class="material-icons{{ $bookmarked ? '' : '-outlined' }} card__actions-bookmark-icon">bookmarks</span> В избранные
+                    <span class="material-icons{{ $favorited ? '' : '-outlined' }} card__actions-favorite-icon">bookmarks</span> В избранные
                 </button>
 
                 <button class="card__actions-button card__actions-share">

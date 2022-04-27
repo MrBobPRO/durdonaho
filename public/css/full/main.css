@@ -487,7 +487,7 @@ input {
     font-size: 16px;
     font-weight: 500;
 }
-.card__actions-like-icon, .card__actions-bookmark-icon {
+.card__actions-like-icon, .card__actions-favorite-icon {
     color: var(--secondary-color);
     font-size: 18px;
 }
@@ -641,19 +641,28 @@ input {
     gap: 12px;
 }
 
+/* Full Width card */
+.card--full_width {
+    padding: 40px 200px;
+}
+
+
 /* Users card */
-.users-card {
-    padding: 0;
+.users-card__title {
+    margin-bottom: 40px;
 }
 .users-card .card__actions {
     margin-top: 4px;
 }
 .users-card .card__body {
-    margin-top: 29px;
+    margin: 28px 0 0;
 }
 .users-card .card__body-text-container {
     display: flex;
     align-items: center;
+}
+.users-card .card__body-text {
+    max-width: 520px;
 }
 /* ------------ /end Card ------------ */
 
