@@ -232,7 +232,7 @@ if (forgotPasswordForm) {
 //Aside categories search
 let asideSearchInput = document.getElementById('aside-search-input');
 if (asideSearchInput) {
-    const categoryEls = document.querySelectorAll('.aside-categories__item');
+    let categoryEls = document.querySelectorAll('.aside-categories__item');
 
     asideSearchInput.addEventListener('input', debounce((evt) => {
         categoryEls.forEach(item => {
@@ -242,8 +242,8 @@ if (asideSearchInput) {
 }
 
 
-//------------- Categories Filter start-------------
-//add 
+//--------------- Categories Filter & search start---------------
+//run AJAX function to update quotes or authors list on any filters checkbox change
 document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
     item.addEventListener('change', event => {
         let filterForm = document.getElementById('categories-filter-form');
@@ -284,6 +284,7 @@ document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
             }
         }
 
+        //run AJAX function to update items list
         let model = filterForm.dataset.model;
 
         if (model == 'quote') {
@@ -294,7 +295,7 @@ document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
     });
 });
 
-//update quotes list on categories filter input change
+//run AJAX function to update quotes or authors list on search input value change
 let catSearchInput = document.getElementById('categories-filter-search-input');
 if (catSearchInput) {
     catSearchInput.addEventListener('input', debounce(event => {
@@ -310,7 +311,7 @@ if (catSearchInput) {
 }
 
 
-//AJAX get quotes
+//AJAX Quotes list update function (on categories filter or search values change)
 let quotesList = document.getElementById('quotes-list');
 function getQuotes() {
     let filterForm = document.getElementById('categories-filter-form');
@@ -341,11 +342,11 @@ function getQuotes() {
         error: function () {
             console.log("Quotes ajax filter error!");
         }
-
     });
 }
 
-//AJAX get authors
+
+//AJAX Authors list update function (on categories filter or search values change)
 let authorsList = document.getElementById('authors-list');
 function getAuthors() {
     let filterForm = document.getElementById('categories-filter-form');
@@ -379,7 +380,7 @@ function getAuthors() {
 
     });
 }
-//------------- Categories Filter end-------------
+//--------------- Categories Filter & search start---------------
 
 
 //------------- Like and Favorite actions-------------

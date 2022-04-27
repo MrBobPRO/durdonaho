@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuoteController;
@@ -42,12 +43,14 @@ Route::controller(PasswordResetController::class)->name('password.')->group(func
 
 Route::controller(MainController::class)->group(function () {
     Route::get('/', 'home')->name('home');
-    
-    Route::post('/like', 'like')->name('like')->middleware('auth');
 });
 
-Route::controller(FavoriteController::class)->prefix('favorite')->name('favorite.')->group(function () {
-    Route::post('/', 'store')->name('store')->middleware('auth');
+Route::controller(LikeController::class)->prefix('like')->name('like.')->middleware('auth')->group(function () {
+    Route::post('/', 'store')->name('store');
+});
+
+Route::controller(FavoriteController::class)->prefix('favorite')->name('favorite.')->middleware('auth')->group(function () {
+    Route::post('/', 'store')->name('store');
 });
 
 Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
@@ -58,8 +61,6 @@ Route::controller(QuoteController::class)->prefix('quotes')->name('quotes.')->gr
     Route::get('/', 'index')->name('index');
     Route::get('/individual', 'individual')->name('individual');
     Route::get('/top', 'top')->name('top');
-    
-    Route::get('/bookmark', 'bookmark')->name('bookmark')->middleware('auth');
 
     Route::post('/ajax-get', 'ajaxGet')->name('ajax.get');
 });
@@ -68,8 +69,6 @@ Route::controller(AuthorController::class)->prefix('authors')->name('authors.')-
     Route::get('/', 'index')->name('index');
     Route::get('/individual', 'individual')->name('individual');
     Route::get('/{slug}', 'show')->name('show');
-
-    Route::get('/bookmark', 'bookmark')->name('bookmark')->middleware('auth');
 
     Route::post('/ajax-get', 'ajaxGet')->name('ajax.get');
 });
