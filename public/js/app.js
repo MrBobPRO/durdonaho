@@ -6,7 +6,7 @@ $.ajaxSetup({
 });
 
 
-//debounce
+// debounce
 function debounce (callback, timeoutDelay = 500) {
     let timeoutId;
 
@@ -17,7 +17,7 @@ function debounce (callback, timeoutDelay = 500) {
 }
 
 
-//card carousels
+// card carousels
 let cardCarousels = $('.card-carousel');
 cardCarousels.owlCarousel({
         loop: true,
@@ -31,7 +31,7 @@ cardCarousels.owlCarousel({
         transitionStyle: "fade"
 });
 
-//change carousel counter on carousel item change
+// change carousel counter on carousel item change
 cardCarousels.on('translated.owl.carousel', function(event) {
     let carouselSection = event.target.closest('.carousel-section');
     let counter = carouselSection.getElementsByClassName('carousel-section__counter-active');
@@ -43,7 +43,7 @@ cardCarousels.on('translated.owl.carousel', function(event) {
 })
 
 
-//dropdown
+// dropdown
 document.querySelectorAll('.dropdown__button').forEach(item => {
     item.addEventListener('click', event => {
         item.closest('.dropdown').classList.add('dropdown--opened');
@@ -57,21 +57,21 @@ document.querySelectorAll('.dropdown__background').forEach(item => {
 })
 
 
-//modals
+// modals
 document.querySelectorAll('[data-action="show-modal"]').forEach(item => {
     item.addEventListener('click', event => {
         document.getElementById(item.dataset.targetId).classList.add('modal--visible');
         document.body.style.overflowY = "hidden";
     });
 });
-//hide modals
+// hide modals
 document.querySelectorAll('[data-action="hide-modal"]').forEach(item => {
     item.addEventListener('click', event => {
         document.body.style.overflowY = "auto";
         document.getElementById(item.dataset.targetId).classList.remove('modal--visible');
     });
 });
-//Login Modals Register button
+// Login Modals Register button
 document.getElementById('login-modal-register-button').addEventListener('click', event => {
     document.getElementById('register-modal').classList.add('modal--visible');
     document.getElementById('login-modal').classList.remove('modal--visible');
@@ -85,7 +85,7 @@ document.getElementById('login-modal-forgot-password').addEventListener('click',
 
 let spinner = document.getElementById('spinner');
 
-//Ajax Register
+// Ajax Register
 let registerForm = document.getElementById('register-form');
 if (registerForm) {
     registerForm.addEventListener('submit', event => {
@@ -100,23 +100,23 @@ if (registerForm) {
             processData: false,
             contentType: false,
             success: function (response) {
-                //reload page on success
+                // reload page on success
                 if (response.validation == 'success') {
                     window.location.reload();
                 } else if (response.validation == 'failed') {
-                    //else display error messages
+                    // else display error messages
                     let errorsList = registerForm.getElementsByClassName('modal-form-errors')[0];
                     errorsList.innerHTML = '';
                     for (let message of response.errorMessages) {
                         errorsList.innerHTML += `<li>${message}</li>`
                     };
 
-                    //unhighlight all previous failed inputs
+                    // unhighlight all previous failed inputs
                     let failedInputs = registerForm.getElementsByClassName('modal-input--error');
                     for (let failedInput of failedInputs) {
                         failedInput.classList.remove('modal-input--error');
                     }
-                    //highlight failed inputs
+                    // highlight failed inputs
                     for (let failedInput of response.failedInputs) {
                         registerForm.querySelector(`[name="${failedInput}"]`).classList.add('modal-input--error');
                     }
@@ -133,7 +133,7 @@ if (registerForm) {
 };
 
 
-//Ajax Login
+// Ajax Login
 let loginForm = document.getElementById('login-form');
 if (loginForm) {
     loginForm.addEventListener('submit', event => {
@@ -147,11 +147,11 @@ if (loginForm) {
             processData: false,
             contentType: false,
             success: function (response) {
-                //reload page on success
+                // reload page on success
                 if (response == 'success') {
                     window.location.reload();
                 } else if (response == 'failed') {
-                    //else display error messages
+                    // else display error messages
                     let errorsList = loginForm.getElementsByClassName('modal-form-errors')[0];
                     errorsList.innerHTML = '<li>Неверный логин или пароль</li>';
                 }
@@ -165,7 +165,7 @@ if (loginForm) {
 };
 
 
-//Ajax Verification Resend Email
+// Ajax Verification Resend Email
 let verificationResendForm = document.getElementById('verification-resend-email-form');
 if (verificationResendForm) {
     verificationResendForm.addEventListener('submit', event => {
@@ -193,7 +193,7 @@ if (verificationResendForm) {
 };
 
 
-//Ajax Forgot Password
+// Ajax Forgot Password
 let forgotPasswordForm = document.getElementById('forgot-password-form');
 if (forgotPasswordForm) {
     forgotPasswordForm.addEventListener('submit', event => {
@@ -208,11 +208,11 @@ if (forgotPasswordForm) {
             processData: false,
             contentType: false,
             success: function (response) {
-                //reload page on success
+                // reload page on success
                 if (response == 'success') {
                     window.location.reload();
                 } else if (response == 'failed') {
-                    //else display error messages
+                    // else display error messages
                     let errorsList = forgotPasswordForm.getElementsByClassName('modal-form-errors')[0];
                     errorsList.innerHTML = '<li>Пользователь с такой электронной почтой не существует!</li>';
                 }
@@ -229,7 +229,7 @@ if (forgotPasswordForm) {
 };
 
 
-//Aside categories search
+// Aside categories search
 let asideSearchInput = document.getElementById('aside-search-input');
 if (asideSearchInput) {
     let categoryEls = document.querySelectorAll('.aside-categories__item');
@@ -243,68 +243,69 @@ if (asideSearchInput) {
 
 
 //--------------- Categories Filter & search start---------------
-//run AJAX function to update quotes or authors list on any filters checkbox change
+let filterForm = document.querySelector('#categories-filter-form');
+
+// on all categories buttons click
+let filterCatAllBtn = document.querySelector('#categories-filter-all-btn');
+if (filterCatAllBtn) {
+    filterCatAllBtn.addEventListener('click', evt => {
+        // uncheck all checked categories
+        let checkboxes = filterForm.querySelectorAll('input[name=category_id]:checked');
+
+        for (chb of checkboxes) {
+            chb.checked = false;
+        }
+
+        // add active class 
+        filterCatAllBtn.classList.add('categories-filter__button--active');
+        // update list
+        ajaxUpdateList();
+    });
+}
+
+// on more categories buttons click
+let filterCatMoreBtn = document.querySelector('#categories-filter-more-btn');
+if (filterCatMoreBtn) {
+    filterCatMoreBtn.addEventListener('click', evt => {
+        // display all hidden categories
+        let hiddenChbs = document.querySelectorAll('.categories-filter__checkbox--hidden');
+
+        for (let i = 0; i < hiddenChbs.length; i++) {
+            hiddenChbs[i].classList.remove('categories-filter__checkbox--hidden');
+        }
+        // hide button
+        filterCatMoreBtn.style.display = 'none';
+    });
+}
+
+// run AJAX function to update quotes or authors list on any filters checkbox change
 document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
-    item.addEventListener('change', event => {
-        let filterForm = document.getElementById('categories-filter-form');
-        let allCategoriesChb = document.getElementById('all-categories-checkbox');
-
-        // on show hidden categories click
-        if (item.id == 'show-hidden-categories-checkbox') {
-            let hiddenChbs = document.getElementsByClassName('categories-filter__checkbox--hidden');
-
-            for (let i = 0; i < hiddenChbs.length; i++) {
-                hiddenChbs[i].classList.remove('categories-filter__checkbox--hidden');
-                console.log(hiddenChbs[i]);
-            }
-
-            item.classList.add('categories-filter__checkbox--hidden');
+    item.addEventListener('change', evt => {
+        let checkedChbs = filterForm.querySelectorAll('input[name=category_id]:checked');
+        
+        // remove active class from all categories button case any categories selected
+        if (checkedChbs.length) {
+            filterCatAllBtn.classList.remove('categories-filter__button--active');
+        } else {
+            filterCatAllBtn.classList.add('categories-filter__button--active');
         }
-
-        // on any category click
-        else if (item.id != 'all-categories-checkbox') {
-            let checkedChbs = filterForm.querySelectorAll('input[name=category_id]:checked');
-            // check or uncheck all categories checkbox
-            if (checkedChbs.length) {
-                allCategoriesChb.checked = false;
-            } else {
-                allCategoriesChb.checked = true;
-            }
-        }
-
-        // on All categories click
-        else if (item.id == 'all-categories-checkbox') {
-            // disable checked false statement while clicking on checked statement
-            let checkboxes = filterForm.querySelectorAll('input[name=category_id]:checked');
-            item.checked = true;
-            // uncheck all other checked categories
-            for (chb of checkboxes) {
-                if (chb.id != 'show-hidden-categories-checkbox') {
-                    chb.checked = false;                    
-                }
-            }
-        }
-
-        //run AJAX function to update items list
-        ajaxUpdateList()
+        // update list
+        ajaxUpdateList();
     });
 });
 
-//run AJAX function to update quotes or authors list on search input value change
-let catSearchInput = document.getElementById('categories-filter-search-input');
+// run AJAX function to update quotes or authors list on search input value change
+let catSearchInput = document.querySelector('#categories-filter-search-input');
 if (catSearchInput) {
-    catSearchInput.addEventListener('input', debounce(event => {
+    catSearchInput.addEventListener('input', debounce(evt => {
         ajaxUpdateList();
     }));
 }
 
-
-//AJAX update quotes or authors list (on categories filter or search values change)
+// AJAX update quotes or authors list (on categories filter or search values change)
 function ajaxUpdateList() {
-    let filterForm = document.getElementById('categories-filter-form');
-
     let formData = new FormData(filterForm);
-    //append joined arrays into FormData because FormData doesnt support arrays   
+    // append joined arrays into FormData because FormData doesnt support arrays   
     let categoryIds = formData.getAll('category_id');
     let joinedIds = categoryIds.join('-');
     formData.append('category_id', joinedIds);
@@ -351,7 +352,7 @@ function like(target) {
         data: {quote_id: target.dataset.quoteId, author_id: target.dataset.authorId},
 
         success: function (response) {
-            //change like button for all of the identic cards
+            // change like button for all of the identic cards
             let parentCard = target.closest('.card');
 
             document.querySelectorAll('[data-card-id="' + parentCard.dataset.cardId + '"]').forEach(item => {
@@ -381,7 +382,7 @@ function favorite(target) {
         data: {quote_id: target.dataset.quoteId, author_id: target.dataset.authorId},
 
         success: function (response) {
-            //change favorite button for all of the identic cards
+            // change favorite button for all of the identic cards
             let parentCard = target.closest('.card');
 
             document.querySelectorAll('[data-card-id="' + parentCard.dataset.cardId + '"]').forEach(item => {

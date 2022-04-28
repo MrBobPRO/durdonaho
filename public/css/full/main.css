@@ -723,6 +723,24 @@ input {
 .categories-filter__checkbox--hidden + .categories-filter__label {
     display: none;
 }
+.categories-filter__button {
+    font-style: italic;
+    border: none;
+    border-bottom: 1px solid #4D4D4D;
+    line-height: 1;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 0;
+    background-color: transparent;
+    font-size: 16px;
+    color: var(--text-color);
+}
+.categories-filter__button--active {
+    color: var(--main-color);
+    font-weight: bold;
+    border-color: var(--main-color);   
+}
 /* ------------ /end Categories Filter ------------ */
 
 

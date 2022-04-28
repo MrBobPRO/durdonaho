@@ -25,7 +25,7 @@
                 </button>
 
                 <button class="card__actions-button card__actions-share">
-                    <div class="eassehs" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
+                    <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
                         data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype"></div>
                 </button>
 

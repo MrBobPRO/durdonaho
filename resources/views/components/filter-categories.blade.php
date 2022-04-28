@@ -73,16 +73,12 @@
         </div>
 
         <div class="categories-filter__list">
-            {{-- All categories Button. OnClick unchecks all other checkboxes --}}
-            <input class="categories-filter__checkbox" type="checkbox" id="all-categories-checkbox" @checked(!$activeCategories)>
-            <label class="categories-filter__label" for="all-categories-checkbox">Все</label>
+            {{-- All categories Button --}}
+            <button class="categories-filter__button @if(!$activeCategories) categories-filter__button--active @endif" id="categories-filter-all-btn" type="button">Все</button>
 
             {{-- Only first 14 of categories are visible while no active categories selected --}}
             @foreach ($categories as $category)
-                <input class="categories-filter__checkbox
-                    @if(!$activeCategories && $loop->index > 13)
-                        categories-filter__checkbox--hidden
-                    @endif"
+                <input class="categories-filter__checkbox @if(!$activeCategories && $loop->index > 13) categories-filter__checkbox--hidden @endif"
 
                     type="checkbox" name="category_id" id="category{{ $category->id }}" value="{{ $category->id }}"
 
@@ -95,10 +91,9 @@
                 <label class="categories-filter__label" for="category{{ $category->id }}">{{ $category->title }}</label>
             @endforeach
 
-            {{-- Show all categories Button. Displays all hidden categories --}}
+            {{-- Displays all hidden categories button --}}
             @if(!$activeCategories && count($categories) > 13)
-                <input class="categories-filter__checkbox" checked type="checkbox" id="show-hidden-categories-checkbox">
-                <label class="categories-filter__label" for="show-hidden-categories-checkbox">Ещё {{ count($categories) - 13 }}</label>
+                <button class="categories-filter__button categories-filter__button--active" id="categories-filter-more-btn" type="button">Ещё {{ count($categories) - 13 }}</button>
             @endif
         </div>
     </form>
