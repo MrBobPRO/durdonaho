@@ -11,7 +11,7 @@
     <x-filter-categories :request="$request" :authorId="$author->id"/>
 
     <section class="quotes-section" id="quotes-section">
-        <div class="quotes-list" id="quotes-list">
+        <div class="quotes-list" id="main-list">
             <x-list-inner-quotes :quotes="$quotes" />
         </div>
     </section>

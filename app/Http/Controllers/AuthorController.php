@@ -120,7 +120,7 @@ class AuthorController extends Controller
     public function show(Request $request, $slug)
     {
         $author = Author::where('slug', $slug)->first();
-        $quotes = QuoteController::filterSpecificAuthorsQuotes($request, $author->id);
+        $quotes = QuoteController::filter($request, null, $author->id);
 
         return view('authors.show', compact('author', 'quotes', 'request'));
     }

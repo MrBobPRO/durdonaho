@@ -16,35 +16,35 @@
         case 'quotes.index':
             $title = 'Ҳама иқтибосҳо';
             $formAction = '/quotes/ajax-get';
-            $individual = 'false';
+            $individual = 0;
             $placeholder = 'Ҷустуҷӯи иқтибосҳо';
             break;
         
         case 'quotes.individual':
             $title = 'Иқтибосҳои самиздат';
             $formAction = '/quotes/ajax-get';
-            $individual = 'true';
+            $individual = 1;
             $placeholder = 'Ҷустуҷӯи иқтибосҳо';
             break;
 
         case 'authors.index':
             $title = 'Ҳама муаллифон';
             $formAction = '/authors/ajax-get';
-            $individual = 'false';
+            $individual = 0;
             $placeholder = 'Ҷустуҷӯи муаллифон';
             break;
         
         case 'authors.individual':
             $title = 'Муаллифони самиздат';
             $formAction = '/authors/ajax-get';
-            $individual = 'true';
+            $individual = 1;
             $placeholder = 'Ҷустуҷӯи муаллифон';
             break;
 
         case 'authors.show':
             $title = 'Ҳама иқтибосҳои муаллиф';
             $formAction = '/quotes/ajax-get';
-            $individual = 'false';
+            $individual = 0;
             $placeholder = 'Ҷустуҷӯи иқтибосҳо';
             break;
     }

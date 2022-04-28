@@ -15,53 +15,67 @@ class QuoteController extends Controller
      */
     public function ajaxGet(Request $request)
     {
-        //filter only specific authors quotes (authors.show route)
-        $authorId = $request->author_id;
-        $individual = filter_var($request->individual, FILTER_VALIDATE_BOOLEAN);
-
-        $quotes = $this->filter($request, $individual);
+        $quotes = $this->filter($request);
     
-        // validate query pagination and compact vars due route
+        // validate query pagination path due to the request
+        $authorId = $request->author_id;
+        $individual = $request->individual;
+        
+        // authors.show route
         if($authorId && $authorId != '') {
             $quotes->withPath(route('authors.show', Author::find($authorId)->slug));
-
-            return view('components.list-inner-quotes', compact('quotes', 'authorId'));
         }
-        else if($individual) {
+        // quotes.individual route
+        else if($individual && $individual == 1) {
             $quotes->withPath(route('quotes.individual'));
-
-            return view('components.list-inner-quotes', compact('quotes'));
-        } 
+        }
+        //quotes.index route
         else {
             $quotes->withPath(route('quotes.index'));
-
-            return view('components.list-inner-quotes', compact('quotes'));
         }
+        
+        return view('components.list-inner-quotes', compact('quotes'));
     }
 
     /**
      * Filter quotes for request
+     * 
+     * Manual parameters (manualIndividual && manualAuthorId) needed because filter function 
+     * called from many different GET routes. $request may also have individual and 
+     * author_id parameters, but manuals are more priority
      *
      * @return \Illuminate\Http\Response
      */
-    public function filter($request, $individual = false)
+    public static function filter($request, $manualIndividual = null, $manualAuthorId = null)
     {
         $quotes = Quote::query();
+        // Filter Query Step by step
 
-        //individual 
-        $authorIds = Author::where('individual', $individual)->pluck('id');
-        $quotes = $quotes->whereIn('author_id', $authorIds);
+        // 1. Specific Author (valid only on authors.show route) 
+        $authorId = $manualAuthorId ? $manualAuthorId : $request->author_id;
+        if($authorId && $authorId != '') {
+            $quotes = $quotes->where('author_id', $authorId);
 
-        //categories
+        // 2. Individual (true only on quotes.individual route)
+        } else {
+            $individual = $manualIndividual ? $manualIndividual : $request->individual;
+            if($individual && $individual != '') {
+                $authorIds = Author::where('individual', true)->pluck('id');
+                $quotes = $quotes->whereIn('author_id', $authorIds);
+            }
+        }
+
+        // 3. Categories
         $category_id = $request->category_id;
         if($category_id && $category_id != '') {
+            // category_id comes in string type joined by '-' because of FormData
             $categories = explode('-', $category_id);
             $quotes = $quotes->whereHas('categories', function ($q) use ($categories) {
                 $q->whereIn('id', $categories);
             });
         }
 
-        //keyword
+        // 4. Search keyword
         $keyword = $request->keyword;
         if($keyword && $keyword != '') {
             $quotes = $quotes->where('body', 'LIKE', '%' . $keyword . '%');
@@ -69,41 +83,7 @@ class QuoteController extends Controller
 
         $quotes = $quotes->latest()
                         ->paginate(6)
-                        ->appends($request->except(['page', 'token', 'individual']))
-                        ->fragment('quotes-section');
-
-        return $quotes;
-    }
-
-    /**
-     * Filter quotes for authors show route
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public static function filterSpecificAuthorsQuotes($request, $authorId)
-    {
-        $quotes = Quote::query();
-
-        $quotes = $quotes->where('author_id', $authorId);
-
-        //categories
-        $category_id = $request->category_id;
-        if($category_id && $category_id != '') {
-            $categories = explode('-', $category_id);
-            $quotes = $quotes->whereHas('categories', function ($q) use ($categories) {
-                $q->whereIn('id', $categories);
-            });
-        }
-
-        //keyword
-        $keyword = $request->keyword;
-        if($keyword && $keyword != '') {
-            $quotes = $quotes->where('body', 'LIKE', '%' . $keyword . '%');
-        }
-
-        $quotes = $quotes->latest()
-                        ->paginate(6)
-                        ->appends($request->except(['page', 'token', 'authorId']))
+                        ->appends($request->except(['page', 'token', 'individual', 'author_id']))
                         ->fragment('quotes-section');
 
         return $quotes;
@@ -116,7 +96,7 @@ class QuoteController extends Controller
      */
     public function index(Request $request)
     {
-        $quotes = $this->filter($request, false);
+        $quotes = $this->filter($request, false, null);
 
         return view('quotes.index', compact('quotes', 'request'));
     }
