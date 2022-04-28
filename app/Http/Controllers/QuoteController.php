@@ -17,22 +17,23 @@ class QuoteController extends Controller
     {
         //filter only specific authors quotes (authors.show route)
         $authorId = $request->author_id;
+        $individual = filter_var($request->individual, FILTER_VALIDATE_BOOLEAN);
+
+        $quotes = $this->filter($request, $individual);
+    
+        // validate query pagination and compact vars due route
         if($authorId && $authorId != '') {
-            $quotes = $this->filterSpecificAuthorsQuotes($request, $authorId);
             $quotes->withPath(route('authors.show', Author::find($authorId)->slug));
 
             return view('components.list-inner-quotes', compact('quotes', 'authorId'));
-        //filter all authors quotes
-        } else {
-            $individual = filter_var($request->individual, FILTER_VALIDATE_BOOLEAN);
+        }
+        else if($individual) {
+            $quotes->withPath(route('quotes.individual'));
 
-            $quotes = $this->filter($request, $individual);
-    
-            if($individual) {
-                $quotes->withPath(route('quotes.individual'));
-            } else {
-                $quotes->withPath(route('quotes.index'));
-            }
+            return view('components.list-inner-quotes', compact('quotes'));
+        } 
+        else {
+            $quotes->withPath(route('quotes.index'));
 
             return view('components.list-inner-quotes', compact('quotes'));
         }

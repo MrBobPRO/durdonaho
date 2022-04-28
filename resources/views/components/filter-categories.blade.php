@@ -79,9 +79,7 @@
             {{-- Only first 14 of categories are visible while no active categories selected --}}
             @foreach ($categories as $category)
                 <input class="categories-filter__checkbox @if(!$activeCategories && $loop->index > 13) categories-filter__checkbox--hidden @endif"
-
                     type="checkbox" name="category_id" id="category{{ $category->id }}" value="{{ $category->id }}"
-
                     @if($activeCategories)
                         @foreach ($activeCategories as $activeId)
                             @checked($category->id == $activeId)
