@@ -16,8 +16,10 @@ class AuthorController extends Controller
     {
         $authors = $this->filter($request);
 
-        // validate query pagination path due to the request
+        // validate query pagination path and card style due to the request route
         $individual = $request->individual;
+
+        $cardClass = 'card_with_medium_image';
 
         // authors.individual route
         if($individual && $individual == 1) {
@@ -28,7 +30,7 @@ class AuthorController extends Controller
             $authors->withPath(route('authors.index'));
         }
 
-        return view('components.list-inner-authors', compact('authors'));
+        return view('components.list-inner-authors', compact('authors', 'cardClass'));
     }
 
     /**

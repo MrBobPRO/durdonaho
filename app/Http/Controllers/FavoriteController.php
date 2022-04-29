@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Favorite;
+use App\Models\Quote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,9 +14,14 @@ class FavoriteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function quotes(Request $request)
     {
-        //
+        $user = Auth::user();
+
+        $quoteIds = Favorite::where('user_id', $user->id)->pluck('quote_id');
+        $quotes = Quote::whereIn('id', $quoteIds)->paginate(6);
+
+        return view('favorites.quotes', compact('request', 'quotes'));
     }
 
     /**
@@ -23,7 +29,7 @@ class FavoriteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function authors()
     {
         //
     }

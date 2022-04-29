@@ -1,3 +1,13 @@
+// Document onclick listeners
+document.body.addEventListener('click', function (evt) {
+    if (evt.target.dataset.action == 'like') {
+        like(evt.target);
+    } else if (evt.target.dataset.action == 'favorite') {
+        favorite(evt.target);
+    }
+});
+
+
 // Ajax CSRF-Token initialization
 $.ajaxSetup({
     headers: {
@@ -337,14 +347,6 @@ function ajaxUpdateList() {
 
 
 //------------- Like and Favorite actions-------------
-document.body.addEventListener('click', function (evt) {
-    if (evt.target.dataset.action == 'like') {
-        like(evt.target);
-    } else if (evt.target.dataset.action == 'favorite') {
-        favorite(evt.target);
-    }
-});
-
 function like(target) {
     $.ajax({
         type: 'POST',

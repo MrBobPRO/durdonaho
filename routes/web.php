@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\AuthorController;
-use App\Http\Controllers\BookmarkController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MainController;
@@ -51,6 +50,9 @@ Route::controller(LikeController::class)->prefix('like')->name('like.')->middlew
 
 Route::controller(FavoriteController::class)->prefix('favorite')->name('favorite.')->middleware('auth')->group(function () {
     Route::post('/', 'store')->name('store');
+
+    Route::get('/quotes', 'quotes')->name('quotes');
+    Route::get('/authors', 'authors')->name('authors');
 });
 
 Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {

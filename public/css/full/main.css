@@ -446,6 +446,9 @@ input {
 .card {
     padding: 32px 100px 44px;
 }
+.card__inner {
+    margin: auto;
+}
 .card__header {
     margin: 12px 0 20px;
 }
@@ -642,12 +645,18 @@ input {
 }
 
 /* Full Width card */
-.card--full_width {
-    padding: 40px 200px;
+.card--full_width .card__inner {
+    max-width: 520px;
 }
 
 
 /* Users card */
+.users-card {
+    padding: 40px 100px;
+}
+.users-card .card__inner {
+    max-width: 620px;
+}
 .users-card__title {
     margin-bottom: 40px;
 }
@@ -695,6 +704,13 @@ input {
     padding: 32px 32px 40px;
     margin-bottom: 32px;
 }
+.categories-filter__inner {
+    margin: auto;
+}
+.categories-filter--full_width .categories-filter__inner {
+    max-width: 520px;
+}
+
 .categories-filter__title {
     margin-bottom: 12px;
 }

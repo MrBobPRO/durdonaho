@@ -16,25 +16,27 @@ class QuoteController extends Controller
     public function ajaxGet(Request $request)
     {
         $quotes = $this->filter($request);
-    
-        // validate query pagination path due to the request
+
+        // validate query pagination path and card style due to the request route
         $authorId = $request->author_id;
         $individual = $request->individual;
-        
+
+        $cardClass = 'card_with_small_image';
+
         // authors.show route
-        if($authorId && $authorId != '') {
+        if ($authorId && $authorId != '') {
             $quotes->withPath(route('authors.show', Author::find($authorId)->slug));
         }
         // quotes.individual route
-        else if($individual && $individual == 1) {
+        else if ($individual && $individual == 1) {
             $quotes->withPath(route('quotes.individual'));
         }
         //quotes.index route
         else {
             $quotes->withPath(route('quotes.index'));
         }
-        
-        return view('components.list-inner-quotes', compact('quotes'));
+
+        return view('components.list-inner-quotes', compact('quotes', 'cardClass'));
     }
 
     /**
@@ -53,13 +55,13 @@ class QuoteController extends Controller
 
         // 1. Specific Authors quotes (valid only on authors.show route) 
         $authorId = $manualAuthorId ? $manualAuthorId : $request->author_id;
-        if($authorId && $authorId != '') {
+        if ($authorId && $authorId != '') {
             $quotes = $quotes->where('author_id', $authorId);
 
-        // 2. Individual (true only on quotes.individual route)
+            // 2. Individual (true only on quotes.individual route)
         } else {
             $individual = $manualIndividual ? $manualIndividual : $request->individual;
-            if($individual && $individual != '') {
+            if ($individual && $individual != '') {
                 $authorIds = Author::where('individual', true)->pluck('id');
                 $quotes = $quotes->whereIn('author_id', $authorIds);
             }
@@ -67,7 +69,7 @@ class QuoteController extends Controller
 
         // 3. Categories
         $category_id = $request->category_id;
-        if($category_id && $category_id != '') {
+        if ($category_id && $category_id != '') {
             // category_id comes in string type joined by '-' because of FormData
             $categories = explode('-', $category_id);
             $quotes = $quotes->whereHas('categories', function ($q) use ($categories) {
@@ -77,14 +79,14 @@ class QuoteController extends Controller
 
         // 4. Search keyword
         $keyword = $request->keyword;
-        if($keyword && $keyword != '') {
+        if ($keyword && $keyword != '') {
             $quotes = $quotes->where('body', 'LIKE', '%' . $keyword . '%');
         }
 
         $quotes = $quotes->latest()
-                        ->paginate(6)
-                        ->appends($request->except(['page', 'token', 'individual', 'author_id']))
-                        ->fragment('quotes-section');
+            ->paginate(6)
+            ->appends($request->except(['page', 'token', 'individual', 'author_id']))
+            ->fragment('quotes-section');
 
         return $quotes;
     }

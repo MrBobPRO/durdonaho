@@ -19,11 +19,11 @@
                                     <span class="material-icons dropdown__item-icon">message</span>Личные сообщения <span class="profile-dropdown__badget">0</span>
                                 </a></li>
 
-                                <li><a class="dropdown__item" href="{{ route('quotes.individual') }}">
+                                <li><a class="dropdown__item" href="{{ route('favorite.authors') }}">
                                     <span class="material-icons dropdown__item-icon">face</span> Избранные авторы
                                 </a></li>
 
-                                <li><a class="dropdown__item" href="{{ route('quotes.individual') }}">
+                                <li><a class="dropdown__item" href="{{ route('favorite.quotes') }}">
                                     <span class="material-icons dropdown__item-icon">bookmark</span> Избранные цитаты
                                 </a></li>
 

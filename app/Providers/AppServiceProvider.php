@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\Quote;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
