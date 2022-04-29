@@ -41,7 +41,7 @@ class QuoteController extends Controller
      * Filter quotes for request
      * 
      * Manual parameters (manualIndividual && manualAuthorId) needed because filter function 
-     * called from many different GET routes. $request may also have individual and 
+     * also called from many different GET routes (index page). $request may also have individual and 
      * author_id parameters, but manuals are more priority
      *
      * @return \Illuminate\Http\Response
@@ -51,7 +51,7 @@ class QuoteController extends Controller
         $quotes = Quote::query();
         // Filter Query Step by step
 
-        // 1. Specific Author (valid only on authors.show route) 
+        // 1. Specific Authors quotes (valid only on authors.show route) 
         $authorId = $manualAuthorId ? $manualAuthorId : $request->author_id;
         if($authorId && $authorId != '') {
             $quotes = $quotes->where('author_id', $authorId);
@@ -96,7 +96,7 @@ class QuoteController extends Controller
      */
     public function index(Request $request)
     {
-        $quotes = $this->filter($request, false, null);
+        $quotes = $this->filter($request, false);
 
         return view('quotes.index', compact('quotes', 'request'));
     }

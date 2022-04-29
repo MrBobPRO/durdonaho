@@ -14,13 +14,17 @@ class AuthorController extends Controller
      */
     public function ajaxGet(Request $request)
     {
-        $individual = filter_var($request->individual, FILTER_VALIDATE_BOOLEAN);
+        $authors = $this->filter($request);
 
-        $authors = $this->filter($request, $individual);
+        // validate query pagination path due to the request
+        $individual = $request->individual;
 
-        if($individual) {
+        // authors.individual route
+        if($individual && $individual == 1) {
             $authors->withPath(route('authors.individual'));
-        } else {
+        }
+        // authors.index route 
+        else {
             $authors->withPath(route('authors.index'));
         }
 
@@ -28,20 +32,30 @@ class AuthorController extends Controller
     }
 
     /**
-     * Filter quotes for request
+     * Filter authors for request
+     * 
+     * Manual parameters (manualIndividual) needed because filter function is
+     * also called from many different GET routes (index page). $request may also have individual 
+     * parameter, but manuals are more priority
      *
      * @return \Illuminate\Http\Response
      */
-    public function filter($request, $individual = false)
+    public function filter($request, $manualIndividual = null)
     {
         $authors = Author::query();
 
-        //individual 
-        $authors = $authors->where('individual', $individual);
+        // Filter Query Step by step
 
-        //categories
+        // 1. Individual (true only on authors.individual route)
+        $individual = $manualIndividual ? $manualIndividual : $request->individual;
+        if($individual && $individual != '') {
+            $authors = $authors->where('individual', $individual);
+        }
+
+        // 2. Categories
         $category_id = $request->category_id;
         if($category_id && $category_id != '') {
+            // category_id comes in string type joined by '-' because of FormData
             $categories = explode('-', $category_id);
 
             $authors = $authors->whereHas('quotes', function ($q) use ($categories) {
@@ -51,7 +65,7 @@ class AuthorController extends Controller
             });
         }
 
-        //keyword
+        // 3. Search keyword
         $keyword = $request->keyword;
         if($keyword && $keyword != '') {
             $authors = $authors->where('name', 'LIKE', '%' . $keyword . '%');

@@ -664,6 +664,10 @@ input {
 .users-card .card__body-text {
     max-width: 520px;
 }
+.users-card .card__actions-button span {
+    font-size: 18px;
+    color: var(--secondary-color);
+}
 /* ------------ /end Card ------------ */
 
 
