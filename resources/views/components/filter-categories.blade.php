@@ -5,32 +5,33 @@
     $title ->        Title of the block
     $formAction ->   Used as url for AJAX request
     $individual ->   Used as filter for quotes.individual & authors.individual routes. FALSE on other routes
+    $favorite ->   Used as filter for favorite.quotes & favorite.authors routes. FALSE on other routes
     $authorId ->     Filter only specific authors quotes (authors.show route). NULL on other routes
     $placeholder ->  Placeholder for search input
 --}}
 
-@props(['categories', 'request', 'authorId' => null, 'class' => ''])
+@props(['request', 'categories', 'class' => '', 'authorId' => null])
 
 @php
+    // Default values
+    $individual = 0;
+    $favorite = 0;
+    $formAction = '/quotes/ajax-get';
+    $placeholder = 'Ҷустуҷӯи иқтибосҳо';
+
     switch ($request->route()->getName()) {
         case 'quotes.index':
             $title = 'Ҳама иқтибосҳо';
-            $formAction = '/quotes/ajax-get';
-            $individual = 0;
-            $placeholder = 'Ҷустуҷӯи иқтибосҳо';
             break;
         
         case 'quotes.individual':
             $title = 'Иқтибосҳои самиздат';
-            $formAction = '/quotes/ajax-get';
             $individual = 1;
-            $placeholder = 'Ҷустуҷӯи иқтибосҳо';
             break;
 
         case 'authors.index':
             $title = 'Ҳама муаллифон';
             $formAction = '/authors/ajax-get';
-            $individual = 0;
             $placeholder = 'Ҷустуҷӯи муаллифон';
             break;
         
@@ -43,16 +44,18 @@
 
         case 'authors.show':
             $title = 'Ҳама иқтибосҳои муаллиф';
-            $formAction = '/quotes/ajax-get';
-            $individual = 0;
-            $placeholder = 'Ҷустуҷӯи иқтибосҳо';
             break;
 
         case 'favorite.quotes':
             $title = 'Цитаты в закладках';
-            $formAction = '/quotes/ajax-get';
-            $individual = 0;
-            $placeholder = 'Ҷустуҷӯи иқтибосҳо';
+            $favorite = 1;
+            break;
+
+        case 'favorite.authors':
+            $title = 'Авторы в закладках';
+            $formAction = '/authors/ajax-get';
+            $placeholder = 'Ҷустуҷӯи муаллифон';
+            $favorite = 1;
             break;
     }
 
@@ -72,6 +75,8 @@
 
         <form class="categories-filter__form" action="{{ $formAction }}" id="categories-filter-form">
             <input type="hidden" name="individual" value="{{ $individual }}">
+            <input type="hidden" name="favorite" value="{{ $favorite }}">
+
             @if ($authorId)
                 <input type="hidden" name="author_id" value="{{ $authorId }}">
             @endif

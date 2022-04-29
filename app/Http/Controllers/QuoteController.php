@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Author;
+use App\Models\Favorite;
 use App\Models\Quote;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuoteController extends Controller
 {
@@ -20,6 +22,7 @@ class QuoteController extends Controller
         // validate query pagination path and card style due to the request route
         $authorId = $request->author_id;
         $individual = $request->individual;
+        $favorite = $request->favorite;
 
         $cardClass = 'card_with_small_image';
 
@@ -30,6 +33,11 @@ class QuoteController extends Controller
         // quotes.individual route
         else if ($individual && $individual == 1) {
             $quotes->withPath(route('quotes.individual'));
+        }
+        // favorite.quotes route
+        else if ($favorite && $favorite == 1) {
+            $quotes->withPath(route('favorite.quotes'));
+            $cardClass = 'card_with_large_image card--full_width';
         }
         //quotes.index route
         else {
@@ -42,32 +50,39 @@ class QuoteController extends Controller
     /**
      * Filter quotes for request
      * 
-     * Manual parameters (manualIndividual && manualAuthorId) needed because filter function 
-     * also called from many different GET routes (index page). $request may also have individual and 
-     * author_id parameters, but manuals are more priority
+     * Manual parameters (manualIndividual && manualAuthorId etc) needed because filter function 
+     * also called from many different GET routes (index page). $request may also have individual
+     * & author_id & favorite and parameters, but manuals are more priority
      *
      * @return \Illuminate\Http\Response
      */
-    public static function filter($request, $manualIndividual = null, $manualAuthorId = null)
+    public static function filter($request, $manualIndividual = null, $manualAuthorId = null, $manualFavorite = null)
     {
         $quotes = Quote::query();
-        // Filter Query Step by step
 
-        // 1. Specific Authors quotes (valid only on authors.show route) 
+        // Filter Query Step by step
         $authorId = $manualAuthorId ? $manualAuthorId : $request->author_id;
+        $individual = $manualIndividual ? $manualIndividual : $request->individual;
+        $favorite = $manualFavorite ? $manualFavorite : $request->favorite;
+        
+        // 1. Specific Authors quotes (valid only on authors.show route) 
         if ($authorId && $authorId != '') {
             $quotes = $quotes->where('author_id', $authorId);
+        } 
 
-            // 2. Individual (true only on quotes.individual route)
-        } else {
-            $individual = $manualIndividual ? $manualIndividual : $request->individual;
-            if ($individual && $individual != '') {
-                $authorIds = Author::where('individual', true)->pluck('id');
-                $quotes = $quotes->whereIn('author_id', $authorIds);
-            }
+        // 2. Favorite (true only on favorite.quotes route)
+        else if ($favorite && $favorite != '') {
+            $quoteIds = Favorite::where('user_id', Auth::user()->id)->where('quote_id', '!=', '')->pluck('quote_id');
+            $quotes = $quotes->whereIn('id', $quoteIds);
         }
 
-        // 3. Categories
+        // 3. Individual (true only on quotes.individual route)
+        else if ($individual && $individual != '') {
+            $authorIds = Author::where('individual', true)->pluck('id');
+            $quotes = $quotes->whereIn('author_id', $authorIds);
+        }
+
+        // 4. Categories
         $category_id = $request->category_id;
         if ($category_id && $category_id != '') {
             // category_id comes in string type joined by '-' because of FormData
@@ -77,7 +92,7 @@ class QuoteController extends Controller
             });
         }
 
-        // 4. Search keyword
+        // 5. Search keyword
         $keyword = $request->keyword;
         if ($keyword && $keyword != '') {
             $quotes = $quotes->where('body', 'LIKE', '%' . $keyword . '%');

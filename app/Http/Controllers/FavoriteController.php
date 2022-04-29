@@ -16,10 +16,7 @@ class FavoriteController extends Controller
      */
     public function quotes(Request $request)
     {
-        $user = Auth::user();
-
-        $quoteIds = Favorite::where('user_id', $user->id)->pluck('quote_id');
-        $quotes = Quote::whereIn('id', $quoteIds)->paginate(6);
+        $quotes = QuoteController::filter($request, null, null, true);
 
         return view('favorites.quotes', compact('request', 'quotes'));
     }
@@ -29,9 +26,11 @@ class FavoriteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function authors()
+    public function authors(Request $request)
     {
-        //
+        $authors = AuthorController::filter($request, null, true);
+
+        return view('favorites.authors', compact('request', 'authors'));
     }
 
     /**
