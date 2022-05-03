@@ -35,6 +35,10 @@
             @include('modals.register')
             @include('modals.forgot-password')
 
+            @auth
+                @include('modals.report-bug')
+            @endauth
+
             <div class="spinner" id="spinner"><span class="spinner__icon"></span></div>
         </main>
         @include('layouts.footer')

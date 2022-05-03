@@ -94,6 +94,12 @@
             <p class="card__footer-text">Опубликовано:</p>
             <a class="card__footer-author" href="{{ route('users.show', $author->publisher->slug) }}"><span class="material-icons">person</span> {{ $author->publisher->name }}</a>
             <a class="card__footer-chat" href="#"><span class="material-icons-outlined">message</span> Написать</a>
+
+            @auth
+                <button class="report-bug-button" data-action="show-report-bug-modal" data-author-id="{{ $author->id }}">
+                    <span class="material-icons-outlined report-bug-button__icon">error_outline</span>
+                </button>
+            @endauth
         </div>  {{-- Card Footer end --}}
 
     </div>  {{-- Card Inner end --}}

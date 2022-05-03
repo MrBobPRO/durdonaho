@@ -17,7 +17,7 @@
 <div class="main__content top-quotes-page-content">
     <section class="quotes-section" id="quotes-section">
         <div class="quotes-list" id="quotes-list">
-            <x-list-inner-quotes :quotes="$quotes"/>
+            <x-list-inner-quotes :quotes="$quotes" card-class="card_with_small_image"/>
         </div>
     </section>
 </div>

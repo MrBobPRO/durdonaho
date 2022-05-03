@@ -85,12 +85,38 @@ document.querySelectorAll('[data-action="hide-modal"]').forEach(item => {
 document.getElementById('login-modal-register-button').addEventListener('click', event => {
     document.getElementById('register-modal').classList.add('modal--visible');
     document.getElementById('login-modal').classList.remove('modal--visible');
-})
+});
 // Login Modals Forgot Password button
 document.getElementById('login-modal-forgot-password').addEventListener('click', event => {
     document.getElementById('forgot-password-modal').classList.add('modal--visible');
     document.getElementById('login-modal').classList.remove('modal--visible');
-})
+});
+// Show Report bug modal buttons click 
+document.querySelectorAll('[data-action="show-report-bug-modal"]').forEach((item) => {
+    item.addEventListener('click', event => {
+        document.body.style.overflowY = "hidden";
+        let modal = document.querySelector('#report-bug-modal');
+
+        // validate input values
+        let quoteId = modal.querySelector('[name="quote_id"]');
+        quoteId.value = item.dataset.quoteId ? item.dataset.quoteId : null;
+
+        let authorId = modal.querySelector('[name="author_id"]');
+        authorId.value = item.dataset.authorId ? item.dataset.authorId : null;
+
+        //show modal
+        modal.classList.add('modal--visible');
+    });
+});
+
+
+// Auto Height Modal Textareas
+document.querySelectorAll('.modal-textarea').forEach((item) => {
+    item.addEventListener('input', (evt) => {
+        item.style.height = "20px";
+        item.style.height = (item.scrollHeight) + "px";
+    });
+});
 
 
 let spinner = document.getElementById('spinner');
