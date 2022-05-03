@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('main')
 
+@section('title', 'Иктибосхои самиздат')
+
 <aside class="aside">
     <x-aside-categories />
     <x-aside-popularity />

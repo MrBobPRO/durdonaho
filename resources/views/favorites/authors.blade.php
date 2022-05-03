@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('main')
 
+@section('title', ' Избранные авторы')
+
 <div class="main__content favorite-authors-page-content">
     <x-filter-categories :request="$request" class="categories-filter--full_width"/>
 

@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('main')
 
+@section('title', 'Лучшие цитаты')
+
 <aside class="aside">
     <div class="aside-text theme-styled-block">
         <h1 class="aside-text__title main-title">Лучшие цитаты</h1>

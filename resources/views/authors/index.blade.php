@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('main')
 
+@section('title', 'Муаллифон')
+
 <aside class="aside">
     <x-aside-categories />
     <x-aside-popularity />

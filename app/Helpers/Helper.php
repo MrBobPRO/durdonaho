@@ -48,7 +48,7 @@ class Helper
      * @param string $string
      * @return string
      */
-    public static function cleanShareText($string)
+    public static function generateShareText($string)
     {
         $cleaned = preg_replace('#<[^>]+>#', ' ', $string); //remove tags
         $cleaned = str_replace('&nbsp;', ' ', $cleaned); //decode space

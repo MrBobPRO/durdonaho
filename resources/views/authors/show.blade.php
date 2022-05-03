@@ -1,6 +1,20 @@
 @extends('layouts.app')
 @section('main')
 
+@section('title', $author->name)
+
+@section('meta-tags')
+    @php
+        $shareText = App\Helpers\Helper::generateShareText($author->biography);
+    @endphp
+
+    <meta name="description" content="{{ $shareText }}">
+    <meta property="og:description" content="{{ $shareText }}">
+    <meta property="og:title" content="{{ $author->name }}" />
+    <meta property="og:image" content="{{ asset('img/authors/' . $author->image) }}">
+    <meta property="og:image:alt" content="{{ $author->name }}">
+@endsection
+
 <aside class="aside">
     <x-aside-categories />
     <x-aside-popularity />

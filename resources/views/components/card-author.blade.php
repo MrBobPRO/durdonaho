@@ -23,10 +23,10 @@
                             }
                         @endphp
         
-                        @foreach ($categories->unique('title') as $category)
-                        <li>
-                            <a class="card__categories-link" href="#">{{ $category->title }}</a>
-                        </li>
+                        @foreach ($categories->unique('title')->shuffle()->take(3) as $category)
+                            <li class="card__categories-item">
+                                <a class="card__categories-link" href="#">{{ $category->title }}</a>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
@@ -40,7 +40,8 @@
             
                     <button class="card__actions-button card__actions-share">
                         <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
-                            data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype"></div>
+                            data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype" data-url="{{ route('authors.show', $author->slug) }}">
+                        </div>
                     </button>
             
                     <button class="card__actions-button card__actions-like" data-action="show-modal" data-target-id="login-modal">
@@ -60,7 +61,8 @@
             
                     <button class="card__actions-button card__actions-share">
                         <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
-                            data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype"></div>
+                            data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype" data-url="{{ route('authors.show', $author->slug) }}">
+                        </div>
                     </button>
             
                     <button class="card__actions-button card__actions-like" data-action="like" data-author-id="{{ $author->id }}">

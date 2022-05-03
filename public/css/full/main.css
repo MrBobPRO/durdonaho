@@ -439,6 +439,12 @@ input {
 .owl-nav button span {
     font-size: 16px;
 }
+.owl-carousel .card__categories-item {
+    display: none;
+}
+.owl-carousel .card__categories-item:first-child, .owl-carousel .card__categories-item:nth-child(2), .owl-carousel .card__categories-item:nth-child(3) {
+    display: block;
+}
 /* ------------ /end Home carousel ------------ */
 
 
@@ -662,7 +668,6 @@ input {
 .card--full_width .card__inner {
     max-width: 520px;
 }
-
 
 /* Users card */
 .users-card {

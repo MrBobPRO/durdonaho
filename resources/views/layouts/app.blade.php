@@ -5,11 +5,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>Дурдонаҳо</title>
+        <title>@hasSection('title')@yield('title'){{ ' – Дурдонаҳо' }}@else{{'Дурдонаҳо'}}@endif</title>
 
         <meta name="robots" content="none"/>
         <meta name="googlebot" content="noindex, nofollow"/>
         <meta name="yandex" content="none"/>
+
+        <meta name="keywords" content="Дурдонаҳо, Иқтибосҳо ва афоризмҳо, Муаллифони машҳур, Иқтибосҳои маъмул, цитаты и афоризмы"/>
+        <meta property="og:site_name" content="Дурдонаҳо">
+        <meta property="og:type" content="object" />
+        <meta name="twitter:card" content="summary_large_image">
+
+        @hasSection ('meta-tags')
+            @yield('meta-tags')
+        @else
+            <meta name="description" content="Сомонаи мазкур “Дурдонаҳо” номдошта, асоси онро  иқтибосҳо аз китобҳои сатҳи ҷаҳонӣ, суханрониҳои афроди муваффақ ва афоризмҳои файласуфону равоншиносону...">
+            <meta property="og:title" content="Дурдонаҳо" />
+            <meta property="og:description" content="Сомонаи мазкур “Дурдонаҳо” номдошта, асоси онро  иқтибосҳо аз китобҳои сатҳи ҷаҳонӣ, суханрониҳои афроди муваффақ ва афоризмҳои файласуфону равоншиносону...">
+            <meta property="og:image" content="{{ asset('img/main/logo-share.png') }}">
+            <meta property="og:image:alt" content="Дурдонаҳо – Лого">
+        @endif
+
+        {{-- Favicons for all devices --}}
+        <link rel="icon" href="{{ asset('img/main/cropped-favi-32x32.ico') }}" sizes="32x32">
+        <link rel="icon" href="{{ asset('img/main/cropped-favi-192x192.ico') }}" sizes="192x192">
+        <link rel="apple-touch-icon-precomposed" href="{{ asset('img/main/cropped-favi-180x180.ico') }}">
+        <meta name="msapplication-TileImage" content="{{ asset('img/main/cropped-favi-270x270.ico') }}">
 
         {{-- Raleway Google Fonts --}}
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,7 +59,7 @@
             @auth
                 @include('modals.report-bug')
             @endauth
-
+            
             <div class="spinner" id="spinner"><span class="spinner__icon"></span></div>
         </main>
         @include('layouts.footer')

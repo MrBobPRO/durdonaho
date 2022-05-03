@@ -12,7 +12,7 @@
                     <h1 class="card__title"><span class="card__title-span">Автор цитаты:</span> {{ $quote->author->name }}</h1>
                     <ul class="card__categories">
                         @foreach ($quote->categories as $category)
-                            <li>
+                            <li class="card__categories-item">
                                 <a class="card__categories-link" href="{{ route('quotes.index') }}?category_id={{ $category->id }}">{{ $category->title }}</a>
                             </li>
                         @endforeach
@@ -28,7 +28,9 @@
 
                     <button class="card__actions-button card__actions-share">
                         <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
-                            data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype"></div>
+                            data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype" data-title="Дурдонаҳо" 
+                            data-description="{{ App\Helpers\Helper::cleanShareText($quote->body) }}" data-image="{{ asset('img/main/logo-share.png') }}">
+                        </div>
                     </button>
 
                     <button class="card__actions-button card__actions-like" data-action="show-modal" data-target-id="login-modal">
@@ -48,7 +50,9 @@
 
                     <button class="card__actions-button card__actions-share">
                         <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
-                            data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype"></div>
+                            data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype" data-title="Дурдонаҳо" 
+                            data-description="{{ App\Helpers\Helper::generateShareText($quote->body) }}" data-image="{{ asset('img/main/logo-share.png') }}">
+                        </div>
                     </button>
 
                     <button class="card__actions-button card__actions-like" data-action="like" data-quote-id="{{ $quote->id }}">
