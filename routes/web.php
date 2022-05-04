@@ -42,6 +42,7 @@ Route::controller(PasswordResetController::class)->name('password.')->group(func
 
 Route::controller(MainController::class)->group(function () {
     Route::get('/', 'home')->name('home');
+    Route::get('/search', 'search')->name('search');
 
     Route::post('/repot-bug', 'reportBug')->name('report-bug')->middleware('auth');
 });

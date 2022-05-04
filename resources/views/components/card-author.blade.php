@@ -1,4 +1,13 @@
-@props(['author', 'class' => '', 'dataCarouselItemIndex' => ''])
+{{-- 
+    This component is used everywhere as a Card for all types of author cards
+
+    $class ->                   Additional classes: card_with_medium_image || card--vertical || card--full_width etc
+    $dataCarouselItemIndex ->   Counter for current carousel items index (used only on home page)
+    $routeName ->               Used only to determine if it is search page
+    $keyword ->                 Keyword for search page
+--}}
+
+@props(['author', 'class' => '', 'dataCarouselItemIndex' => '', 'routeName' => request()->route()->getName(), 'keyword' => request()->keyword])
 
 <div class="{{ $class }} card" data-card-id="author{{ $author->id }}" data-carousel-item-index="{{ $dataCarouselItemIndex }}">
     <div class="card__inner">
@@ -9,7 +18,7 @@
                 <img class="card__image card__header-image--small" src="{{ asset('img/authors/' . $author->image) }}" alt="{{ $author->name }}">
 
                 <div class="card__header-info">
-                    <h1 class="card__title">{{ $author->name }}</h1>
+                    <a class="card__title" href="{{ route('authors.show', $author->slug) }}">{!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $author->name) : $author->name !!}</a>
                     <ul class="card__categories">
                         {{-- Generate collection of unique categories --}}
                         @php
@@ -81,7 +90,7 @@
             <img class="card__image card__body-image--large" src="{{ asset('img/authors/' . $author->image) }}" alt="{{ $author->name }}">
             <img class="card__image card__body-image--medium" src="{{ asset('img/authors/' . $author->image) }}" alt="{{ $author->name }}">
             <div class="card__body-text-container">
-                <p class="card__body-text">{{ $author->biography }}</p>
+                <p class="card__body-text">{!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $author->biography) : $author->biography !!}</p>
                 <a class="button button--secondary card__body-link" href="{{ route('authors.show', $author->slug) }}">Муфассал</a>
             </div>
         </div>  {{-- Card Body end --}}

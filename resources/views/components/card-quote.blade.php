@@ -1,4 +1,13 @@
-@props(['quote', 'class' => '', 'dataCarouselItemIndex' => ''])
+{{-- 
+    This component is used everywhere as a Card for all types of quote cards
+
+    $class ->                   Additional classes: card_with_medium_image || card--vertical || card--full_width etc
+    $dataCarouselItemIndex ->   Counter for current carousel items index (used only on home page)
+    $routeName ->               Used only to determine if it is search page
+    $keyword ->                 Keyword for search page
+--}}
+
+@props(['quote', 'class' => '', 'dataCarouselItemIndex' => '', 'routeName' => request()->route()->getName(), 'keyword' => request()->keyword])
 
 <div class="{{ $class }} card" data-card-id="quote{{ $quote->id }}" data-carousel-item-index="{{ $dataCarouselItemIndex }}">
     <div class="card__inner">
@@ -9,7 +18,10 @@
                 <img class="card__image card__header-image--small" src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}">
 
                 <div class="card__header-info">
-                    <h1 class="card__title"><span class="card__title-span">Автор цитаты:</span> {{ $quote->author->name }}</h1>
+                    <a class="card__title" href="{{ route('authors.show', $quote->author->slug) }}">
+                        <span class="card__title-span">Автор цитаты:</span> {!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->author->name) : $quote->author->name !!}
+                    </a>
+
                     <ul class="card__categories">
                         @foreach ($quote->categories as $category)
                             <li class="card__categories-item">
@@ -70,7 +82,7 @@
             <img class="card__image card__body-image--large" src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}">
             <img class="card__image card__body-image--medium" src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}">
             <div class="card__body-text-container">
-                <p class="card__body-text">{{ $quote->body }}</p>
+                <p class="card__body-text">{!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->body) : $quote->body !!}</p>
                 <a class="button button--secondary card__body-link" href="#">Муфассал</a>
             </div>
         </div> {{-- Card Body end --}}

@@ -46,9 +46,6 @@ input {
     -ms-user-select: none; 
     user-select: none;
 }
-.empty-query-warning {
-    padding: 32px;
-}
 
 /* ------------ Main ------------ */
 .main {
@@ -251,6 +248,13 @@ input {
     font-size: 14px;
     width: 100%;
 }
+.search--active .search__input {
+    background-color: var(--main-color);
+    color: white;
+}
+.search--active .search__input::placeholder {
+    color: white;
+}
 .search__input:focus {
     outline: none;
 }
@@ -260,6 +264,9 @@ input {
     right: 12px;
     top: 10px;
     font-size: 22px;
+}
+.search--active .search__icon {
+    color: white;
 }
 /* ------------ /end Search ------------ */
 
@@ -465,6 +472,9 @@ input {
 }
 .card__title {
     font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
 }
 .card__categories {
     display: flex;
@@ -662,6 +672,10 @@ input {
 }
 .card--vertical .card__footer {
     gap: 12px;
+}
+.card--vertical .report-bug-button {
+    bottom: -16px;
+    right: -16px;
 }
 
 /* Full Width card */
@@ -1293,3 +1307,36 @@ input {
     margin-bottom: 40px;
 }
 /* ------------ /end Users show page ------------ */
+
+
+/* ------------ /end Search page ------------ */
+.search-quotes-section {
+    margin-top: 32px;
+}
+.highlighted {
+    background-color: var(--main-color);
+    color: white;
+}
+.search-page-content .card__title {
+    text-transform: capitalize;
+}
+.search-page-content .card__title-span {
+    text-transform: none;
+}
+/* ------------ /end Search page ------------ */
+
+
+/* ------------ Empty query Warning ------------ */
+.empty-query-warning {
+    padding: 32px;
+}
+.empty-query-warning__inner {
+    margin: auto;
+}
+.favorite-authors-page-content .empty-query-warning__inner {
+    max-width: 520px;
+}
+.favorite-quotes-page-content .empty-query-warning__inner {
+    max-width: 520px;
+}
+/* ------------ /end Empty Query Warning ------------ */

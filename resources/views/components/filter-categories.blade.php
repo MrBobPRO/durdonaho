@@ -5,7 +5,7 @@
     $title ->        Title of the block
     $formAction ->   Used as url for AJAX request
     $individual ->   Used as filter for quotes.individual & authors.individual routes. FALSE on other routes
-    $favorite ->   Used as filter for favorite.quotes & favorite.authors routes. FALSE on other routes
+    $favorite ->     Used as filter for favorite.quotes & favorite.authors routes. FALSE on other routes
     $authorId ->     Filter only specific authors quotes (authors.show route). NULL on other routes
     $placeholder ->  Placeholder for search input
 --}}

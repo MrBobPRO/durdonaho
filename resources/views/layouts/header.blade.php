@@ -104,8 +104,8 @@
                 </ul>
             </nav>
 
-            <form action="#" class="search header__search">
-                <input class="search__input" type="text" placeholder="Ҷустуҷӯ">
+            <form action="{{ route('search') }}" method="GET" class="search header__search {{ $route == 'search' ? 'search--active' : '' }}">
+                <input class="search__input" type="text" placeholder="Ҷустуҷӯ" name="keyword" value="{{ $route == 'search' ? $keyword : '' }}">
                 <span class="material-icons search__icon">search</span>
             </form>
         </div>

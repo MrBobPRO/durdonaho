@@ -236,4 +236,9 @@ class Helper
 
         return $routeName;
     }
+
+    public static function highlightKeyword($keyword, $text) 
+    {
+        return preg_replace("/" . $keyword . "/iu", "<span class='highlighted'>" . $keyword .  "</span>", $text);
+    }
 }

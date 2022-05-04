@@ -29,4 +29,20 @@ class MainController extends Controller
 
         return redirect()->back();
     }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword;
+
+        $authors = Author::where("name", "LIKE", "%" . $keyword . "%")
+                        ->orWhere("biography", "LIKE", "%" . $keyword . "%")
+                        ->orderBy("name")->get();
+
+        $quotes = Quote::whereHas('author', function ($q) use ($keyword) {
+            $q->where("name", "LIKE", "%" . $keyword . "%"); })
+                    ->orWhere("body", "LIKE", "%" . $keyword . "%")
+                    ->latest()->get();
+
+        return view("search.index", compact("keyword", "authors", "quotes"));
+    }
 }
