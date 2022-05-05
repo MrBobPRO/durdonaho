@@ -17,23 +17,24 @@
                     @csrf
 
                     <div class="form-group modal-form-group">
-                        <input class="input modal-input" type="text" placeholder="Имя" name="name" required autofocus>
+                        <input class="input input--light modal-input" type="text" placeholder="Имя" name="name" required autofocus>
                     </div>
                     
                     <div class="form-group modal-form-group">
-                        <input class="input modal-input" type="email" placeholder="Электронная почта" name="email" required>
+                        <input class="input input--light modal-input" type="email" placeholder="Электронная почта" name="email" required>
                     </div>
 
                     <div class="form-group modal-form-group">
-                        <input class="input modal-input" type="password" placeholder="Пароль" name="password" minlength="5" required autocomplete="new-password">
+                        <input class="input input--light modal-input" type="password" placeholder="Пароль" name="password" minlength="5" required autocomplete="new-password">
                     </div>
 
                     <div class="form-group modal-form-group">
-                        <input class="input modal-input" type="password" placeholder="Подтвердите пароль" name="password_confirmation" minlength="5" required>
+                        <input class="input input--light modal-input" type="password" placeholder="Подтвердите пароль" name="password_confirmation" minlength="5" required>
                     </div>
                     
                     <div class="form-group modal-form-group">
                         <label class="label modal-label">Ваш пол</label>
+                        
                         <div class="radio-group modal-radio-group">
                             <div class="radio-container">
                                 <input class="radio modal-radio" id="radio-male" type="radio" name="gender" value="male" checked>

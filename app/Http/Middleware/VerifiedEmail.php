@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 class VerifiedEmail
 {
     /**
-     * Handle an incoming request.
+     * Redirect unverified email users to verification.notice route 
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
@@ -21,9 +21,10 @@ class VerifiedEmail
         if(Auth::check()) {
             if(!Auth::user()->verified_email) {
                 $currentRoute = Route::currentRouteName();
+                // ignore if its verify email notification page
                 if($currentRoute != 'verification.notice') {
-                    //ignore routes which may enter without verifying emal
-                    if($currentRoute == 'logout' || $currentRoute == 'verification.verify' || $currentRoute == 'verification.resend.email' || $currentRoute == 'password.reset.show' || $currentRoute == 'password.reset.update') {
+                    // ignore routes which user can enter without email verification
+                    if(in_array($currentRoute, ['logout', 'verification.verify', 'verification.resend.email', 'password.reset.show', 'password.reset.update'])) {
                         return $next($request);
                     } else {
                         return redirect()->route('verification.notice');

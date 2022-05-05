@@ -7,6 +7,23 @@ document.body.addEventListener('click', function (evt) {
     }
 });
 
+// initialize selectize
+$(document).ready(function () {
+    $('.selectize-singular').selectize({
+        //options
+    });
+
+    $('.selectize-singular-linked').selectize({
+        onChange(value) {
+            window.location = value;
+        }
+    });
+
+    $('.selectize-multiple').selectize({
+        //options
+    });
+});
+
 
 // Ajax CSRF-Token initialization
 $.ajaxSetup({

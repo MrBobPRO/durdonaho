@@ -41,8 +41,11 @@
         <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
 
         {{-- Owl Carousel --}}
-        <link rel="stylesheet" href="{{ asset('js/owl-carousel/owl.carousel.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('js/owl-carousel/owl.theme.default.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('js/plugins/owl-carousel/owl.carousel.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('js/plugins/owl-carousel/owl.theme.default.min.css') }}">
+
+        {{-- Selectize --}}
+        <link href="{{ asset('js/plugins/selectize/dist/css/selectize.css') }}" rel="stylesheet">
 
         <link rel="stylesheet" href="{{ asset('css/full/main.css') }}">
     </head>
@@ -66,10 +69,15 @@
         
         {{-- JQuery --}}
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
         {{-- Owl Carousel --}}
-        <script src="{{ asset('js/owl-carousel/owl.carousel.min.js') }}"></script>
+        <script src="{{ asset('js/plugins/owl-carousel/owl.carousel.min.js') }}"></script>
+
         {{-- Yandex share buttons --}}
         <script src="https://yastatic.net/share2/share.js"></script>
+
+        {{-- Selectize --}}
+        <script src="{{ asset('js/plugins/selectize/dist/js/standalone/selectize.min.js') }}"></script>
 
         <script src="{{ asset('js/app.js') }}"></script>
     </body>

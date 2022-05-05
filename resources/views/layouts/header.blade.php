@@ -31,7 +31,7 @@
                                     <span class="material-icons dropdown__item-icon">edit</span> Редактировать цитаты
                                 </a></li>
 
-                                <li><a class="dropdown__item" href="{{ route('quotes.individual') }}">
+                                <li><a class="dropdown__item" href="{{ route('users.profile') }}">
                                     <span class="material-icons dropdown__item-icon">settings</span> Настройки профиля
                                 </a></li>
 

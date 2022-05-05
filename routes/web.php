@@ -6,6 +6,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifyEmailController;
@@ -58,8 +59,11 @@ Route::controller(FavoriteController::class)->prefix('favorite')->name('favorite
     Route::get('/authors', 'authors')->name('authors');
 });
 
-Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
-    Route::get('/{slug}', 'show')->name('show');
+Route::controller(UserController::class)->name('users.')->group(function () {
+    Route::get('/user/{slug}', 'show')->name('show');
+
+    Route::get('/profile', 'profile')->name('profile')->middleware('auth');
+    Route::post('/update', 'update')->name('update')->middleware('auth');
 });
 
 Route::controller(QuoteController::class)->prefix('quotes')->name('quotes.')->group(function () {
