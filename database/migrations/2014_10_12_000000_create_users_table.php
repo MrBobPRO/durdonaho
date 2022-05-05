@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('role');
             $table->string('gender');
             $table->string('image');
-            $table->text('biography');
+            $table->text('biography')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

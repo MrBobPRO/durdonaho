@@ -54,7 +54,8 @@ class AuthenticationController extends Controller
             'password' => Hash::make($request->password),
             'verified_email' => false,
             'gender' => $request->gender,
-            'role' => 'user'
+            'role' => 'user',
+            'image' => '__default.jpg'
         ]);
 
         //send email veify notification

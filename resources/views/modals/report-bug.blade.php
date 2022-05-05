@@ -22,7 +22,7 @@
 
                     <div class="form-group modal-form-group">
                         <label class="label modal-label" for="report-message">Введите текст ошибки или жалобу</label>
-                        <textarea class="textarea textarea--light modal-textarea" name="message" id="report-message" required></textarea>
+                        <textarea class="textarea textarea--light modal-textarea textrarea_resize_on_input" name="message" id="report-message" required></textarea>
                     </div>
 
                     <button class="button button--main modal-submit report-bug-modal__submit">Отправить</button>

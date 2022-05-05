@@ -7,7 +7,7 @@ document.body.addEventListener('click', function (evt) {
     }
 });
 
-// initialize selectize
+// initialize components
 $(document).ready(function () {
     $('.selectize-singular').selectize({
         //options
@@ -21,6 +21,11 @@ $(document).ready(function () {
 
     $('.selectize-multiple').selectize({
         //options
+    });
+
+    // Recalculate textareas height 
+    document.querySelectorAll('.textrarea_resize_on_input').forEach((item) => {
+        item.style.height = (item.scrollHeight) + "px";
     });
 });
 
@@ -127,8 +132,8 @@ document.querySelectorAll('[data-action="show-report-bug-modal"]').forEach((item
 });
 
 
-// Auto Height Modal Textareas
-document.querySelectorAll('.modal-textarea').forEach((item) => {
+// Auto Height Textareas on input
+document.querySelectorAll('.textrarea_resize_on_input').forEach((item) => {
     item.addEventListener('input', (evt) => {
         item.style.height = "20px";
         item.style.height = (item.scrollHeight) + "px";
@@ -191,6 +196,7 @@ let loginForm = document.getElementById('login-form');
 if (loginForm) {
     loginForm.addEventListener('submit', event => {
         event.preventDefault();
+        spinner.classList.add('spinner--show');
 
         $.ajax({
             type: 'POST',
@@ -208,8 +214,11 @@ if (loginForm) {
                     let errorsList = loginForm.getElementsByClassName('modal-form-errors')[0];
                     errorsList.innerHTML = '<li>Неверный логин или пароль</li>';
                 }
+
+                spinner.classList.remove('spinner--show');
             },
             error: function () {
+                spinner.classList.remove('spinner--show');
                 console.log('Ajax login failed !');
             }
         });
@@ -448,3 +457,76 @@ function favorite(target) {
     });
 }
 //------------- Like and Favorite actions-------------
+
+
+//------------- Profile update -------------
+let profileUpdateForm = document.querySelector('#profile-update-form');
+if (profileUpdateForm) {
+    //remove readonly attr from input or textarea and set focus to needed input
+    document.querySelectorAll('.profile-form__edit-btn').forEach((item) => {
+        item.addEventListener('click', (evt) => {
+            // remove readonly attr from input or textarea
+            let parent = item.closest('.profile-form__group');
+
+            parent.querySelectorAll('input').forEach((item) => {
+                item.readOnly = false;
+            });
+
+            parent.querySelectorAll('textarea').forEach((item) => {
+                item.readOnly = false;
+            });
+
+            // also remove readonly from new_password input on edit password button click
+            if (item.dataset.targetInputName == 'old_password') {
+                profileUpdateForm.querySelector('[name="new_password"]').readOnly = false;
+            }
+
+            // set caret to the end of the input and focus it
+            let input = profileUpdateForm.querySelector('[name="' + item.dataset.targetInputName + '"]');
+            // input element's type ('email') does not support selection
+            if (input.name != 'email') {
+                input.setSelectionRange(input.value.length, input.value.length);
+            }
+            input.focus();
+
+            // hide button
+            item.style.display = 'none';
+        });
+    });
+
+    // on remove profile image click
+    let imgRemoveBtn = document.querySelector('#profile-form-image-remove-btn');
+    let imgInput = document.querySelector('#profile-form-image-input');
+    let imgFile = document.querySelector('#profile-form-image-file');
+    let imgRemoveIinput = document.querySelector('#profile-form-image-remove-input');
+
+    imgRemoveBtn.addEventListener('click', (evt) => {
+        imgInput.value = null;
+        imgFile.src = '/img/users/__default.jpg';
+        imgRemoveIinput.value = 1;
+    });
+
+    // Show image from local on image input change
+    imgInput.addEventListener('change', (evt) => {
+        let file = evt.target.files[0];
+        let imageType = /image.*/;
+
+        if (file) {
+            if (file.type.match(imageType)) {
+                imgFile.src = URL.createObjectURL(file);
+                imgRemoveIinput.value = 0;
+            } else {
+                imgInput.value = '';
+                imgFile.src = '/img/users/__default.jpg';
+                imgRemoveIinput.value = 1;
+    
+                alert('Формат файла не поддерживается!');
+            }
+        } else {
+            imgFile.src = '/img/users/__default.jpg';
+            imgRemoveIinput.value = 1;
+        }
+
+    });
+}
+//------------- Profile edit -------------
