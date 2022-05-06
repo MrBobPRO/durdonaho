@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Helper
 {
-    const INSTRUCTIONS_PATH = 'instructions';
+    const USERS_PATH = 'img/users';
     const PRODUCTS_PATH = 'img/products';
     const RESEARCHES_PATH = 'img/researches';
     const SLIDES_PATH = 'img/slides';
@@ -97,7 +97,7 @@ class Helper
     }
 
     /**
-     * Upload file and resize it
+     * Upload file, resize it and save it in db 
      * 
      * Resizing (Only Images) works only if width or height is given
      * Image will be croped from the center, If both width and height are given (fit)
@@ -105,7 +105,7 @@ class Helper
      *
      * @param \Http\Request $request
      * @param \Eloquent\Model\ $item
-     * @param string $field Column name of Model
+     * @param string $field Requested file input name and Model items column name
      * @param string $name Name for newly creating file
      * @param string $path Path to store
      * @param integer $width Width for resize
@@ -113,7 +113,7 @@ class Helper
      * 
      * @return void
      */
-    public static function uploadFiles($request, $item, $field, $name, $path, $width = null, $height = null)
+    public static function uploadFile($request, $item, $field, $name, $path, $width = null, $height = null)
     {
         // Any file input is nullable on item update
         $file = $request->file($field);
@@ -150,10 +150,10 @@ class Helper
      * Make thumb from original and store it in thumbs folder
      * Image will be croped from the center, If both width and height are given (fit)
      * Else if one of the parameters is given (width or height), another will be calculated auto (aspectRatio)
-     * Thumbs will be saved in originalPath/thumbs folder
+     * Thumbs will be saved in original-path/thumbs folder
      * 
-     * Warnign
-     * To escape errors, thumbs folder must exists in original path
+     * Warning
+     * To escape errors, thumbs folder must exists in original-path
      *
      * @param string $path Path of original image
      * @param string $filename Name of original image 
@@ -199,6 +199,7 @@ class Helper
 
     /**
      * Rename file if file with the given name is already exists on the given folder
+     * Renaming type => oldName + (1)
      * 
      * @param string $path
      * @param string $filename
@@ -220,6 +221,14 @@ class Helper
     }
 
     /**
+     * Get all keywords in text and surround them by span with a highlighted class 
+     */
+    public static function highlightKeyword($keyword, $text) 
+    {
+        return preg_replace("/" . $keyword . "/iu", "<span class='highlighted'>" . $keyword .  "</span>", $text);
+    }
+
+    /**
      * Get previous route name
      *
      * @return string Route name
@@ -237,8 +246,4 @@ class Helper
         return $routeName;
     }
 
-    public static function highlightKeyword($keyword, $text) 
-    {
-        return preg_replace("/" . $keyword . "/iu", "<span class='highlighted'>" . $keyword .  "</span>", $text);
-    }
 }

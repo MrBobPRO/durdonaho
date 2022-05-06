@@ -462,6 +462,10 @@ function favorite(target) {
 //------------- Profile update -------------
 let profileUpdateForm = document.querySelector('#profile-update-form');
 if (profileUpdateForm) {
+    profileUpdateForm.addEventListener('submit', (evt) => {
+        spinner.classList.add('spinner--show');
+    });
+
     //remove readonly attr from input or textarea and set focus to needed input
     document.querySelectorAll('.profile-form__edit-btn').forEach((item) => {
         item.addEventListener('click', (evt) => {
@@ -479,6 +483,10 @@ if (profileUpdateForm) {
             // also remove readonly from new_password input on edit password button click
             if (item.dataset.targetInputName == 'old_password') {
                 profileUpdateForm.querySelector('[name="new_password"]').readOnly = false;
+                
+                // and add required for password fields
+                profileUpdateForm.querySelector('[name="new_password"]').required = true;
+                profileUpdateForm.querySelector('[name="old_password"]').required = true;
             }
 
             // set caret to the end of the input and focus it
@@ -494,12 +502,13 @@ if (profileUpdateForm) {
         });
     });
 
-    // on remove profile image click
+
     let imgRemoveBtn = document.querySelector('#profile-form-image-remove-btn');
     let imgInput = document.querySelector('#profile-form-image-input');
     let imgFile = document.querySelector('#profile-form-image-file');
     let imgRemoveIinput = document.querySelector('#profile-form-image-remove-input');
 
+    // set default image on remove image button click
     imgRemoveBtn.addEventListener('click', (evt) => {
         imgInput.value = null;
         imgFile.src = '/img/users/__default.jpg';
@@ -515,6 +524,7 @@ if (profileUpdateForm) {
             if (file.type.match(imageType)) {
                 imgFile.src = URL.createObjectURL(file);
                 imgRemoveIinput.value = 0;
+                // set default image if format of file not supported
             } else {
                 imgInput.value = '';
                 imgFile.src = '/img/users/__default.jpg';
@@ -522,11 +532,11 @@ if (profileUpdateForm) {
     
                 alert('Формат файла не поддерживается!');
             }
+        // set default image if on cancel
         } else {
             imgFile.src = '/img/users/__default.jpg';
             imgRemoveIinput.value = 1;
         }
-
     });
 }
 //------------- Profile edit -------------

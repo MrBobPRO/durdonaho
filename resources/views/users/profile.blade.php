@@ -5,7 +5,7 @@
     <section class="theme-styled-block profile-section">
         <div class="profile-section__inner">
 
-            <form class="profile-form" action="{{ route('users.update') }}" method="POST" id="profile-update-form">
+            <form class="profile-form" action="{{ route('users.update') }}" method="POST" id="profile-update-form" enctype="multipart/form-data">
                 @csrf
 
                 {{-- Profile Settings --}}
@@ -13,17 +13,17 @@
                     <h1 class="main-title profile-form__title">Настройки профиля</h1>
 
                     <div class="profile-form__group">
-                        <input class="input profile-form__input" name="name" type="text" value="{{ $user->name }}" readonly>
+                        <input class="input profile-form__input @error('name') input--error @enderror" name="name" type="text" value="{{ $user->name }}" readonly required placeholder="Имя">
                         <button class="profile-form__edit-btn" type="button" data-target-input-name="name"><span class="material-icons">edit</span> Редактировать</button>
                     </div>
     
                     <div class="profile-form__group">
-                        <input class="input profile-form__input" name="email" type="email" value="{{ $user->email }}" readonly>
+                        <input class="input profile-form__input" name="email" type="email" value="{{ $user->email }}" readonly required placeholder="Электронная почта">
                         <button class="profile-form__edit-btn" type="button" data-target-input-name="email"><span class="material-icons">edit</span> Редактировать</button>
                     </div>
     
                     <div class="profile-form__group profile-form__group--borderless">
-                        <select class="selectize-singular profile-form__selectize-singular" name="prescription_id" required placeholder="Выберите пол">
+                        <select class="selectize-singular profile-form__selectize-singular" name="gender" required placeholder="Выберите пол" required>
                             <option></option>
                             <option value="male" @selected($user->gender == 'male')>Мужской</option>
                             <option value="female" @selected($user->gender == 'female')>Женский</option>
@@ -51,12 +51,12 @@
                     <h1 class="main-title profile-form__title">Изменить пароль</h1>
 
                     <div class="profile-form__group">
-                        <input class="profile-form__input" name="old_password" type="password" readonly placeholder="Старый пароль">
+                        <input class="profile-form__input" name="old_password" type="password" readonly placeholder="Старый пароль" minlength="5">
                         <button class="profile-form__edit-btn" type="button" data-target-input-name="old_password"><span class="material-icons">edit</span> Редактировать</button>
                     </div>
 
                     <div class="profile-form__group">
-                        <input class="profile-form__input" name="new_password" type="password" readonly placeholder="Новый пароль">
+                        <input class="profile-form__input" name="new_password" type="password" readonly placeholder="Новый пароль" minlength="5">
                     </div>
                 </div>  {{-- /end Password --}}
 
