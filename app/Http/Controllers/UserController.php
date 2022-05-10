@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Models\Author;
+use App\Models\Category;
+use App\Models\Source;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -58,7 +61,7 @@ class UserController extends Controller
     {
         $user = User::find(Auth::user()->id);
 
-        $request->validate([
+        $validationRules = [
             'name' => [
                 'required',
                 Rule::unique('users')->ignore($user->id),
@@ -73,11 +76,30 @@ class UserController extends Controller
                 'required',
                 Rule::in(['male', 'female']),
             ]
-        ]);
+        ];
+
+        $passwordValidationRules = [
+            'old_password' => [
+                'current_password',
+                'required',
+                'min:5',
+            ],
+
+            'new_password' => [
+                'required',
+                'min:5',
+            ],
+        ];
+
+        // merge validation rules while requesting for password change
+        if($request->old_password != '' ) {
+            $validationRules = array_merge($validationRules, $passwordValidationRules);
+        }
+
+        $request->validate($validationRules);
 
         $user = User::find(Auth::user()->id);
         $user->name = $request->name;
-        $user->email = $request->email;
         $user->gender = $request->gender;
         $user->biography = $request->biography;
 
@@ -89,27 +111,47 @@ class UserController extends Controller
             $user->image = '__default.jpg';
         }
 
-        // change password
-        if($request->old_password != '' && $request->new_password != '') {
-            $request->validate([
-                'old_password' => [
-                    'current_password',
-                    'required',
-                    'min:5',
-                ],
-    
-                'new_password' => [
-                    'required',
-                    'min:5',
-                ],
+        // force email verification on email change
+        if($request->email != $user->email) {
+            $user->email = $request->email;
+            $user->verified_email = false;
+
+            //send email veify notification
+            $token = str()->random(64);
+
+            VerifyEmail::create([
+                'user_id' => $user->id,
+                'token' => $token
             ]);
 
+            Mail::to($request->email)->send(new EmailVerifyNotification($token));
+        }
+
+        // change password
+        if($request->old_password != '' ) {
             $user->password = bcrypt($request->new_password);
+
+            // logout user
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            $user->save();
+
+            return redirect()->route('home');
         }
 
         $user->save();
 
         return redirect()->back();
+    }
+
+    public function createQuote()
+    {
+        $sources = Source::orderBy('title')->select('title')->get();
+        $authors = Author::orderBy('name')->select('name')->get();
+        $categories = Category::orderBy('title')->select('title')->get();
+
+        return view('users.create-quote', compact('authors', 'sources', 'categories'));
     }
 
     /**

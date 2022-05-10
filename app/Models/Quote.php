@@ -19,6 +19,11 @@ class Quote extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function source()
+    {
+        return $this->belongsTo(Source::class);
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class);

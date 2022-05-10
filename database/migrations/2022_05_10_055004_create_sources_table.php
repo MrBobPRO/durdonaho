@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('quotes', function (Blueprint $table) {
+        Schema::create('sources', function (Blueprint $table) {
             $table->id();
-            $table->text('body');
-            $table->integer('author_id');
-            $table->integer('source_id')->nullable();
-            $table->integer('user_id'); //publisher
-            $table->boolean('popular');
+            $table->text('title');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quotes');
+        Schema::dropIfExists('sources');
     }
 };

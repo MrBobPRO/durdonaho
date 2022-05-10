@@ -13,6 +13,21 @@ $(document).ready(function () {
         //options
     });
 
+    $('.selectize-singular-taggable').selectize({
+        persist: false,
+        create: function (input) {
+            return {
+                value: input,
+                text: input,
+            };
+        },
+        render: {
+            option_create: function(data, escape) {
+              return '<div class="create">Добавить <strong>' + escape(data.input) + '</strong>&hellip;</div>';
+            }
+        }
+    });
+
     $('.selectize-singular-linked').selectize({
         onChange(value) {
             window.location = value;
@@ -20,7 +35,23 @@ $(document).ready(function () {
     });
 
     $('.selectize-multiple').selectize({
-        //options
+        // options
+    });
+
+    $('.selectize-multiple-taggable').selectize({
+        delimiter: ",",
+        persist: false,
+        create: function (input) {
+            return {
+                value: input,
+                text: input,
+            };
+        },
+        render: {
+            option_create: function(data, escape) {
+              return '<div class="create">Добавить <strong>' + escape(data.input) + '</strong>&hellip;</div>';
+            }
+        }
     });
 
     // Recalculate textareas height 
@@ -467,10 +498,10 @@ if (profileUpdateForm) {
     });
 
     //remove readonly attr from input or textarea and set focus to needed input
-    document.querySelectorAll('.profile-form__edit-btn').forEach((item) => {
+    document.querySelectorAll('.main-form__editable-block-button').forEach((item) => {
         item.addEventListener('click', (evt) => {
             // remove readonly attr from input or textarea
-            let parent = item.closest('.profile-form__group');
+            let parent = item.closest('.main-form__group');
 
             parent.querySelectorAll('input').forEach((item) => {
                 item.readOnly = false;
@@ -503,16 +534,16 @@ if (profileUpdateForm) {
     });
 
 
-    let imgRemoveBtn = document.querySelector('#profile-form-image-remove-btn');
+    let img = document.querySelector('#profile-form-image');
     let imgInput = document.querySelector('#profile-form-image-input');
-    let imgFile = document.querySelector('#profile-form-image-file');
-    let imgRemoveIinput = document.querySelector('#profile-form-image-remove-input');
+    let imgRemoveBtn = document.querySelector('#profile-form-image-remove-btn');
+    let imgRemoveInput = document.querySelector('#profile-form-image-remove-input');
 
     // set default image on remove image button click
     imgRemoveBtn.addEventListener('click', (evt) => {
         imgInput.value = null;
-        imgFile.src = '/img/users/__default.jpg';
-        imgRemoveIinput.value = 1;
+        img.src = '/img/users/__default.jpg';
+        imgRemoveInput.value = 1;
     });
 
     // Show image from local on image input change
@@ -522,20 +553,20 @@ if (profileUpdateForm) {
 
         if (file) {
             if (file.type.match(imageType)) {
-                imgFile.src = URL.createObjectURL(file);
-                imgRemoveIinput.value = 0;
-                // set default image if format of file not supported
+                img.src = URL.createObjectURL(file);
+                imgRemoveInput.value = 0;
+            // set default image if format of file not supported
             } else {
                 imgInput.value = '';
-                imgFile.src = '/img/users/__default.jpg';
-                imgRemoveIinput.value = 1;
+                img.src = '/img/users/__default.jpg';
+                imgRemoveInput.value = 1;
     
                 alert('Формат файла не поддерживается!');
             }
-        // set default image if on cancel
+        // set default image on cancel click
         } else {
-            imgFile.src = '/img/users/__default.jpg';
-            imgRemoveIinput.value = 1;
+            img.src = '/img/users/__default.jpg';
+            imgRemoveInput.value = 1;
         }
     });
 }

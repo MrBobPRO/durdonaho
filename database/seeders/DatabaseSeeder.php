@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AuthorSeeder::class);
         $this->call(QuoteSeeder::class);
         $this->call(LikeSeeder::class);
+        $this->call(SourceSeeder::class);
     }
 }

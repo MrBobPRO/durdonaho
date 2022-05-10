@@ -63,7 +63,10 @@ Route::controller(UserController::class)->name('users.')->group(function () {
     Route::get('/user/{slug}', 'show')->name('show');
 
     Route::get('/profile', 'profile')->name('profile')->middleware('auth');
+    Route::get('/add-quote', 'createQuote')->name('quotes.create')->middleware('auth');
+
     Route::post('/update', 'update')->name('update')->middleware('auth');
+    Route::post('/users/quotes/store', 'storeQuote')->name('quotes.store')->middleware('auth');
 });
 
 Route::controller(QuoteController::class)->prefix('quotes')->name('quotes.')->group(function () {

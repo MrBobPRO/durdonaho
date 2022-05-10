@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     
-                    <a class="button button--main header-top__add-quote" href="#"><span class="material-icons-outlined">drive_file_rename_outline</span> Добавить цитату</a>
+                    <a class="button button--main header-top__add-quote" href="{{ route('users.quotes.create') }}"><span class="material-icons-outlined">drive_file_rename_outline</span> Добавить цитату</a>
                 @endauth
                 
                 @guest
