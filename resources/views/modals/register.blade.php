@@ -17,11 +17,11 @@
                     @csrf
 
                     <div class="form-group modal-form-group">
-                        <input class="input input--light modal-input" type="text" placeholder="Имя" name="name" required autofocus>
+                        <input class="input input--light modal-input" type="text" placeholder="Имя" name="name" autocomplete="off" required>
                     </div>
                     
                     <div class="form-group modal-form-group">
-                        <input class="input input--light modal-input" type="email" placeholder="Электронная почта" name="email" required>
+                        <input class="input input--light modal-input" type="email" placeholder="Электронная почта" autocomplete="off" name="email" required>
                     </div>
 
                     <div class="form-group modal-form-group">

@@ -17,7 +17,7 @@
                     <div class="form-group modal-form-group">
                         <label class="forgot-password-modal-text">Забыли Ваш пароль? Просто сообщите нам свой адрес электронной почты, и мы отправим вам ссылку для сброса пароля, которая позволит вам задать новый пароль.</label>
 
-                        <input class="input input--light modal-input" type="email" placeholder="Электронная почта" name="email" autofocus required>
+                        <input class="input input--light modal-input" type="email" placeholder="Электронная почта" name="email" required>
                     </div>
 
                     <ul class="modal-form-errors"></ul>
