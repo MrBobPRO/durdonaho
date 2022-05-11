@@ -64,6 +64,7 @@ Route::controller(UserController::class)->name('users.')->group(function () {
 
     Route::get('/profile', 'profile')->name('profile')->middleware('auth');
     Route::get('/add-quote', 'createQuote')->name('quotes.create')->middleware('auth');
+    Route::get('/my-quotes', 'quotes')->name('quotes')->middleware('auth');
 
     Route::post('/update', 'update')->name('update')->middleware('auth');
     Route::post('/users/quotes/store', 'storeQuote')->name('quotes.store')->middleware('auth');

@@ -43,14 +43,15 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show users quotes
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function quotes(Request $request)
     {
-        //
+        $quotes = QuoteController::filter($request, null, null, null, Auth::user()->id);
+
+        return view('users.quotes', compact('quotes', 'request'));
     }
 
     /**

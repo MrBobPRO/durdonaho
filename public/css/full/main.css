@@ -743,6 +743,7 @@ input {
 .card_with_large_image .card__body-image--large {
     display: block !important;
     margin-bottom: 28px;
+    width: 100%;
 }
 /* Card with MEDIUM image */
 .card_with_medium_image .card__body {

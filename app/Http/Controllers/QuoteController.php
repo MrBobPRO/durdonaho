@@ -23,6 +23,7 @@ class QuoteController extends Controller
         $authorId = $request->author_id;
         $individual = $request->individual;
         $favorite = $request->favorite;
+        $userId = $request->user_id;
 
         $cardClass = 'card_with_small_image';
 
@@ -39,6 +40,11 @@ class QuoteController extends Controller
             $quotes->withPath(route('favorite.quotes'));
             $cardClass = 'card_with_large_image card--full_width';
         }
+        // users.quotes route
+        else if ($userId && $userId != '') {
+            $quotes->withPath(route('users.quotes'));
+            $cardClass = 'card_with_large_image card--full_width';
+        }
         //quotes.index route
         else {
             $quotes->withPath(route('quotes.index'));
@@ -51,12 +57,15 @@ class QuoteController extends Controller
      * Filter quotes for request
      * 
      * Manual parameters (manualIndividual && manualAuthorId etc) needed because filter function 
-     * also called from many different GET routes (index page). $request may also have individual
+     * also called from many different GET routes (index pages). $request may also have individual
      * & author_id & favorite and parameters, but manuals are more priority
+     * 
+     * Only approvoed quotes (by admin) will be taken, EXCEPT on users.quotes ruote.
+     * On users.quotes route both approved and denied quotes will be taken
      *
      * @return \Illuminate\Http\Response
      */
-    public static function filter($request, $manualIndividual = null, $manualAuthorId = null, $manualFavorite = null)
+    public static function filter($request, $manualIndividual = null, $manualAuthorId = null, $manualFavorite = null, $manualUserId = null)
     {
         $quotes = Quote::query();
 
@@ -64,25 +73,36 @@ class QuoteController extends Controller
         $authorId = $manualAuthorId ? $manualAuthorId : $request->author_id;
         $individual = $manualIndividual ? $manualIndividual : $request->individual;
         $favorite = $manualFavorite ? $manualFavorite : $request->favorite;
-        
-        // 1. Specific Authors quotes (valid only on authors.show route) 
+        $userId = $manualUserId ? $manualUserId : $request->user_id;
+
+        // 1. Approved => Only approved quotes (by admin) will be taken, EXCEPT on users.quotes ruote.
+        if (!$userId || $userId && $userId == '') {
+            $quotes = $quotes->where('approved', true);
+        }
+
+        // 2. Specific Authors quotes (valid only on authors.show route) 
         if ($authorId && $authorId != '') {
             $quotes = $quotes->where('author_id', $authorId);
         } 
 
-        // 2. Favorite (true only on favorite.quotes route)
+        // 3. Favorite (true only on favorite.quotes route)
         else if ($favorite && $favorite != '') {
             $quoteIds = Favorite::where('user_id', Auth::user()->id)->where('quote_id', '!=', '')->pluck('quote_id');
             $quotes = $quotes->whereIn('id', $quoteIds);
         }
 
-        // 3. Individual (true only on quotes.individual route)
+        // 4. Individual (true only on quotes.individual route)
         else if ($individual && $individual != '') {
             $authorIds = Author::where('individual', true)->pluck('id');
             $quotes = $quotes->whereIn('author_id', $authorIds);
         }
 
-        // 4. Categories
+        // 5. Specific users quotes (valid only on users.quotes route) 
+        else if ($userId && $userId != '') {
+            $quotes = $quotes->where('user_id', $userId);
+        }
+
+        // 6. Categories
         $category_id = $request->category_id;
         if ($category_id && $category_id != '') {
             // category_id comes in string type joined by '-' because of FormData
@@ -92,7 +112,7 @@ class QuoteController extends Controller
             });
         }
 
-        // 5. Search keyword
+        // 7. Search keyword
         $keyword = $request->keyword;
         if ($keyword && $keyword != '') {
             $quotes = $quotes->where('body', 'LIKE', '%' . $keyword . '%');

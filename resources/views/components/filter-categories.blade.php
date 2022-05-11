@@ -7,10 +7,11 @@
     $individual ->   Used as filter for quotes.individual & authors.individual routes. FALSE on other routes
     $favorite ->     Used as filter for favorite.quotes & favorite.authors routes. FALSE on other routes
     $authorId ->     Filter only specific authors quotes (authors.show route). NULL on other routes
+    $userId ->       Filter only specific users quotes (users.quotes route). NULL on other routes
     $placeholder ->  Placeholder for search input
 --}}
 
-@props(['request', 'categories', 'class' => '', 'authorId' => null])
+@props(['request', 'categories', 'class' => '', 'authorId' => null, 'userId' => null])
 
 @php
     // Default values
@@ -57,6 +58,10 @@
             $placeholder = 'Ҷустуҷӯи муаллифон';
             $favorite = 1;
             break;
+
+        case 'users.quotes':
+            $title = 'Цитаты опубликованные мною';
+            break;
     }
 
     //Because of GET method and PAGINATION all categories have been joined by '-' as one string
@@ -79,6 +84,10 @@
 
             @if ($authorId)
                 <input type="hidden" name="author_id" value="{{ $authorId }}">
+            @endif
+
+            @if ($userId)
+                <input type="hidden" name="user_id" value="{{ $userId }}">
             @endif
 
             <div class="search categories-filter__search">

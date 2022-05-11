@@ -38,8 +38,10 @@ class QuoteSeeder extends Seeder
             $q = new Quote();
             $q->body = $body[$i];
             $q->author_id = $i+1;
-            $q->user_id = 1;
+            $q->user_id = rand(1,2);
             $q->popular = true;
+            $q->verified = true;
+            $q->approved = true;
             $q->save();
 
             $q->categories()->attach(rand(1,15));

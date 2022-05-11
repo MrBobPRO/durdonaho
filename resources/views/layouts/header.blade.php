@@ -27,7 +27,7 @@
                                     <span class="material-icons dropdown__item-icon">bookmark</span> Избранные цитаты
                                 </a></li>
 
-                                <li><a class="dropdown__item" href="{{ route('quotes.individual') }}">
+                                <li><a class="dropdown__item" href="{{ route('users.quotes') }}">
                                     <span class="material-icons dropdown__item-icon">edit</span> Редактировать цитаты
                                 </a></li>
 
