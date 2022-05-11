@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Mail\EmailVerifyNotification;
 use App\Models\User;
 use App\Models\VerifyEmail;
@@ -50,11 +51,12 @@ class AuthenticationController extends Controller
         //else store user and redirect to email verify notification page
         $user = User::create([
             'name' => $request->name,
+            'slug' => Helper::generateSlug($request->name, 'App\Models\User'),
             'email' => $request->email,
-            'password' => Hash::make($request->password),
             'verified_email' => false,
-            'gender' => $request->gender,
+            'password' => Hash::make($request->password),
             'role' => 'user',
+            'gender' => $request->gender,
             'image' => '__default.jpg'
         ]);
 
@@ -62,13 +64,13 @@ class AuthenticationController extends Controller
         $token = str()->random(64);
 
         VerifyEmail::create([
-            'user_id' => $user->id,
+            'email' => $user->email,
             'token' => $token
         ]);
 
         Auth::login($user, true);
 
-        Mail::to($request->email)->send(new EmailVerifyNotification($token));
+        Mail::to($user->email)->send(new EmailVerifyNotification($token));
 
         return [
             'validation' => 'success'

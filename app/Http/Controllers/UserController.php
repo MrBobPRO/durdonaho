@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Mail\EmailVerifyNotification;
 use App\Models\Author;
 use App\Models\Category;
 use App\Models\Source;
 use App\Models\User;
+use App\Models\VerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -120,7 +123,7 @@ class UserController extends Controller
             $token = str()->random(64);
 
             VerifyEmail::create([
-                'user_id' => $user->id,
+                'email' => $user->email,
                 'token' => $token
             ]);
 

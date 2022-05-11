@@ -27,16 +27,25 @@ class VerifyEmailController extends Controller
 
     public function verify($token)
     {
-        $user = VerifyEmail::where('token', $token)->first() ? VerifyEmail::where('token', $token)->first()->user : null;
+        // check valid token
+        $email = VerifyEmail::where('token', $token)->first() ? VerifyEmail::where('token', $token)->first()->email : null;
+        $user = $email ? User::where('email', $email)->first() : null; 
 
-        if(!$user) {
-            $message = 'Неверный запрос, или ваш запрос уже истёк! Пожалуйста, запросите новое письмо по странице <a href="' . route('verification.notice') . '">' . route('verification.notice') . '</a>';
-        } elseif($user->verified_email) {
-            $message = 'Вы уже подтвердили свою электронную почту!';
-        } elseif(!$user->verified_email) {
+        // check if user has logged in and already verified email
+        if(Auth::check() && Auth::user()->verified_email) {
+            return redirect()->route('home');
+        
+        // else verify users email if token is VALID 
+        } elseif($user) {
             $user->verified_email = true;
             $user->save();
             $message = 'Вы успешно подтвердили свою электронную почту!';
+
+            VerifyEmail::where('token', $token)->delete();
+
+        // else if token is INVALID
+        } elseif(!$user) {
+            $message = 'Неверный запрос! Возможно вы уже подтвердили свою электронную почту! Если это не так, то вы можете запросить новое письмо по странице <a href="' . route('verification.notice') . '">' . route('verification.notice') . '</a>. Ссылка доступна только авторизированным пользователям!';
         }
 
         return view('auth.verify-email-verification', compact('message'));
@@ -48,7 +57,7 @@ class VerifyEmailController extends Controller
         $token = str()->random(64);
 
         $verification = new VerifyEmail();
-        $verification->user_id = $user->id;
+        $verification->email = $user->email;
         $verification->token = $token;
         $verification->save();
 

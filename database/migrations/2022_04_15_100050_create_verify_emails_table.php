@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('verify_emails', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->string('email');
             $table->string('token');
             $table->timestamps();
         });
