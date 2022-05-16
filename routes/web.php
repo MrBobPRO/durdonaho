@@ -6,7 +6,6 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\PasswordResetController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifyEmailController;
@@ -60,11 +59,11 @@ Route::controller(FavoriteController::class)->prefix('favorite')->name('favorite
 });
 
 Route::controller(UserController::class)->name('users.')->group(function () {
-    Route::get('/user/{slug}', 'show')->name('show');
+    Route::get('/users/{slug}', 'show')->name('show');
 
     Route::get('/profile', 'profile')->name('profile')->middleware('auth');
     Route::get('/add-quote', 'createQuote')->name('quotes.create')->middleware('auth');
-    Route::get('/my-quotes', 'quotes')->name('quotes')->middleware('auth');
+    Route::get('/users/{slug}/quotes', 'quotes')->name('quotes');
 
     Route::post('/update', 'update')->name('update')->middleware('auth');
     Route::post('/users/quotes/store', 'storeQuote')->name('quotes.store')->middleware('auth');

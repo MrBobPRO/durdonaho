@@ -47,9 +47,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function quotes(Request $request)
+    public function quotes(Request $request, $slug)
     {
-        $quotes = QuoteController::filter($request, null, null, null, Auth::user()->id);
+        $user = User::where('slug', $slug)->first();
+        $quotes = QuoteController::filter($request, null, null, null, $user->id);
 
         return view('users.quotes', compact('quotes', 'request'));
     }

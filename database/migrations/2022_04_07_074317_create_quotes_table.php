@@ -20,8 +20,8 @@ return new class extends Migration
             $table->integer('source_id')->nullable();
             $table->integer('user_id'); // publisher
             $table->boolean('popular');
-            $table->boolean('verified')->default(0); // by admin
-            $table->boolean('approved')->default(0); // approved or denied by admin
+            $table->boolean('verified')->default(0); // by admin (проверено)
+            $table->boolean('approved')->default(0); // approved or denied by admin (одобрено)
             $table->timestamps();
         });
     }

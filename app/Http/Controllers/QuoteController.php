@@ -75,10 +75,8 @@ class QuoteController extends Controller
         $favorite = $manualFavorite ? $manualFavorite : $request->favorite;
         $userId = $manualUserId ? $manualUserId : $request->user_id;
 
-        // 1. Approved => Only approved quotes (by admin) will be taken, EXCEPT on users.quotes ruote.
-        if (!$userId || $userId && $userId == '') {
-            $quotes = $quotes->where('approved', true);
-        }
+        // 1. Only approved quotes (by admin) will be taken
+        $quotes = $quotes->where('approved', true);
 
         // 2. Specific Authors quotes (valid only on authors.show route) 
         if ($authorId && $authorId != '') {
