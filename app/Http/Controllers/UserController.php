@@ -6,11 +6,14 @@ use App\Helpers\Helper;
 use App\Mail\EmailVerifyNotification;
 use App\Models\Author;
 use App\Models\Category;
+use App\Models\Manual;
+use App\Models\Quote;
 use App\Models\Source;
 use App\Models\User;
 use App\Models\VerifyEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Mail;
 
@@ -150,13 +153,93 @@ class UserController extends Controller
         return redirect()->back();
     }
 
-    public function createQuote()
+    public function createQuote(Request $request)
     {
         $sources = Source::orderBy('title')->select('title')->get();
         $authors = Author::orderBy('name')->select('name')->get();
         $categories = Category::orderBy('title')->select('title')->get();
 
         return view('users.create-quote', compact('authors', 'sources', 'categories'));
+    }
+
+    public function storeQuote(Request $request)
+    {
+        // returb rerror if there is already a quote very similar to the createing quote
+        $body = $request->body;
+        $quotes = Quote::pluck('body');
+        foreach($quotes as $quote) {
+            similar_text($body, $quote, $percentage);
+            if($percentage > 90) {
+                return redirect()->back()->with(['status' => 'similar-quote-error', 'similarQuote' => $quote])->withInput();
+            }
+        };
+
+        // else store quote
+        $quote = new Quote();
+        $quote->body = $request->body;
+        $quote->popular = false;
+        $quote->verified = false;
+        $quote->approved = false;
+        $quote->user_id = Auth::user()->id;
+
+        // get id for newly creating quote
+        $statement = DB::select("show table status like 'quotes'");
+        $quoteId = $statement[0]->Auto_increment;
+
+        // validate source
+        $requestedSource = $request->source;
+        $source = Source::where('title', $requestedSource)->first();
+        if($source) {
+            $quote->source_id = $source->id;
+        } else {
+            $manual = new Manual();
+            $manual->quote_id = $quoteId;
+            $manual->key = 'source';
+            $manual->value = $requestedSource;
+            $manual->save();
+        }
+
+        // validate author
+        $requestedAuthor = $request->author;
+        $author = Author::where('name', $requestedAuthor)->first();
+        if($author) {
+            $quote->author_id = $author->id;
+        } else {
+            $quote->author_id = 0;
+            $manual = new Manual();
+            $manual->quote_id = $quoteId;
+            $manual->key = 'author';
+            $manual->value = $requestedAuthor;
+            $manual->save();
+        }
+
+        // save quote before attaching categories
+        $quote->save();
+
+        // validate categories
+        $requestedCategories = $request->categories;
+        // used to store nonexistent categories
+        $nonExistentCategories = [];
+
+        foreach($requestedCategories as $requestedCategory) {
+            $category = Category::where('title', $requestedCategory)->first();
+            if($category) {
+                $quote->categories()->attach($category->id);
+            } else {
+                array_push($nonExistentCategories, $requestedCategory);
+            }
+        }
+
+        // create manual for categories
+        if(count($nonExistentCategories)) {
+            $manual = new Manual;
+            $manual->quote_id = $quoteId;
+            $manual->key = 'categories';
+            $manual->value = implode(', ', $nonExistentCategories);
+            $manual->save();
+        }
+
+        return redirect()->back()->with(['status' => 'success']);
     }
 
     /**

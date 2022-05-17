@@ -11,8 +11,8 @@ class MainController extends Controller
 {
     public function home()
     {
-        $latestQuotes = Quote::latest()->take(8)->get();
-        $popularQuotes = Quote::where('popular', true)->inRandomOrder()->take(8)->get();
+        $latestQuotes = Quote::where('approved', true)->latest()->take(8)->get();
+        $popularQuotes = Quote::where('popular', true)->where('approved', true)->inRandomOrder()->take(8)->get();
         $popularAuthors = Author::where('popular', true)->inRandomOrder()->take(8)->get();
 
         return view('home.index', compact('latestQuotes', 'popularQuotes', 'popularAuthors'));

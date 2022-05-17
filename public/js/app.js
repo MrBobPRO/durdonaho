@@ -144,23 +144,28 @@ document.getElementById('login-modal-forgot-password').addEventListener('click',
     document.getElementById('forgot-password-modal').classList.add('modal--visible');
     document.getElementById('login-modal').classList.remove('modal--visible');
 });
-// Show Report bug modal buttons click 
-document.querySelectorAll('[data-action="show-report-bug-modal"]').forEach((item) => {
-    item.addEventListener('click', event => {
-        document.body.style.overflowY = "hidden";
-        let modal = document.querySelector('#report-bug-modal');
 
-        // validate input values
-        let quoteId = modal.querySelector('[name="quote_id"]');
-        quoteId.value = item.dataset.quoteId ? item.dataset.quoteId : null;
-
-        let authorId = modal.querySelector('[name="author_id"]');
-        authorId.value = item.dataset.authorId ? item.dataset.authorId : null;
-
-        //show modal
-        modal.classList.add('modal--visible');
+// Function is also called on ajax list update
+function initializeReportModals() {
+    document.querySelectorAll('[data-action="show-report-bug-modal"]').forEach((item) => {
+        item.addEventListener('click', event => {
+            document.body.style.overflowY = "hidden";
+            let modal = document.querySelector('#report-bug-modal');
+    
+            // validate input values
+            let quoteId = modal.querySelector('[name="quote_id"]');
+            quoteId.value = item.dataset.quoteId ? item.dataset.quoteId : null;
+    
+            let authorId = modal.querySelector('[name="author_id"]');
+            authorId.value = item.dataset.authorId ? item.dataset.authorId : null;
+    
+            //show modal
+            modal.classList.add('modal--visible');
+        });
     });
-});
+}
+
+initializeReportModals();
 
 
 // Auto Height Textareas on input
@@ -415,10 +420,13 @@ function ajaxUpdateList() {
             let list = document.getElementById('main-list');
             list.innerHTML = response;
 
-            //reinitialize yandex share buttons
+            // reinitialize yandex share buttons
             list.querySelectorAll('.ya-share2').forEach(item => {
                 Ya.share2(item, {});
-            })
+            });
+
+            // reinitialize report modals
+            initializeReportModals();
         },
 
         error: function () {

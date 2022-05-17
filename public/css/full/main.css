@@ -1548,3 +1548,28 @@ input {
     font-size: 16px;
 }
 /* ------------ /end Profile Form ------------ */
+
+
+/* ------------ Alert ------------ */
+.alert {
+    padding: 16px 20px;
+    font-size: 14px;
+    border-radius: 8px;
+}
+.alert--success {
+    background: #fff4c6;
+    color: #664d03;
+}
+.alert--warning {
+    background: #f8d7da;
+    color: #842029;
+}
+.alert__icon {
+    color: var(--main-color);
+    transform: translateY(4px);
+    margin-right: 2px;
+}
+.alert--warning .alert__icon {
+    color: #ED1C24;
+}
+/* ------------ /end Alert ------------ */

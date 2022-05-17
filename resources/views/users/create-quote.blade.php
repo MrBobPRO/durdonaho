@@ -8,12 +8,27 @@
             <form class="main-form quotes-store-form" action="{{ route('users.quotes.store') }}" method="POST" id="quotes-store-form" enctype="multipart/form-data">
                 @csrf
 
+                @if(session('status') == 'success')
+                    <div class="alert alert--success">
+                        <span class="material-icons-outlined alert__icon">done_all</span>
+                        Ваша цитата успешно добавлена. Она будет опубликована после успешной проверки администратором!
+                    </div>
+                @endif
+
+                @if(session('status') == 'similar-quote-error')
+                    <div class="alert alert--warning">
+                        <span class="material-icons-outlined alert__icon">error</span>
+                        Похожая цитата уже существует. Пожалуйста измените цитату и попробуйте заново! <br><br>
+                        <b>Похожая цитата: </b> {{ session('similarQuote') }}
+                    </div>
+                @endif
+
                 {{-- Selects --}}
                 <div class="main-form__divider">
                     <h1 class="main-title main-form__title main-form__title--indented">Добавить цитату</h1>
     
                     <div class="main-form__group main-form__group-select-container">
-                        <select class="selectize-singular-taggable main-form__selectize-singular" name="source_id" placeholder="Выберите источник цитаты (Необъязательно поле)">
+                        <select class="selectize-singular-taggable main-form__selectize-singular" name="source" placeholder="Выберите источник цитаты (Необъязательно поле)">
                             <option></option>
                             @foreach ($sources as $source)
                                 <option value="{{ $source->title }}">{{ $source->title }}</option>
@@ -22,7 +37,7 @@
                     </div>
 
                     <div class="main-form__group main-form__group-select-container">
-                        <select class="selectize-singular-taggable main-form__selectize-singular" name="author_id" placeholder="Выберите автора цитаты" required>
+                        <select class="selectize-singular-taggable main-form__selectize-singular" name="author" placeholder="Выберите автора цитаты" required>
                             <option></option>
                             @foreach ($authors as $author)
                                 <option value="{{ $author->name }}">{{ $author->name }}</option>
@@ -45,7 +60,7 @@
                     <h1 class="main-title main-form__title">Текст цитаты</h1>
 
                     <div class="main-form__group main-form__group--columned main-form__group--borderless">
-                        <textarea class="textarea main-form__textarea textrarea_resize_on_input" name="body"></textarea>
+                        <textarea class="textarea main-form__textarea textrarea_resize_on_input" name="body">{{ old('body') }}</textarea>
                     </div>
                 </div>  {{-- /end Body --}}
 

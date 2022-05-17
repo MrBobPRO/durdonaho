@@ -33,4 +33,10 @@ class Quote extends Model
     {
         return $this->hasMany(Like::class);
     }
+
+    // Manuals table is used when users add new author, source, category etc while publishing quote
+    public function manuals()
+    {
+        return $this->hasMany(Manual::class);
+    }
 }
