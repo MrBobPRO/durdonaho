@@ -603,6 +603,7 @@ input {
 }
 .card__header {
     margin: 12px 0 20px;
+    position: relative;
 }
 .card__header-main {
     display: flex;
@@ -613,6 +614,16 @@ input {
     font-weight: bold;
     margin-bottom: 8px;
     display: block;
+}
+.card__edit-btn {
+    position: absolute;
+    right: -140px;
+    top: 36px;
+    color: black;
+}
+.card__edit-btn-icon {
+    font-size: 20px;
+    margin-bottom: 6px;
 }
 .card__categories {
     display: flex;

@@ -52,10 +52,29 @@ class UserController extends Controller
      */
     public function quotes(Request $request, $slug)
     {
-        $user = User::where('slug', $slug)->first();
-        $quotes = QuoteController::filter($request, null, null, null, $user->id);
+        $userId = User::where('slug', $slug)->first()->id;
 
-        return view('users.quotes', compact('quotes', 'request'));
+        // redirect to users.current.quotes route if $userId equals to authenticated users id
+        if(Auth::check() && $userId == Auth::user()->id) {
+            return redirect()->route('users.current.quotes');
+        }
+
+        $quotes = QuoteController::filter($request, null, null, null, $userId);
+
+        return view('users.quotes', compact('quotes', 'userId', 'request'));
+    }
+
+    /**
+     * Show users quotes
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function currentUsersQuotes(Request $request)
+    {
+        $userId = Auth::user()->id;
+        $quotes = QuoteController::filter($request, null, null, null, $userId);
+
+        return view('users.quotes', compact('quotes', 'userId', 'request'));
     }
 
     /**
@@ -153,7 +172,7 @@ class UserController extends Controller
         return redirect()->back();
     }
 
-    public function createQuote(Request $request)
+    public function createQuote()
     {
         $sources = Source::orderBy('title')->select('title')->get();
         $authors = Author::orderBy('name')->select('name')->get();
@@ -240,6 +259,16 @@ class UserController extends Controller
         }
 
         return redirect()->back()->with(['status' => 'success']);
+    }
+
+    public function editQuote($id)
+    {
+        dd(Quote::find($id));
+        $sources = Source::orderBy('title')->select('title')->get();
+        $authors = Author::orderBy('name')->select('name')->get();
+        $categories = Category::orderBy('title')->select('title')->get();
+
+        return view('users.create-quote', compact('authors', 'sources', 'categories'));
     }
 
     /**

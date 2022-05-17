@@ -1,10 +1,12 @@
 @extends('layouts.app')
 @section('main')
 
-@section('title', 'Редактировать цитаты')
+@if(request()->route()->getName() == 'users.current.quotes')
+    @section('title', 'Цитаты опубликованные мною')
+@endif
 
 <div class="main__content users-quotes-page-content">
-    <x-filter-categories :request="$request" :user-id="auth()->user()->id" class="categories-filter--full_width"/>
+    <x-filter-categories :request="$request" :user-id="$userId" class="categories-filter--full_width"/>
 
     <section class="quotes-section" id="quotes-section">
         <div class="quotes-list" id="main-list">

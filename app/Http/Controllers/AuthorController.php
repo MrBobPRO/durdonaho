@@ -47,6 +47,8 @@ class AuthorController extends Controller
      * Manual parameters (manualIndividual etc) needed because filter function is
      * also called from many different GET routes (index page). $request may also have individual 
      * parameter etc, but manuals are more priority
+     * 
+     * You don`t have to include manual parameters while paginating!!! They are manually declared on each controllers functions
      *
      * @return \Illuminate\Http\Response
      */
@@ -90,7 +92,7 @@ class AuthorController extends Controller
 
         $authors = $authors->orderBy('name')
                         ->paginate(6)
-                        ->appends($request->except(['page', 'token', 'individual']))
+                        ->appends($request->except(['page', 'token', 'individual', 'favorite']))
                         ->fragment('authors-section');
 
         return $authors;

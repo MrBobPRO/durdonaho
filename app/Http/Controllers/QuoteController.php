@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Models\Favorite;
 use App\Models\Quote;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,9 +41,14 @@ class QuoteController extends Controller
             $quotes->withPath(route('favorite.quotes'));
             $cardClass = 'card_with_large_image card--full_width';
         }
+        // users.current.quotes route
+        else if ($userId && $userId != '' && Auth::check() && $userId == Auth::user()->id) {
+            $quotes->withPath(route('users.current.quotes'));
+            $cardClass = 'card_with_large_image card--full_width';
+        }
         // users.quotes route
         else if ($userId && $userId != '') {
-            $quotes->withPath(route('users.quotes'));
+            $quotes->withPath(route('users.quotes', User::find($userId)->slug));
             $cardClass = 'card_with_large_image card--full_width';
         }
         //quotes.index route
@@ -59,6 +65,8 @@ class QuoteController extends Controller
      * Manual parameters (manualIndividual && manualAuthorId etc) needed because filter function 
      * also called from many different GET routes (index pages). $request may also have individual
      * & author_id & favorite and parameters, but manuals are more priority
+     * 
+     * You don`t have to include manual parameters while paginating!!! They are manually declared on each controllers functions
      * 
      * Only approvoed quotes (by admin) will be taken, EXCEPT on users.quotes ruote.
      * On users.quotes route both approved and denied quotes will be taken
@@ -95,7 +103,7 @@ class QuoteController extends Controller
             $quotes = $quotes->whereIn('author_id', $authorIds);
         }
 
-        // 5. Specific users quotes (valid only on users.quotes route) 
+        // 5. Specific users quotes (valid only on users.quotes && users.current.quotes route) 
         else if ($userId && $userId != '') {
             $quotes = $quotes->where('user_id', $userId);
         }
@@ -117,8 +125,8 @@ class QuoteController extends Controller
         }
 
         $quotes = $quotes->latest()
-            ->paginate(6)
-            ->appends($request->except(['page', 'token', 'individual', 'author_id']))
+            ->paginate(1)
+            ->appends($request->except(['page', 'token', 'individual', 'author_id', 'favorite', 'user_id']))
             ->fragment('quotes-section');
 
         return $quotes;

@@ -60,6 +60,10 @@
             break;
 
         case 'users.quotes':
+            $title = 'Цитаты опубликованные пользователем ' . App\Models\User::find($userId)->name;
+            break;
+
+        case 'users.current.quotes':
             $title = 'Цитаты опубликованные мною';
             break;
     }
