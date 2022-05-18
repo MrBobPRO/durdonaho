@@ -1,37 +1,48 @@
 @extends('layouts.app')
 @section('main')
 
-<div class="main__content quotes-create-page-content">
-    <section class="theme-styled-block quotes-create-section">
-        <div class="quotes-create-section__inner">
+<div class="main__content quotes-edit-page-content">
+    <section class="theme-styled-block quotes-edit-section">
+        <div class="quotes-edit-section__inner">
 
-            <form class="main-form quotes-store-form" action="{{ route('users.quotes.store') }}" method="POST" id="quotes-store-form" enctype="multipart/form-data">
+            <form class="main-form quotes-edit-form" action="{{ route('users.quotes.update') }}" method="POST" id="quotes-store-form" enctype="multipart/form-data">
                 @csrf
+
+                <input type="hidden" name="id" value="{{ $quote->id }}">
 
                 @if(session('status') == 'success')
                     <div class="alert alert--success">
-                        <span class="material-icons-outlined alert__icon">done_all</span>
-                        Цитата успешно добавлена. Она будет опубликована после успешной проверки администратором!
+                        <span class="material-icons-outlined alert__icon">published_with_changes</span>
+                        Ваша цитата успешно обновлена. Она будет опубликована после успешной проверки администратором!
                     </div>
-                @endif
 
-                @if(session('status') == 'similar-quote-error')
+                @elseif(session('status') == 'similar-quote-error')
                     <div class="alert alert--warning">
                         <span class="material-icons-outlined alert__icon">error</span>
                         Похожая цитата уже существует. Пожалуйста, измените цитату и попробуйте заново! <br><br>
                         <b>Похожая цитата: </b> {{ session('similarQuote') }}
                     </div>
+
+                @elseif(!$quote->approved)
+                    <div class="alert alert--success">
+                        <span class="material-icons-outlined alert__icon">error</span>
+                        Цитата будет опубликована после успешной проверки администратором!
+                    </div>
                 @endif
 
                 {{-- Selects --}}
                 <div class="main-form__divider">
-                    <h1 class="main-title main-form__title main-form__title--indented">Добавить цитату</h1>
+                    <h1 class="main-title main-form__title main-form__title--indented">Редактировать цитату</h1>
     
                     <div class="main-form__group main-form__group-select-container">
                         <select class="selectize-singular-taggable main-form__selectize-singular" name="source" placeholder="Выберите источник цитаты (Необъязательно поле)">
                             <option></option>
+                            @if($manualSource)
+                                <option value="{{ $manualSource }}" selected>{{ $manualSource }}</option>
+                            @endif
+
                             @foreach ($sources as $source)
-                                <option value="{{ $source->title }}">{{ $source->title }}</option>
+                                <option value="{{ $source->title }}" @if($quote->source_id == $source->id) selected @endif>{{ $source->title }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -39,8 +50,12 @@
                     <div class="main-form__group main-form__group-select-container">
                         <select class="selectize-singular-taggable main-form__selectize-singular" name="author" placeholder="Выберите автора цитаты" required>
                             <option></option>
+                            @if($manualAuthor)
+                                <option value="{{ $manualAuthor }}" selected>{{ $manualAuthor }}</option>
+                            @endif
+
                             @foreach ($authors as $author)
-                                <option value="{{ $author->name }}">{{ $author->name }}</option>
+                                <option value="{{ $author->name }}" @if($quote->author_id == $author->id) selected @endif>{{ $author->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -48,8 +63,19 @@
                     <div class="main-form__group main-form__group-select-container">
                         <select class="selectize-multiple-taggable main-form__selectize-multiple" multiple name="categories[]" placeholder="Выберите категории цитаты или добавьте новый" required>
                             <option></option>
+                            @if($manualCategories)
+                                @foreach ($manualCategories as $manualCategory)
+                                    <option value="{{ $manualCategory }}" selected>{{ $manualCategory }}</option>
+                                @endforeach
+                            @endif
+
                             @foreach ($categories as $category)
-                                <option value="{{ $category->title }}">{{ $category->title }}</option>
+                                <option value="{{ $category->title }}" 
+                                    @foreach ($quote->categories as $quoteCategory)
+                                        @selected($quoteCategory->id == $category->id)
+                                    @endforeach
+                                    >{{ $category->title }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -60,11 +86,11 @@
                     <h1 class="main-title main-form__title">Текст цитаты</h1>
 
                     <div class="main-form__group main-form__group--columned main-form__group--borderless">
-                        <textarea class="textarea main-form__textarea textrarea_resize_on_input" name="body">{{ old('body') }}</textarea>
+                        <textarea class="textarea main-form__textarea textrarea_resize_on_input" name="body">{{ old('body') != '' ? old('body') : $quote->body }}</textarea>
                     </div>
                 </div>  {{-- /end Body --}}
 
-                <button class="button button--main main-form__submit">Опубликовать цитату</button>
+                <button class="button button--main main-form__submit">Обновить цитату</button>
 
                 {{-- Terms --}}
                 <div class="terms main-form-terms">

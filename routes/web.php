@@ -65,10 +65,12 @@ Route::controller(UserController::class)->name('users.')->group(function () {
     Route::get('/add-quote', 'createQuote')->name('quotes.create')->middleware('auth');
     Route::get('/users/{slug}/quotes', 'quotes')->name('quotes'); // anyone can see any users quotes
     Route::get('/edit-quotes', 'currentUsersQuotes')->name('current.quotes')->middleware('auth'); // show current users list of quotes for edit
+    Route::get('/unverified-quotes', 'unverifiedQuotes')->name('quotes.unverified')->middleware('auth'); // show edit form for the specific current users quote
     Route::get('/edit-quotes/{id}', 'editQuote')->name('quotes.edit')->middleware('auth'); // show edit form for the specific current users quote
 
     Route::post('/update', 'update')->name('update')->middleware('auth');
     Route::post('/users/quotes/store', 'storeQuote')->name('quotes.store')->middleware('auth');
+    Route::post('/users/quotes/update', 'updateQuote')->name('quotes.update')->middleware('auth');
 });
 
 Route::controller(QuoteController::class)->prefix('quotes')->name('quotes.')->group(function () {

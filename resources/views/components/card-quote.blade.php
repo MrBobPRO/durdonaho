@@ -90,7 +90,7 @@
             <img class="card__image card__body-image--medium" src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}">
             <div class="card__body-text-container">
                 <p class="card__body-text">{!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->body) : $quote->body !!}</p>
-                <a class="button button--secondary card__body-link" href="#">Муфассал</a>
+                {{-- <a class="button button--secondary card__body-link" href="#">Муфассал</a> --}}
             </div>
         </div> {{-- Card Body end --}}
 

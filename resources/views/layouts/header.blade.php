@@ -31,6 +31,10 @@
                                     <span class="material-icons dropdown__item-icon">edit</span> Редактировать цитаты
                                 </a></li>
 
+                                <li><a class="dropdown__item" href="{{ route('users.quotes.unverified') }}">
+                                    <span class="material-icons dropdown__item-icon">schedule</span> Цитаты на рассмотрении
+                                </a></li>
+
                                 <li><a class="dropdown__item" href="{{ route('users.profile') }}">
                                     <span class="material-icons dropdown__item-icon">settings</span> Настройки профиля
                                 </a></li>

@@ -183,9 +183,9 @@ class UserController extends Controller
 
     public function storeQuote(Request $request)
     {
-        // returb rerror if there is already a quote very similar to the createing quote
+        // return rerror if there is already a quote very similar to the createing quote
         $body = $request->body;
-        $quotes = Quote::pluck('body');
+        $quotes = Quote::where('approved', true)->pluck('body');
         foreach($quotes as $quote) {
             similar_text($body, $quote, $percentage);
             if($percentage > 90) {
@@ -263,12 +263,127 @@ class UserController extends Controller
 
     public function editQuote($id)
     {
-        dd(Quote::find($id));
-        $sources = Source::orderBy('title')->select('title')->get();
-        $authors = Author::orderBy('name')->select('name')->get();
-        $categories = Category::orderBy('title')->select('title')->get();
+        $quote = Quote::find($id);
 
-        return view('users.create-quote', compact('authors', 'sources', 'categories'));
+        // return error case authenticated user isnt owner of this quote
+        if($quote->user_id != Auth::user()->id) {
+            abort(404);
+        }
+
+        // generate manual parameters
+        $manualSource = Manual::where('quote_id', $quote->id)
+                                ->where('key', 'source')
+                                ->first();
+
+        $manualAuthor = Manual::where('quote_id', $quote->id)
+                                ->where('key', 'author')
+                                ->first();
+
+        $manualCategories = Manual::where('quote_id', $quote->id)
+                                ->where('key', 'categories')
+                                ->first();
+
+        if($manualCategories) {
+            $manualCategories = explode(',', $manualCategories->value);
+        }                                
+
+        $sources = Source::orderBy('title')->select('title', 'id')->get();
+        $authors = Author::orderBy('name')->select('name', 'id')->get();
+        $categories = Category::orderBy('title')->select('title', 'id')->get();
+
+        return view('users.edit-quote', compact('quote', 'authors', 'sources', 'categories', 'manualSource', 'manualAuthor', 'manualCategories'));
+    }
+
+    public function updateQuote(Request $request)
+    {
+        $quote = Quote::find($request->id);
+
+        // escape site hack
+        if($quote->user_id != Auth::user()->id) {
+            return 'Ваш аккаунт будет заблокировал, при нескольких попыток взлома сайта!';
+        }
+
+        // return rerror if there is already a quote very similar to the updating quote
+        $body = $request->body;
+        $quotes = Quote::where('approved', true)->where('id', '!=', $quote->id)->pluck('body');
+        foreach($quotes as $q) {
+            similar_text($body, $q, $percentage);
+            if($percentage > 90) {
+                return redirect()->back()->with(['status' => 'similar-quote-error', 'similarQuote' => $q])->withInput();
+            }
+        };
+
+        // else update quote
+        $quote->body = $request->body;
+        $quote->verified = false;
+        $quote->approved = false;
+
+        // replace old manuals with new ones
+        Manual::where('quote_id', $quote->id)->delete();
+
+        // validate source
+        $requestedSource = $request->source;
+        $source = Source::where('title', $requestedSource)->first();
+        if($source) {
+            $quote->source_id = $source->id;
+        } else {
+            $manual = new Manual();
+            $manual->quote_id = $quote->id;
+            $manual->key = 'source';
+            $manual->value = $requestedSource;
+            $manual->save();
+        }
+
+        // validate author
+        $requestedAuthor = $request->author;
+        $author = Author::where('name', $requestedAuthor)->first();
+        if($author) {
+            $quote->author_id = $author->id;
+        } else {
+            $quote->author_id = 0;
+            $manual = new Manual();
+            $manual->quote_id = $quote->id;
+            $manual->key = 'author';
+            $manual->value = $requestedAuthor;
+            $manual->save();
+        }
+
+        // save quote before attaching categories
+        $quote->save();
+
+        // reattach & validate categories
+        $quote->categories()->detach();
+        $requestedCategories = $request->categories;
+        // used to store nonexistent categories
+        $nonExistentCategories = [];
+
+        foreach($requestedCategories as $requestedCategory) {
+            $category = Category::where('title', $requestedCategory)->first();
+            if($category) {
+                $quote->categories()->attach($category->id);
+            } else {
+                array_push($nonExistentCategories, $requestedCategory);
+            }
+        }
+
+        // create manual for categories
+        if(count($nonExistentCategories)) {
+            $manual = new Manual;
+            $manual->quote_id = $quote->id;
+            $manual->key = 'categories';
+            $manual->value = implode(', ', $nonExistentCategories);
+            $manual->save();
+        }
+
+        return redirect()->back()->with(['status' => 'success']);
+    }
+
+    public function unverifiedQuotes()
+    {
+        $user = Auth::user();
+        $quotes = Quote::where('user_id', $user->id)->where('approved', false)->get();
+
+        return view('users.unverified-quotes', compact('quotes'));
     }
 
     /**

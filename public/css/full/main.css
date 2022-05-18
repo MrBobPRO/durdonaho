@@ -693,9 +693,9 @@ input {
 .card__body-text {
     margin: 0;
 }
-.card__body-link {
+/* .card__body-link {
     display: none;
-}
+} */
 .card__footer {
     display: flex;
     flex-wrap: wrap;
@@ -1566,7 +1566,7 @@ input {
 
 /* ------------ Alert ------------ */
 .alert {
-    padding: 16px 20px;
+    padding: 12px 20px 16px;
     font-size: 14px;
     border-radius: 8px;
 }
@@ -1582,8 +1582,59 @@ input {
     color: var(--main-color);
     transform: translateY(4px);
     margin-right: 2px;
+    font-size: 20px;
 }
 .alert--warning .alert__icon {
     color: #ED1C24;
 }
 /* ------------ /end Alert ------------ */
+
+
+/* ------------ Unverified quotes ------------ */
+.unverified-quotes-section {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+.unverified-quotes-about {
+    background-color: white;
+    border-radius: 16px;
+}
+.unverified-quotes-about__inner {
+    max-width: 520px;
+    margin: auto;
+    padding: 32px 0;
+}
+.unverified-quotes-about__title {
+    margin-bottom: 12px;
+}
+.unverified-quotes-about__text {
+    margin: 0;
+}
+.unverified-quotes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+.unverified-quotes-card {
+    background-color: white;
+    border-radius: 16px;
+}
+.unverified-quotes-card__inner {
+    max-width: 520px;
+    margin: auto;
+    padding: 32px 0;
+}
+.unverified-quotes-card__author {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+.unverified-quotes-card__body {
+    margin-bottom: 24px;
+}
+.unverified-quotes-card__edit {
+    width: max-content;
+    padding: 12px 24px;
+}
+/* ------------ /end Unverified quotes ------------ */
