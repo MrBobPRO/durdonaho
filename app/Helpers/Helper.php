@@ -233,7 +233,7 @@ class Helper
      *
      * @return string Route name
      */
-    public static function previousRoute()
+    public static function getPreviousRouteName()
     {
         $previousRequest = app('request')->create(app('url')->previous());
 

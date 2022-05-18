@@ -8,8 +8,15 @@
     </div>
 @endunless
 
-@foreach ($quotes as $quote)
-    <x-card-quote :quote="$quote" class="theme-styled-block {{ $cardClass }}" />
-@endforeach
+@if(isset($showEditButton))
+    @foreach ($quotes as $quote)
+        <x-card-quote :quote="$quote" class="theme-styled-block {{ $cardClass }}" show-edit-button="1" />
+    @endforeach
+
+@else
+    @foreach ($quotes as $quote)
+        <x-card-quote :quote="$quote" class="theme-styled-block {{ $cardClass }}" />
+    @endforeach
+@endif
 
 {{ $quotes->links('layouts.pagination') }}

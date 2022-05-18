@@ -12,15 +12,16 @@ use Illuminate\Support\Facades\Auth;
 class QuoteController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Return compacted view with filtered quotes (by categories, userId, authorId etc)
+     * Used on AJAX requests by too many routes
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View
      */
     public function ajaxGet(Request $request)
     {
         $quotes = $this->filter($request);
 
-        // validate query pagination path and card style due to the request route
+        // validate query pagination path and card style due to the requests route
         $authorId = $request->author_id;
         $individual = $request->individual;
         $favorite = $request->favorite;
@@ -45,6 +46,11 @@ class QuoteController extends Controller
         else if ($userId && $userId != '' && Auth::check() && $userId == Auth::user()->id) {
             $quotes->withPath(route('users.current.quotes'));
             $cardClass = 'card_with_large_image card--full_width';
+
+            // display edit button for quotes
+            $showEditButton = true;
+            // return view with compacted showEditButton
+            return view('components.list-inner-quotes', compact('quotes', 'cardClass', 'showEditButton'));
         }
         // users.quotes route
         else if ($userId && $userId != '') {
@@ -60,18 +66,17 @@ class QuoteController extends Controller
     }
 
     /**
-     * Filter quotes for request
+     * Return filtered quotes for the given request
      * 
-     * Manual parameters (manualIndividual && manualAuthorId etc) needed because filter function 
+     * Manual parameters (manualIndividual && manualAuthorId etc) needed because filter function is
      * also called from many different GET routes (index pages). $request may also have individual
-     * & author_id & favorite and parameters, but manuals are more priority
+     * & author_id & favorite etc parameters, but manuals are more priority
      * 
      * You don`t have to include manual parameters while paginating!!! They are manually declared on each controllers functions
      * 
-     * Only approvoed quotes (by admin) will be taken, EXCEPT on users.quotes ruote.
-     * On users.quotes route both approved and denied quotes will be taken
+     * Only approvoed quotes (by admin) will be taken
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public static function filter($request, $manualIndividual = null, $manualAuthorId = null, $manualFavorite = null, $manualUserId = null)
     {
@@ -125,7 +130,7 @@ class QuoteController extends Controller
         }
 
         $quotes = $quotes->latest()
-            ->paginate(1)
+            ->paginate(6)
             ->appends($request->except(['page', 'token', 'individual', 'author_id', 'favorite', 'user_id']))
             ->fragment('quotes-section');
 

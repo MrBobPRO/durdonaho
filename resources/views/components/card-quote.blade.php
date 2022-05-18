@@ -5,9 +5,10 @@
     $dataCarouselItemIndex ->   Counter for current carousel items index (used only on home page)
     $routeName ->               Used only to determine if it is search page
     $keyword ->                 Highlighting search Keywords on search page
+    $showEditButton ->          Used to display edit button (true only on users.current.quotes route)
 --}}
 
-@props(['quote', 'class' => '', 'dataCarouselItemIndex' => '', 'routeName' => request()->route()->getName(), 'keyword' => request()->keyword])
+@props(['quote', 'class' => '', 'dataCarouselItemIndex' => '', 'routeName' => request()->route()->getName(), 'keyword' => request()->keyword, 'showEditButton' => null])
 
 <div class="{{ $class }} card" data-card-id="quote{{ $quote->id }}" data-carousel-item-index="{{ $dataCarouselItemIndex }}">
     <div class="card__inner">
@@ -18,11 +19,11 @@
                 <img class="card__image card__header-image--small" src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}">
 
                 <div class="card__header-info">
-                    {{-- @if($routeName == 'users.current.quotes')
+                    @if($showEditButton)
                         <a class="card__edit-btn button button--transparent" href="{{ route('users.quotes.edit', $quote->id) }}">
                             <span class="material-icons-outlined card__edit-btn-icon">edit</span> Редактировать
                         </a>
-                    @endif --}}
+                    @endif
 
                     <a class="card__title" href="{{ route('authors.show', $quote->author->slug) }}">
                         <span class="card__title-span">Автор цитаты:</span> {!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->author->name) : $quote->author->name !!}

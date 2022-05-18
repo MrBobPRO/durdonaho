@@ -1415,6 +1415,9 @@ input {
 .favorite-quotes-page-content .empty-query-warning__inner {
     max-width: 520px;
 }
+.users-quotes-page-content .empty-query-warning__inner {
+    max-width: 520px;
+}
 /* ------------ /end Empty Query Warning ------------ */
 
 

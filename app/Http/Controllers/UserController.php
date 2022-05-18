@@ -74,7 +74,7 @@ class UserController extends Controller
         $userId = Auth::user()->id;
         $quotes = QuoteController::filter($request, null, null, null, $userId);
 
-        return view('users.quotes', compact('quotes', 'userId', 'request'));
+        return view('users.current-users-quotes', compact('quotes', 'userId', 'request'));
     }
 
     /**

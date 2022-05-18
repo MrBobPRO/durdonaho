@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Auth;
 class AuthorController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Return compacted view with filtered authors (by categories, search keyword etc)
+     * Used on AJAX requests by too many routes
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View
      */
     public function ajaxGet(Request $request)
     {
@@ -42,15 +43,15 @@ class AuthorController extends Controller
     }
 
     /**
-     * Filter authors for request
+     * Return filtered authors for the given request
      * 
      * Manual parameters (manualIndividual etc) needed because filter function is
-     * also called from many different GET routes (index page). $request may also have individual 
-     * parameter etc, but manuals are more priority
+     * also called from many different GET routes (index pages). $request may also have individual 
+     * etc parameter, but manuals are more priority
      * 
      * You don`t have to include manual parameters while paginating!!! They are manually declared on each controllers functions
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public static function filter($request, $manualIndividual = null, $manualFavorite = null)
     {
