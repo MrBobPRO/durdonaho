@@ -3,7 +3,7 @@
 
 <div class="main__content unverified-quotes-page-content">
     <section class="unverified-quotes-section">
-        <div class="unverified-quotes-about">
+        <div class="theme-styled-block unverified-quotes-about">
             <div class="unverified-quotes-about__inner">
                 <h1 class="main-title unverified-quotes-about__title">Цитаты на рассмотрении</h1>
                 <p class="unverified-quotes-about__text">Здесь будут отображатся цитаты добавлении вами, которые нахдятся на рассмотрении у администратора!</p>
@@ -12,7 +12,7 @@
     
         <div class="unverified-quotes-list">
                 @foreach ($quotes as $quote)
-                <div class="card card--full_width unverified-quotes-card">
+                <div class="card theme-styled-block card--full_width unverified-quotes-card">
                     <div class="card__inner">
                 
                         {{-- Card Header start --}}

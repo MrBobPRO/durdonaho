@@ -208,7 +208,6 @@ input {
 }
 .theme-styled-block {
     box-shadow: var(--theme-box-shadow);
-    border-radius: var(--theme-box-shadow);
     border-radius: var(--theme-border-radius);
     background-color: white;
 }
@@ -1595,10 +1594,6 @@ input {
     flex-direction: column;
     gap: 32px;
 }
-.unverified-quotes-about {
-    background-color: white;
-    border-radius: 16px;
-}
 .unverified-quotes-about__inner {
     max-width: 520px;
     margin: auto;
@@ -1615,10 +1610,6 @@ input {
     flex-direction: column;
     gap: 32px;
 }
-.unverified-quotes-card {
-    background-color: white;
-    border-radius: 16px;
-}
 .unverified-quotes-card .card__header {
     margin-bottom: 0px;
 }
@@ -1633,3 +1624,11 @@ input {
     top: 10px;
 }
 /* ------------ /end Unverified quotes ------------ */
+
+
+/* ------------ Privacy Policy ------------ */
+.privacy-policy {
+    font-size: 14px;
+    padding: 30px 50px 40px;
+}
+/* ------------ /end Privacy Policy ------------ */
