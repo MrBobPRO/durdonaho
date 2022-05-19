@@ -35,7 +35,14 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $report = new Report();
+        $report->user_id = auth()->user()->id;
+        $report->quote_id = $request->quote_id;
+        $report->author_id = $request->author_id;
+        $report->message = $request->message;
+        $report->save();
+
+        return redirect()->back();
     }
 
     /**

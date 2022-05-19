@@ -64,7 +64,7 @@
 
                         <div class="terms__divider">
                             <label class="terms__label unselectable" for="register-terms-checkbox">Я принимаю</label>
-                            <a class="terms__link" href="#" target="_blank">пользовательское соглашение</a>
+                            <a class="terms__link" href="{{ route('privacy-policy') }}" target="_blank">пользовательское соглашение</a>
                         </div>
                     </div>
                 </form>

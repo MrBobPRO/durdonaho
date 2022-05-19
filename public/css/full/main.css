@@ -227,7 +227,6 @@ input {
     display: flex;
     padding: 8px 24px;
     gap: 8px;
-    align-items: center;
     font-size: 14px;
     border-radius: 8px;
     transition: 0.3s;
@@ -693,9 +692,9 @@ input {
 .card__body-text {
     margin: 0;
 }
-/* .card__body-link {
+.card__body-link {
     display: none;
-} */
+}
 .card__footer {
     display: flex;
     flex-wrap: wrap;

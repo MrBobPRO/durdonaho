@@ -5,7 +5,7 @@
     <section class="theme-styled-block quotes-create-section">
         <div class="quotes-create-section__inner">
 
-            <form class="main-form quotes-store-form" action="{{ route('users.quotes.store') }}" method="POST" id="quotes-store-form" enctype="multipart/form-data">
+            <form class="main-form quotes-store-form" action="{{ route('users.quotes.store') }}" method="POST" id="store-quotes-form" enctype="multipart/form-data">
                 @csrf
 
                 @if(session('status') == 'success')
@@ -75,7 +75,7 @@
 
                     <div class="terms__divider">
                         <label class="terms__label unselectable" for="main-form-terms-checkbox">Я принимаю</label>
-                        <a class="terms__link" href="#" target="_blank">пользовательское соглашение</a>
+                        <a class="terms__link" href="{{ route('privacy-policy') }}" target="_blank">пользовательское соглашение</a>
                     </div>
                 </div>  {{-- /end Terms --}}
             </form> 

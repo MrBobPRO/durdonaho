@@ -5,7 +5,7 @@
     <section class="theme-styled-block quotes-edit-section">
         <div class="quotes-edit-section__inner">
 
-            <form class="main-form quotes-edit-form" action="{{ route('users.quotes.update') }}" method="POST" id="quotes-store-form" enctype="multipart/form-data">
+            <form class="main-form quotes-edit-form" action="{{ route('users.quotes.update') }}" method="POST" id="update-quotes-form" enctype="multipart/form-data">
                 @csrf
 
                 <input type="hidden" name="id" value="{{ $quote->id }}">
@@ -13,7 +13,7 @@
                 @if(session('status') == 'success')
                     <div class="alert alert--success">
                         <span class="material-icons-outlined alert__icon">error</span>
-                        Ваша цитата успешно обновлена. Она будет опубликована после успешной проверки администратором!
+                        Цитата успешно обновлена. Она будет опубликована после успешной проверки администратором!
                     </div>
 
                 @elseif(session('status') == 'similar-quote-error')
@@ -101,7 +101,7 @@
 
                     <div class="terms__divider">
                         <label class="terms__label unselectable" for="main-form-terms-checkbox">Я принимаю</label>
-                        <a class="terms__link" href="#" target="_blank">пользовательское соглашение</a>
+                        <a class="terms__link" href="{{ route('privacy-policy') }}" target="_blank">пользовательское соглашение</a>
                     </div>
                 </div>  {{-- /end Terms --}}
             </form> 

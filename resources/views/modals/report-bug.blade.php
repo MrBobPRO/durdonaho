@@ -13,7 +13,7 @@
         {{-- Modal Body start --}}
         <div class="modal-dialog__body">
             <div class="modal-dialog__body-inner">
-                <form class="form modal-form" action="{{ route('report-bug') }}" method="POST" id="report-bug-form">
+                <form class="form modal-form" action="{{ route('reports.store') }}" method="POST" id="report-bug-form">
                     <p class="report-bug-modal__text">Здесь написать текст о том, какие жалобы можно отправлять. <br>Отправлять жалобы можно после регистрации</p>
 
                     @csrf
@@ -35,7 +35,7 @@
 
                         <div class="terms__divider">
                             <label class="terms__label unselectable" for="report-bug-terms-checkbox">Я принимаю</label>
-                            <a class="terms__link" href="#" target="_blank">пользовательское соглашение</a>
+                            <a class="terms__link" href="{{ route('privacy-policy') }}" target="_blank">пользовательское соглашение</a>
                         </div>
                     </div>
                 </form>

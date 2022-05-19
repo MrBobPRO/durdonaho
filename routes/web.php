@@ -7,6 +7,7 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
@@ -43,8 +44,11 @@ Route::controller(PasswordResetController::class)->name('password.')->group(func
 Route::controller(MainController::class)->group(function () {
     Route::get('/', 'home')->name('home');
     Route::get('/search', 'search')->name('search');
+    Route::get('/privacy-policy', 'privacyPolicy')->name('privacy-policy');
+});
 
-    Route::post('/repot-bug', 'reportBug')->name('report-bug')->middleware('auth');
+Route::controller(ReportController::class)->group(function () {
+    Route::post('/repots/store', 'store')->name('reports.store')->middleware('auth');
 });
 
 Route::controller(LikeController::class)->prefix('like')->name('like.')->middleware('auth')->group(function () {

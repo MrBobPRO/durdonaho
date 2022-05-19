@@ -210,7 +210,7 @@ class UserController extends Controller
         $source = Source::where('title', $requestedSource)->first();
         if($source) {
             $quote->source_id = $source->id;
-        } else {
+        } else if($requestedSource && $requestedSource != '') {
             $manual = new Manual();
             $manual->quote_id = $quoteId;
             $manual->key = 'source';
@@ -326,7 +326,7 @@ class UserController extends Controller
         $source = Source::where('title', $requestedSource)->first();
         if($source) {
             $quote->source_id = $source->id;
-        } else {
+        } else if($requestedSource && $requestedSource != '') {
             $manual = new Manual();
             $manual->quote_id = $quote->id;
             $manual->key = 'source';

@@ -579,3 +579,20 @@ if (profileUpdateForm) {
     });
 }
 //------------- Profile edit -------------
+
+
+//------------- Quotes create & update form -------------
+let storeQuoteForm = document.querySelector('#store-quotes-form');
+if (storeQuoteForm) {
+    storeQuoteForm.addEventListener('submit', () => {
+        spinner.classList.add('spinner--show');
+    });
+}
+
+let updateQuoteForm = document.querySelector('#update-quotes-form');
+if (updateQuoteForm) {
+    updateQuoteForm.addEventListener('submit', () => {
+        spinner.classList.add('spinner--show');
+    });
+}
+//------------- Quotes create & update form -------------
