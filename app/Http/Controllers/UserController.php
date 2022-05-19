@@ -285,7 +285,7 @@ class UserController extends Controller
 
         if($manualCategories) {
             $manualCategories = explode(',', $manualCategories->value);
-        }                                
+        }
 
         $sources = Source::orderBy('title')->select('title', 'id')->get();
         $authors = Author::orderBy('name')->select('name', 'id')->get();

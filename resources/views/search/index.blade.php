@@ -23,7 +23,7 @@
         </section>
     @endif
 
-    @if(count($authors))
+    @if(count($quotes))
         <section class="quotes-section search-quotes-section">
             <div class="quotes-list">
                 @foreach ($quotes as $quote)

@@ -12,7 +12,7 @@
 
                 @if(session('status') == 'success')
                     <div class="alert alert--success">
-                        <span class="material-icons-outlined alert__icon">published_with_changes</span>
+                        <span class="material-icons-outlined alert__icon">error</span>
                         Ваша цитата успешно обновлена. Она будет опубликована после успешной проверки администратором!
                     </div>
 
@@ -38,7 +38,7 @@
                         <select class="selectize-singular-taggable main-form__selectize-singular" name="source" placeholder="Выберите источник цитаты (Необъязательно поле)">
                             <option></option>
                             @if($manualSource)
-                                <option value="{{ $manualSource }}" selected>{{ $manualSource }}</option>
+                                <option value="{{ $manualSource->value }}" selected>{{ $manualSource->value }}</option>
                             @endif
 
                             @foreach ($sources as $source)
@@ -51,7 +51,7 @@
                         <select class="selectize-singular-taggable main-form__selectize-singular" name="author" placeholder="Выберите автора цитаты" required>
                             <option></option>
                             @if($manualAuthor)
-                                <option value="{{ $manualAuthor }}" selected>{{ $manualAuthor }}</option>
+                                <option value="{{ $manualAuthor->value }}" selected>{{ $manualAuthor->value }}</option>
                             @endif
 
                             @foreach ($authors as $author)
