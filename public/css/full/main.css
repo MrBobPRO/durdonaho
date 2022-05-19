@@ -1631,4 +1631,7 @@ input {
     font-size: 14px;
     padding: 30px 50px 40px;
 }
+.privacy-policy__title {
+    margin-bottom: 18px;
+}
 /* ------------ /end Privacy Policy ------------ */

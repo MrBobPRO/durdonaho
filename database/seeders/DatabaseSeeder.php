@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(QuoteSeeder::class);
         $this->call(LikeSeeder::class);
         $this->call(SourceSeeder::class);
+        $this->call(OptionSeeder::class);
     }
 }

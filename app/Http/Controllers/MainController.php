@@ -43,8 +43,6 @@ class MainController extends Controller
 
     public function privacyPolicy()
     {
-        $text = 'Text';
-
-        return view('privacy-policy.index', compact('text'));
+        return view('privacy-policy.index');
     }
 }
