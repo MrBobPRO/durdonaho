@@ -96,7 +96,7 @@
 
             <div class="search categories-filter__search">
                 <input class="search__input categories-filter__search-input" type="text" id="categories-filter-search-input" placeholder="{{ $placeholder }}" name="keyword" value="{{ $request->keyword }}">
-                <span class="material-icons search__icon">search</span>
+                <button type="button" class="search__button"><span class="material-icons search__button-icon">search</span></button>
             </div>
 
             <div class="categories-filter__list">

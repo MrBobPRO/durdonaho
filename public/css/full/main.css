@@ -394,15 +394,20 @@ input {
 .search__input:focus {
     outline: none;
 }
-.search__icon {
+.search__button {
     position: absolute;
     color: #A6A6A6;
-    right: 12px;
+    right: 0;
     top: 10px;
-    font-size: 22px;
+    border: none;
+    padding: 0 12px;
+    background-color: transparent;
 }
-.search--active .search__icon {
+.search--active .search__button {
     color: white;
+}
+.search__button__icon {
+    font-size: 22px;
 }
 /* ------------ /end Search ------------ */
 
@@ -437,6 +442,9 @@ input {
 }
 .aside__search {
     width: 100%;
+}
+.aside__search .search__button {
+    pointer-events: none;
 }
 .aside-categories__list {
     padding: 0 0 0 24px;
@@ -615,8 +623,8 @@ input {
 }
 .card__edit-btn {
     position: absolute;
-    right: -140px;
-    top: 36px;
+    right: -160px;
+    top: 10px;
     color: black;
 }
 .card__edit-btn-icon {
@@ -706,9 +714,6 @@ input {
     margin: 0;
     font-family: sans-serif;
 }
-.card__footer-date span {
-    font-family: 'Raleway', sans-serif;
-}
 .card__footer-text {
     color: #A6A6A6;
     font-weight: 500;
@@ -748,12 +753,6 @@ input {
     font-size: 28px;
 }
 
-/* Card with LARGE image */
-.card_with_large_image .card__body-image--large {
-    display: block !important;
-    margin-bottom: 28px;
-    width: 100%;
-}
 /* Card with MEDIUM image */
 .card_with_medium_image .card__body {
     display: flex;
@@ -782,9 +781,6 @@ input {
 /* Vertical Card */
 .card--vertical {
     padding: 0;
-}
-.card--vertical .card__title-span {
-    display: none;
 }
 .card--vertical .card__categories {
     flex-direction: column;
@@ -1394,9 +1390,6 @@ input {
 .search-page-content .card__title {
     text-transform: capitalize;
 }
-.search-page-content .card__title-span {
-    text-transform: none;
-}
 /* ------------ /end Search page ------------ */
 
 
@@ -1618,10 +1611,6 @@ input {
 }
 .unverified-quotes-card .card__body {
     margin: 10px 0 16px;
-}
-.unverified-quotes-card .card__edit-btn {
-    right: -160px;
-    top: 10px;
 }
 /* ------------ /end Unverified quotes ------------ */
 

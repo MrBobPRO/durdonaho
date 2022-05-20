@@ -26,7 +26,7 @@
                     @endif
 
                     <a class="card__title" href="{{ route('authors.show', $quote->author->slug) }}">
-                        <span class="card__title-span">Автор цитаты:</span> {!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->author->name) : $quote->author->name !!}
+                        {!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->author->name) : $quote->author->name !!}
                     </a>
 
                     <ul class="card__categories">
@@ -86,11 +86,9 @@
 
         {{-- Card Body start --}}
         <div class="card__body">
-            <img class="card__image card__body-image--large" src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}">
             <img class="card__image card__body-image--medium" src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}">
             <div class="card__body-text-container">
                 <p class="card__body-text">{!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->body) : $quote->body !!}</p>
-                {{-- <a class="button button--secondary card__body-link" href="#">Муфассал</a> --}}
             </div>
         </div> {{-- Card Body end --}}
 
@@ -100,10 +98,10 @@
                 $formatted = Carbon\Carbon::create($quote->created_at)->locale("ru");
             @endphp
 
-            <p class="card__footer-date">{{ $formatted->isoFormat("DD.mm.YYYY") }}<span> в </span>{{ $formatted->isoFormat("HH:mm:ss") }}</p>
+            <p class="card__footer-date">{{ $formatted->isoFormat("DD.mm.YYYY HH:mm") }}</p>
             <p class="card__footer-text">Опубликовано:</p>
             <a class="card__footer-author" href="{{ route('users.show', $quote->publisher->slug) }}"><span class="material-icons">person</span> {{ $quote->publisher->name }}</a>
-            <a class="card__footer-chat" href="#"><span class="material-icons-outlined">message</span> Написать</a>
+            {{-- <a class="card__footer-chat" href="#"><span class="material-icons-outlined">message</span> Написать</a> --}}
 
             @auth
                 <button class="report-bug-button" data-action="show-report-bug-modal" data-quote-id="{{ $quote->id }}">

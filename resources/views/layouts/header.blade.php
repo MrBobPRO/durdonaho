@@ -15,9 +15,9 @@
                             <ul class="dropdown__menu">
                                 <li><p class="profile-dropdown__username">{{ auth()->user()->name }}</p></li>
 
-                                <li><a class="dropdown__item" href="{{ route('authors.individual') }}">
+                                {{-- <li><a class="dropdown__item" href="{{ route('authors.individual') }}">
                                     <span class="material-icons dropdown__item-icon">message</span>Личные сообщения <span class="profile-dropdown__badget">0</span>
-                                </a></li>
+                                </a></li> --}}
 
                                 <li><a class="dropdown__item" href="{{ route('favorite.authors') }}">
                                     <span class="material-icons dropdown__item-icon">face</span> Избранные авторы
@@ -109,8 +109,8 @@
             </nav>
 
             <form action="{{ route('search') }}" method="GET" class="search header__search {{ $route == 'search' ? 'search--active' : '' }}">
-                <input class="search__input" type="text" placeholder="Ҷустуҷӯ" name="keyword" value="{{ $route == 'search' ? $keyword : '' }}">
-                <span class="material-icons search__icon">search</span>
+                <input class="search__input" type="text" placeholder="Ҷустуҷӯ" name="keyword" value="{{ $route == 'search' ? $keyword : '' }}" minlength="3" required>
+                <button class="search__button"><span class="material-icons search__button-icon">search</span></button>
             </form>
         </div>
     </div>

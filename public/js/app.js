@@ -342,6 +342,11 @@ if (asideSearchInput) {
 
 //--------------- Categories Filter & search start---------------
 let filterForm = document.querySelector('#categories-filter-form');
+if (filterForm) {
+    filterForm.addEventListener('submit', (evt) => {
+        evt.preventDefault();
+    })
+}
 
 // on all categories buttons click
 let filterCatAllBtn = document.querySelector('#categories-filter-all-btn');

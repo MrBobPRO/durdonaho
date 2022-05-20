@@ -87,7 +87,6 @@
 
         {{-- Card Body start --}}
         <div class="card__body">
-            <img class="card__image card__body-image--large" src="{{ asset('img/authors/' . $author->image) }}" alt="{{ $author->name }}">
             <img class="card__image card__body-image--medium" src="{{ asset('img/authors/' . $author->image) }}" alt="{{ $author->name }}">
             <div class="card__body-text-container">
                 <p class="card__body-text">{!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $author->biography) : $author->biography !!}</p>
@@ -101,10 +100,10 @@
                 $formatted = Carbon\Carbon::create($author->created_at)->locale("ru");
             @endphp
 
-            <p class="card__footer-date">{{ $formatted->isoFormat("DD.mm.YYYY") }}<span> в </span>{{ $formatted->isoFormat("HH:mm:ss") }}</p>
+            <p class="card__footer-date">{{ $formatted->isoFormat("DD.mm.YYYY HH:mm") }}</p>
             <p class="card__footer-text">Опубликовано:</p>
             <a class="card__footer-author" href="{{ route('users.show', $author->publisher->slug) }}"><span class="material-icons">person</span> {{ $author->publisher->name }}</a>
-            <a class="card__footer-chat" href="#"><span class="material-icons-outlined">message</span> Написать</a>
+            {{-- <a class="card__footer-chat" href="#"><span class="material-icons-outlined">message</span> Написать</a> --}}
 
             @auth
                 <button class="report-bug-button" data-action="show-report-bug-modal" data-author-id="{{ $author->id }}">

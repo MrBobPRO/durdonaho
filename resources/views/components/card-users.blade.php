@@ -14,7 +14,7 @@
             </div>
 
             <div class="card__actions">
-                <a class="card__actions-button" href="#"><span class="material-icons-outlined card__actions-bookmark-icon">message</span> Написать</a>
+                {{-- <a class="card__actions-button" href="#"><span class="material-icons-outlined card__actions-bookmark-icon">message</span> Написать</a> --}}
                 <a class="card__actions-button" href="{{ route('users.quotes', $user->slug) }}"><span class="material-icons-outlined card__actions-bookmark-icon">message</span>Посмотреть цитаты</a>
             </div>
         </div> {{-- Card Header end --}}

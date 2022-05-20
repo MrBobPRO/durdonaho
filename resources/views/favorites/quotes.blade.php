@@ -8,7 +8,7 @@
 
     <section class="quotes-section" id="quotes-section">
         <div class="quotes-list" id="main-list">
-            <x-list-inner-quotes :quotes="$quotes" card-class="card_with_large_image card--full_width"/>
+            <x-list-inner-quotes :quotes="$quotes" card-class="card_with_small_image card--full_width"/>
         </div>
     </section>
 </div>

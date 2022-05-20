@@ -188,7 +188,7 @@ class UserController extends Controller
         $quotes = Quote::where('approved', true)->pluck('body');
         foreach($quotes as $quote) {
             similar_text($body, $quote, $percentage);
-            if($percentage > 90) {
+            if($percentage > 80) {
                 return redirect()->back()->with(['status' => 'similar-quote-error', 'similarQuote' => $quote])->withInput();
             }
         };
@@ -308,7 +308,7 @@ class UserController extends Controller
         $quotes = Quote::where('approved', true)->where('id', '!=', $quote->id)->pluck('body');
         foreach($quotes as $q) {
             similar_text($body, $q, $percentage);
-            if($percentage > 90) {
+            if($percentage > 80) {
                 return redirect()->back()->with(['status' => 'similar-quote-error', 'similarQuote' => $q])->withInput();
             }
         };

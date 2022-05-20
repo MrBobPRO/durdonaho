@@ -16,7 +16,7 @@
             <p><a href="{{ route('privacy-policy') }}">Ахдномаи истифодабари</a></p>
         </div>
 
-        <div class="footer__block footer__socials">
+        {{-- <div class="footer__block footer__socials">
             <div class="footer__socials-text">
                 <p>Моро мутолиа</p>
                 <p>намоед:</p>
@@ -39,6 +39,6 @@
                     @include('svgs.instagram')
                 </a>
             </div>
-        </div>
+        </div> --}}
     </div>
 </footer>
