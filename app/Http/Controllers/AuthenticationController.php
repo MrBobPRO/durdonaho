@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Mail;
 
 class AuthenticationController extends Controller
 {
+    public function showLoginPage()
+    {
+        return view('auth.login');
+    }
+
     public function register(Request $request)
     {
         $failedInputs = [];
@@ -79,12 +84,17 @@ class AuthenticationController extends Controller
 
     public function login(Request $request)
     {
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password], true)) {
+        $authenticate = Auth::attempt(['email' => $request->email, 'password' => $request->password], true);
+        $ajaxRequest = $request->ajax == '1' ? true : false;
+
+        // on success authentication
+        if ($authenticate) {
             $request->session()->regenerate();
 
-            return 'success';
+            return $ajaxRequest ? 'success' : redirect()->intended('home');
+        // if authenticate failed
         } else {
-            return 'failed';
+            return $ajaxRequest ? 'failed' : redirect()->back()->withInput()->withErrors(['auth' => 'failed']);
         }
     }
 

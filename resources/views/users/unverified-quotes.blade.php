@@ -50,11 +50,11 @@
                     
                                 <p class="card__publication-text">Дата последней изменении цитаты:</p>
                                 <p class="card__publication-date">{{ $formatted->isoFormat("DD.mm.YYYY HH::mm") }}</p>
-
-                                <button class="report-bug-button" data-action="show-report-bug-modal" data-quote-id="{{ $quote->id }}">
-                                    <span class="material-icons-outlined report-bug-button__icon">error_outline</span>
-                                </button>
                             </div>
+                            
+                            <button class="report-bug-button" data-action="show-report-bug-modal" data-quote-id="{{ $quote->id }}">
+                                <span class="material-icons-outlined report-bug-button__icon">error_outline</span>
+                            </button>
                         </div> {{-- Card Footer end --}}
                     </div>  {{-- Card Inner end --}}
                 </div>

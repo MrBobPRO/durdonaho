@@ -30,7 +30,7 @@
         <link rel="icon" href="{{ asset('img/main/cropped-favi-32x32.ico') }}" sizes="32x32">
         <link rel="icon" href="{{ asset('img/main/cropped-favi-192x192.ico') }}" sizes="192x192">
         <link rel="apple-touch-icon-precomposed" href="{{ asset('img/main/cropped-favi-180x180.ico') }}">
-        <meta name="msapplication-TileImage" content="{{ asset('img/main/cropped-favi-270x270.ico') }}">
+        <meta name="msapplication-TileImage" content="{{ asset('img/main/cropped-favi-256x256.ico') }}">
 
         {{-- Raleway Google Fonts --}}
         <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -14,6 +14,8 @@
         <div class="modal-dialog__body">
             <div class="modal-dialog__body-inner">
                 <form class="form modal-form" action="/login" method="POST" id="login-form">
+                    <input type="hidden" name="ajax" value="1">
+
                     <div class="form-group modal-form-group">
                         <input class="input input--light modal-input" type="email" placeholder="Электронная почта" name="email" required>
                     </div>

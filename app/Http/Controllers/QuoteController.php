@@ -40,12 +40,12 @@ class QuoteController extends Controller
         // favorite.quotes route
         else if ($favorite && $favorite == 1) {
             $quotes->withPath(route('favorite.quotes'));
-            $cardClass = 'card_with_large_image card--full_width';
+            $cardClass = 'card_with_small_image card--full_width';
         }
         // users.current.quotes route
         else if ($userId && $userId != '' && Auth::check() && $userId == Auth::user()->id) {
             $quotes->withPath(route('users.current.quotes'));
-            $cardClass = 'card_with_large_image card--full_width';
+            $cardClass = 'card_with_small_image card--full_width';
 
             // display edit button for quotes
             $showEditButton = true;
@@ -55,7 +55,7 @@ class QuoteController extends Controller
         // users.quotes route
         else if ($userId && $userId != '') {
             $quotes->withPath(route('users.quotes', User::find($userId)->slug));
-            $cardClass = 'card_with_large_image card--full_width';
+            $cardClass = 'card_with_small_image card--full_width';
         }
         //quotes.index route
         else {
