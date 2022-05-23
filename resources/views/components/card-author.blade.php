@@ -14,33 +14,47 @@
 
         {{-- Card Header start --}}
         <div class="card__header">
-            <div class="card__header-main">
-                <img class="card__image card__header-image--small" src="{{ asset('img/authors/' . $author->image) }}" alt="{{ $author->name }}">
+            <img class="card__image card__image--small" src="{{ asset('img/authors/' . $author->image) }}" alt="{{ $author->name }}">
 
-                <div class="card__header-info">
-                    <a class="card__title" href="{{ route('authors.show', $author->slug) }}">{!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $author->name) : $author->name !!}</a>
-                    <ul class="card__categories">
-                        {{-- Generate collection of unique categories --}}
-                        @php
-                            $quotes = $author->quotes;
-                            $categories = collect();
-        
-                            foreach($quotes as $quote) {
-                                foreach($quote->categories as $category) {
-                                    $categories->push($category);
-                                }
+            <div class="card__header-text">
+                <a class="card__title" href="{{ route('authors.show', $author->slug) }}">
+                    {!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $author->name) : $author->name !!}
+                </a>
+
+                <ul class="card__categories">
+                    {{-- Generate collection of unique categories --}}
+                    @php
+                        $quotes = $author->quotes;
+                        $categories = collect();
+    
+                        foreach($quotes as $quote) {
+                            foreach($quote->categories as $category) {
+                                $categories->push($category);
                             }
-                        @endphp
-        
-                        @foreach ($categories->unique('title')->shuffle()->take(3) as $category)
-                            <li class="card__categories-item">
-                                <a class="card__categories-link" href="#">{{ $category->title }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+                        }
+                    @endphp
+    
+                    @foreach ($categories->unique('title')->shuffle()->take(3) as $category)
+                        <li class="card__categories-item">
+                            <a class="card__categories-link" href="#">{{ $category->title }}</a>
+                        </li>
+                    @endforeach
+                </ul>
             </div>
+        </div>  {{-- Card Header end --}}
 
+        {{-- Card Body start --}}
+        <div class="card__body">
+            <img class="card__image card__image--medium" src="{{ asset('img/authors/' . $author->image) }}" alt="{{ $author->name }}">
+
+            <div class="card__body-text-container">
+                <p class="card__body-text">{!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $author->biography) : $author->biography !!}</p>
+                <a class="button button--secondary card__body-link" href="{{ route('authors.show', $author->slug) }}">Муфассал</a>
+            </div>
+        </div>  {{-- Card Body end --}}
+
+        {{-- Card Footer start --}}
+        <div class="card__footer">
             <div class="card__actions">
                 @guest
                     <button class="card__actions-button card__actions-favorite" data-action="show-modal" data-target-id="login-modal">
@@ -83,33 +97,23 @@
                     </button>
                 @endauth
             </div>
-        </div>  {{-- Card Header end --}}
 
-        {{-- Card Body start --}}
-        <div class="card__body">
-            <img class="card__image card__body-image--medium" src="{{ asset('img/authors/' . $author->image) }}" alt="{{ $author->name }}">
-            <div class="card__body-text-container">
-                <p class="card__body-text">{!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $author->biography) : $author->biography !!}</p>
-                <a class="button button--secondary card__body-link" href="{{ route('authors.show', $author->slug) }}">Муфассал</a>
+            <div class="card__publication">
+                @php
+                    $formatted = Carbon\Carbon::create($author->created_at)->locale("ru");
+                @endphp
+
+                <p class="card__publication-date">{{ $formatted->isoFormat("DD.mm.YYYY HH:mm") }}</p>
+                <p class="card__publication-text">Опубликовано:</p>
+                <a class="card__publication-user" href="{{ route('users.show', $author->publisher->slug) }}"><span class="material-icons">person</span> {{ $author->publisher->name }}</a>
+                {{-- <a class="card__footer-chat" href="#"><span class="material-icons-outlined">message</span> Написать</a> --}}
+
+                @auth
+                    <button class="report-bug-button" data-action="show-report-bug-modal" data-author-id="{{ $author->id }}">
+                        <span class="material-icons-outlined report-bug-button__icon">error_outline</span>
+                    </button>
+                @endauth
             </div>
-        </div>  {{-- Card Body end --}}
-
-        {{-- Card Footer start --}}
-        <div class="card__footer">
-            @php
-                $formatted = Carbon\Carbon::create($author->created_at)->locale("ru");
-            @endphp
-
-            <p class="card__footer-date">{{ $formatted->isoFormat("DD.mm.YYYY HH:mm") }}</p>
-            <p class="card__footer-text">Опубликовано:</p>
-            <a class="card__footer-author" href="{{ route('users.show', $author->publisher->slug) }}"><span class="material-icons">person</span> {{ $author->publisher->name }}</a>
-            {{-- <a class="card__footer-chat" href="#"><span class="material-icons-outlined">message</span> Написать</a> --}}
-
-            @auth
-                <button class="report-bug-button" data-action="show-report-bug-modal" data-author-id="{{ $author->id }}">
-                    <span class="material-icons-outlined report-bug-button__icon">error_outline</span>
-                </button>
-            @endauth
         </div>  {{-- Card Footer end --}}
 
     </div>  {{-- Card Inner end --}}

@@ -15,30 +15,41 @@
 
         {{-- Card Header start --}}
         <div class="card__header">
-            <div class="card__header-main">
-                <img class="card__image card__header-image--small" src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}">
+            <img class="card__image card__image--small" src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}">
 
-                <div class="card__header-info">
-                    @if($showEditButton)
-                        <a class="card__edit-btn button button--transparent" href="{{ route('users.quotes.edit', $quote->id) }}">
-                            <span class="material-icons-outlined card__edit-btn-icon">edit</span> Редактировать
-                        </a>
-                    @endif
-
-                    <a class="card__title" href="{{ route('authors.show', $quote->author->slug) }}">
-                        {!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->author->name) : $quote->author->name !!}
+            <div class="card__header-text">
+                @if($showEditButton)
+                    <a class="card__edit-btn button button--transparent" href="{{ route('users.quotes.edit', $quote->id) }}">
+                        <span class="material-icons-outlined card__edit-btn-icon">edit</span> Редактировать
                     </a>
+                @endif
 
-                    <ul class="card__categories">
-                        @foreach ($quote->categories as $category)
-                            <li class="card__categories-item">
-                                <a class="card__categories-link" href="{{ route('quotes.index') }}?category_id={{ $category->id }}">{{ $category->title }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+                <a class="card__title" href="{{ route('authors.show', $quote->author->slug) }}">
+                    {!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->author->name) : $quote->author->name !!}
+                </a>
+
+                <ul class="card__categories">
+                    @foreach ($quote->categories as $category)
+                        <li class="card__categories-item">
+                            <a class="card__categories-link" href="{{ route('quotes.index') }}?category_id={{ $category->id }}">{{ $category->title }}</a>
+                        </li>
+                    @endforeach
+                </ul>
             </div>
+        </div> {{-- Card Header end --}}
 
+        {{-- Card Body start --}}
+        <div class="card__body">
+            <img class="card__image card__image--medium" src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}">
+            
+            <div class="card__body-text-container">
+                <p class="card__body-text">{!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->body) : $quote->body !!}</p>
+                {{-- <a class="button button--secondary card__body-link" href="#">Муфассал</a> --}}
+            </div>
+        </div> {{-- Card Body end --}}
+
+        {{-- Card Footer start --}}
+        <div class="card__footer">
             <div class="card__actions">
                 @guest
                     <button class="card__actions-button card__actions-favorite" data-action="show-modal" data-target-id="login-modal">
@@ -82,32 +93,23 @@
                     </button>
                 @endauth
             </div>
-        </div> {{-- Card Header end --}}
 
-        {{-- Card Body start --}}
-        <div class="card__body">
-            <img class="card__image card__body-image--medium" src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}">
-            <div class="card__body-text-container">
-                <p class="card__body-text">{!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->body) : $quote->body !!}</p>
+            <div class="card__publication">
+                @php
+                    $formatted = Carbon\Carbon::create($quote->created_at)->locale("ru");
+                @endphp
+
+                <p class="card__publication-date">{{ $formatted->isoFormat("DD.mm.YYYY HH:mm") }}</p>
+                <p class="card__publication-text">Опубликовано:</p>
+                <a class="card__publication-user" href="{{ route('users.show', $quote->publisher->slug) }}"><span class="material-icons">person</span> {{ $quote->publisher->name }}</a>
+                {{-- <a class="card__publication-chat" href="#"><span class="material-icons-outlined">message</span> Написать</a> --}}
+
+                @auth
+                    <button class="report-bug-button" data-action="show-report-bug-modal" data-quote-id="{{ $quote->id }}">
+                        <span class="material-icons-outlined report-bug-button__icon">error_outline</span>
+                    </button>
+                @endauth
             </div>
-        </div> {{-- Card Body end --}}
-
-        {{-- Card Footer start --}}
-        <div class="card__footer">
-            @php
-                $formatted = Carbon\Carbon::create($quote->created_at)->locale("ru");
-            @endphp
-
-            <p class="card__footer-date">{{ $formatted->isoFormat("DD.mm.YYYY HH:mm") }}</p>
-            <p class="card__footer-text">Опубликовано:</p>
-            <a class="card__footer-author" href="{{ route('users.show', $quote->publisher->slug) }}"><span class="material-icons">person</span> {{ $quote->publisher->name }}</a>
-            {{-- <a class="card__footer-chat" href="#"><span class="material-icons-outlined">message</span> Написать</a> --}}
-
-            @auth
-                <button class="report-bug-button" data-action="show-report-bug-modal" data-quote-id="{{ $quote->id }}">
-                    <span class="material-icons-outlined report-bug-button__icon">error_outline</span>
-                </button>
-            @endauth
         </div> {{-- Card Footer end --}}
 
     </div>  {{-- Card Inner end --}}
