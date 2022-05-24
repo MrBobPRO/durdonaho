@@ -2,8 +2,8 @@
     <div class="selectize-singular-container">
         <select class="selectize-singular-linked" placeholder="Поиск...">
             <option></option>
-            @foreach($items as $item)
-                <option value="{{ route($editRoute, $item->id)}}">{{$item->title}}</option>
+            @foreach($allItems as $item)
+                <option value="{{ route($modelShortcut . '.edit', $item->id) }}">{{ $item->title }}</option>
             @endforeach
         </select>
     </div>

@@ -1,5 +1,4 @@
-{{-- itemId = 0 used for index pages --}}
-<div class="modal fade" id="destroy-single-modal" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="destroy-single-item-modal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -7,13 +6,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <form action="{{ route($destroyRoute) }}" method="POST">
+            <form action="{{ route($modelShortcut . '.destroy') }}" method="POST">
                 {{ csrf_field() }}
-                <input type="hidden" value="{{ $itemId}} " name="id" id="destroy-single-modal-input" />
-                {{-- Relations have model name --}}
-                @isset($model)
-                    <input type="hidden" value="{{ $model }}" name="model">
-                @endisset
+                {{-- itemId = 0 used while initializing index pages --}}
+                <input type="hidden" value="{{ isset($destroyItemId) ? $destroyItemId : 0 }} " name="id" id="destroy-single-item-modal-input" />
 
                 <div class="modal-body">
                     Вы уверены что хотите удалить ?

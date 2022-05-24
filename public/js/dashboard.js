@@ -85,20 +85,22 @@ document.querySelector('#header-select-all-button').addEventListener('click', (e
 });
 
 
-// MODALS FOR DELETING ITEMS
-// One modal is used for deleting any item in Table Form
-function showSingleDestroyModal(id) {
-    // Change the value of input and show Single Item Destroy Modal
-    let modal = new bootstrap.Modal(document.getElementById('destroy-single-modal'));
-    document.getElementById('destroy-single-modal-input').value = id;
-
-    modal.show();
-}
-
-// Submit Table Form on Multiple destroy button click
-function submitTableForm() {
+// Submit Table Form on Multiple destroy items modal form submit
+document.querySelector('#destroy-multiple-items-form-submit-button').addEventListener('click', () => {
     document.getElementById('table-form').submit();
-}
+});
+
+
+// One modal is used to delete any item in Table Form or special item in single items edit page
+document.querySelectorAll('[data-action="show-single-item-destroy-modal"]').forEach((item) => {
+    item.addEventListener('click', () => {
+        // Change value of input before modal show 
+        document.querySelector('#destroy-single-item-modal-input').value = item.dataset.itemId;
+
+        let modal = new bootstrap.Modal(document.getElementById('destroy-single-item-modal'));
+        modal.show();
+    });
+});
 
 
 // Show image from local on image input change

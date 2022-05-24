@@ -229,6 +229,14 @@ class Helper
     }
 
     /**
+     * Get all keywords in text and surround them by span with a highlighted class 
+     */
+    public static function reverseOrderType($orderType) 
+    {
+        return $orderType == 'asc' ? 'desc' : 'asc';
+    }
+
+    /**
      * Get previous route name
      *
      * @return string Route name

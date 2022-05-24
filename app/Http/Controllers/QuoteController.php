@@ -174,25 +174,27 @@ class QuoteController extends Controller
         return view('quotes.top', compact('quotes'));
     }
 
-        /**
+    /**
      * Display list of items in dashboard.
      *
      * @return \Illuminate\Http\Response
      */
     public function dashboardIndex(Request $request)
     {
-        // for search
-        $items = Quote::select('body as title', 'id')->approved()->orderBy('title')->get();
-        $editRoute = 'quotes.edit';
+        // used while generating route names
+        $modelShortcut = 'quotes';
 
-        // Generate parameters for ordering
+        // for search & counting on index pages
+        $allItems = Quote::select('body as title', 'id')->approved()->orderBy('title')->get();
+
+        // Default parameters for ordering
         $orderBy = $request->orderBy ? $request->orderBy : 'created_at';
         $orderType = $request->orderType ? $request->orderType : 'desc';
         $activePage = $request->page ? $request->page : 1;
 
         // orderby Categories
         if($orderBy == 'category_titles') {
-            $quotes = Quote::selectRaw('group_concat(categories.title order by categories.title asc) as category_titles, quotes.*') 
+            $items = Quote::selectRaw('group_concat(categories.title order by categories.title asc) as category_titles, quotes.*') 
                     ->join('category_quote', 'quotes.id', '=', 'category_quote.quote_id')
                     ->join('categories', 'categories.id', '=', 'category_quote.category_id')
                     ->groupBy('quote_id')
@@ -204,7 +206,7 @@ class QuoteController extends Controller
 
         // orderBy Author name 
         else if ($orderBy == 'author_name') {
-            $quotes = Quote::join('authors', 'quotes.author_id', '=', 'authors.id')
+            $items = Quote::join('authors', 'quotes.author_id', '=', 'authors.id')
                     ->select('quotes.*', 'authors.name as author_name')
                     ->approved()
                     ->orderBy($orderBy, $orderType)
@@ -213,14 +215,12 @@ class QuoteController extends Controller
         }
 
         else {
-            $quotes = Quote::approved()->orderBy($orderBy, $orderType)
+            $items = Quote::approved()->orderBy($orderBy, $orderType)
                     ->paginate(30, ['*'], 'page', $activePage)
                     ->appends($request->except('page'));
         }
 
-        $reversedOrderType = $orderType == 'asc' ? 'desc' : 'asc';
-
-        return view('dashboard.quotes.index', compact('items', 'editRoute', 'quotes', 'orderBy', 'orderType', 'activePage', 'reversedOrderType'));
+        return view('dashboard.quotes.index', compact('modelShortcut', 'allItems', 'items', 'orderBy', 'orderType', 'activePage'));
     }
 
     /**

@@ -146,17 +146,6 @@ img {
     font-size: 20px;
     padding-bottom: 4px;
 }
-.warning-container {
-    margin: 0;
-    border-radius: 6px;
-    display: flex;
-    font-size: 15px;
-    padding: 12px 32px;
-}
-.warning-container span {
-    font-size: 20px;
-    margin-right: 12px;
-}
 /* ------------ /end Alerts ------------ */
 
 
@@ -675,10 +664,6 @@ input[type="file"]:after {
     }
     .body_with_hidden_aside .main {
         padding: 44px 0 0;
-    }
-    .warning-container {
-        font-size: 13px;
-        padding: 10px 20px;
     }
     .errors-container {
         max-width: 848px;

@@ -7,29 +7,24 @@
         @endif
 
         {{-- First levels items count --}}
-        @if( strpos($route, 'index') ) ({{ count($items) }}) @endif
+        @if( strpos($route, 'index') ) ({{ count($allItems) }}) @endif
 
         {{-- second level for CREATE --}}
         @if(strpos($route, 'create') ) / Добавить
 
         {{-- second level for EDIT --}}
-        @elseif($route == 'quotes.edit') / {{ $quote->id }}
-        @elseif($route == 'authors.edit') / {{ $author->name }}
+        @elseif($route == 'quotes.edit') / {{ $item->id }}
+        @elseif($route == 'authors.edit') / {{ $item->name }}
         @endif
     </h1>  {{-- Title end --}}
 
     {{-- Actions start --}}
     <div class="header__actions">
-        {{-- Create Buttons --}}
+        {{-- Create Items for index routes --}}
         @switch($route)
             @case('dashboard.index')
-                <a href="{{route('quotes.create')}}">
-                    <span class="material-icons">add</span> Добавить
-                </a>
-            @break
-
             @case('authors.dashboard.index')
-                <a href="{{route('authors.create')}}">
+                <a href="{{ route($modelShortcut . '.create') }}">
                     <span class="material-icons">add</span> Добавить
                 </a>
             @break
