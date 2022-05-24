@@ -91,7 +91,7 @@ class AuthenticationController extends Controller
         if ($authenticate) {
             $request->session()->regenerate();
 
-            return $ajaxRequest ? 'success' : redirect()->intended('home');
+            return $ajaxRequest ? 'success' : redirect()->intended(route('home'));
         // if authenticate failed
         } else {
             return $ajaxRequest ? 'failed' : redirect()->back()->withInput()->withErrors(['auth' => 'failed']);

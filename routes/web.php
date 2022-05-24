@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MainController;
@@ -93,4 +94,27 @@ Route::controller(AuthorController::class)->prefix('authors')->name('authors.')-
     Route::get('/{slug}', 'show')->name('show');
 
     Route::post('/ajax-get', 'ajaxGet')->name('ajax.get');
+});
+
+Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
+    Route::get('/', [QuoteController::class, 'dashboardIndex'])->name('dashboard.index');
+
+    Route::controller(QuoteController::class)->prefix('/quotes')->name('quotes.')->group(function () {
+        Route::get('/create', 'create')->name('create');
+        Route::get('/{id}', 'edit')->name('edit');
+
+        Route::post('/store', 'store')->name('store');
+        Route::post('/update', 'update')->name('update');
+        Route::post('/destroy', 'destroy')->name('destroy');
+    });
+
+    Route::controller(AuthorController::class)->prefix('/authors')->name('authors.')->group(function () {
+        Route::get('/', 'dashboardIndex')->name('dashboard.index');
+        Route::get('/create', 'create')->name('create');
+        Route::get('/{id}', 'edit')->name('edit');
+
+        Route::post('/store', 'store')->name('store');
+        Route::post('/update', 'update')->name('update');
+        Route::post('/destroy', 'destroy')->name('destroy');
+    });
 });
