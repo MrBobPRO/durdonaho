@@ -43,7 +43,7 @@
             @foreach ($items as $item)
                 <tr>
                     {{-- Checkbox for multidelete --}}
-                    <td width="20">
+                    <td>
                         <div class="checkbox">
                             <label for="item{{$item->id}}">
                                 <input id="item{{$item->id}}" type="checkbox" name="id[]" value="{{$item->id}}">
@@ -71,7 +71,7 @@
                     <td>{{ Carbon\Carbon::create($item->created_at)->locale('ru')->isoFormat('DD MMMM YYYY HH:mm') }}</td>
 
                     {{-- Actions --}}
-                    <td width="120">
+                    <td>
                         <div class="table__actions">
                             <a class="button--secondary" href="{{ route($modelShortcut . '.edit', $item->id) }}" 
                                 data-bs-toggle="tooltip" data-bs-placement="bottom" title="Редактировать">
