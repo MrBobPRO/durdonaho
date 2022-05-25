@@ -13,13 +13,43 @@
 
             <li>
                 <a class="@if( strpos($route, 'quotes') !== false || $route == 'dashboard.index') active @endif" href="{{route('dashboard.index')}}">
-                    <span class="material-icons">medication</span> Цитаты
+                    <span class="material-icons">article</span> Цитаты
+                </a>
+            </li>
+
+            @if( strpos($route, 'quotes') !== false || $route == 'dashboard.index') 
+                <ul class="aside__submenu">
+                    <li>
+                        <a href="{{ route('quotes.dashboard.unapproved') }}" @if($route == 'quotes.dashboard.unapproved') class="active" @endif>На рассмотрении</a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('dashboard.index') }}" @if($route == 'sources.dashboard.index') class="active" @endif>Источники</a>
+                    </li>
+                </ul>
+            @endif
+
+            <li>
+                <a class="@if( strpos($route, 'authors') !== false ) active @endif" href="{{route('authors.dashboard.index')}}">
+                    <span class="material-icons">account_circle</span> Авторы
                 </a>
             </li>
 
             <li>
-                <a class="@if( strpos($route, 'authors') !== false ) active @endif" href="{{route('authors.dashboard.index')}}">
-                    <span class="material-icons">article</span> Авторы
+                <a class="@if( strpos($route, 'categories') !== false ) active @endif" href="{{route('authors.dashboard.index')}}">
+                    <span class="material-icons">category</span> Категории
+                </a>
+            </li>
+
+            <li>
+                <a class="@if( strpos($route, 'options') !== false ) active @endif" href="{{route('authors.dashboard.index')}}">
+                    <span class="material-icons">notes</span> Тексты
+                </a>
+            </li>
+
+            <li>
+                <a class="@if( strpos($route, 'users') !== false ) active @endif" href="{{route('authors.dashboard.index')}}">
+                    <span class="material-icons">people</span> Пользователи
                 </a>
             </li>
 

@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\Author;
 use App\Models\Favorite;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class AuthorController extends Controller
 {
@@ -111,7 +115,6 @@ class AuthorController extends Controller
         return view('authors.index', compact('authors', 'request'));
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -122,27 +125,6 @@ class AuthorController extends Controller
         $authors = $this->filter($request, true);
 
         return view('authors.individual', compact('authors', 'request'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -160,36 +142,154 @@ class AuthorController extends Controller
     }
 
     /**
+     * Display a listing of the resource in dashboard
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dashboardIndex(Request $request)
+    {
+        // used while generating route names
+        $modelShortcut = 'authors';
+
+        // for search & counting on index pages
+        $allItems = Author::select('name as title', 'id')->orderBy('title')->get();
+
+        // Default parameters for ordering
+        $orderBy = $request->orderBy ? $request->orderBy : 'name';
+        $orderType = $request->orderType ? $request->orderType : 'asc';
+        $activePage = $request->page ? $request->page : 1;
+
+        $items = Author::orderBy($orderBy, $orderType)
+                ->withCount('quotes')
+                ->paginate(30, ['*'], 'page', $activePage)
+                ->appends($request->except('page'));
+
+        return view('dashboard.authors.index', compact('modelShortcut', 'allItems', 'items', 'orderBy', 'orderType', 'activePage'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        // used while generating route names
+        $modelShortcut = 'authors';
+
+        $users = User::orderBy('name')->select('name', 'id')->get();
+
+        return view('dashboard.authors.create', compact('modelShortcut', 'users'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        // validate request
+        $validationRules = [
+            'name' => [
+                'required',
+                Rule::unique('authors'),
+            ],
+        ];
+
+        $validationMessages = [
+            "name.unique" => "Автор с таким названием уже существует !",
+        ];
+
+        Validator::make($request->all(), $validationRules, $validationMessages)->validate();
+
+        // store quote
+        $author = new Author();
+        $fields = ['name', 'user_id', 'biography', 'popular', 'individual'];
+        Helper::fillModelColumns($author, $fields, $request);
+        $author->slug = Helper::generateUniqueSlug($request->name, Author::class);
+
+        Helper::uploadFile($request, $author, 'image', $author->slug, Helper::AUTHORS_PATH, 300);
+
+        $author->save();
+
+        return redirect()->route('dashboard.authors.index');
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Quote  $quote
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        // used while generating route names
+        $modelShortcut = 'quotes';
+
+        $item = Quote::find($id);
+
+        $authors = Author::orderBy('name')->select('name', 'id')->get();
+        $categories = Category::orderBy('title')->select('title', 'id')->get();
+        $sources = Source::orderBy('title')->select('title', 'id')->get();
+        $users = User::orderBy('name')->select('name', 'id')->get();
+
+        return view('dashboard.quotes.edit', compact('modelShortcut', 'item', 'authors', 'categories', 'sources', 'users'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Quote  $quote
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        // return rerror if there is already a quote very similar to the createing quote
+        $body = $request->body;
+        $quotes = Quote::approved()->where('id', '!=', $request->id)->pluck('body');
+        foreach($quotes as $quote) {
+            similar_text($body, $quote, $percentage);
+            if($percentage > 85) {
+                return redirect()->back()->withInput()->withErrors(['Похожая цитата уже существует : ' . $quote]);
+            }
+        };
+
+        // update quote
+        $quote = Quote::find($request->id);
+        $fields = ['body', 'author_id', 'source_id', 'user_id', 'popular'];
+        Helper::fillModelColumns($quote, $fields, $request);
+        $quote->save();
+
+        // reattach categories
+        $quote->categories()->detach();
+        $quote->categories()->attach($request->categories);
+
+        return redirect()->back();
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Request for deleting items by id may come in integer type (single item destroy form) 
+     * or in array type (multiple item destroy form)
+     * That`s why we need to get them in array type and delete them by loop
      *
-     * @param  int  $id
+     * Checkout Model Boot methods deleting function 
+     * Models relations also deleted on deleting function of Models Boot method
+     * 
+     * @param  int/array  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
+    public function destroy(Request $request)
+    {   
+        $ids = (array) $request->id;
+        
+        foreach($ids as $id) {
+            $item = Quote::find($id);
+            $item->delete();
+        }
+        
+        return redirect()->route('dashboard.index');
     }
 }

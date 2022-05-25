@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Quote extends Model
 {
@@ -44,6 +43,11 @@ class Quote extends Model
     public function scopeApproved($query)
     {
         return $query->where('approved', true);
+    }
+
+    public function scopeUnapproved($query)
+    {
+        return $query->where('approved', false);
     }
 
     /**

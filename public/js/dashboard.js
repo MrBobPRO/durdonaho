@@ -114,13 +114,7 @@ document.querySelectorAll('[data-action="show-image-from-local"]').forEach(input
         var imageType = /image.*/;
 
         if (file.type.match(imageType)) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                document.getElementById(input.dataset.target).src = reader.result;
-            }
-
-            reader.readAsDataURL(file);	
+            document.getElementById(input.dataset.target).src = URL.createObjectURL(file);
         } else {
             input.value = '';
             alert('Формат файла не поддерживается!');

@@ -330,11 +330,11 @@ class QuoteController extends Controller
     }
 
     /**
-     * Request for deleting items by id may come in integer type (single destroy form) 
-     * or in array type (multiple destroy form)
+     * Request for deleting items by id may come in integer type (single item destroy form) 
+     * or in array type (multiple item destroy form)
      * That`s why we need to get them in array type and delete them by loop
      *
-     * Checkout Models Boot methods deleting function 
+     * Checkout Model Boot methods deleting function 
      * Models relations also deleted on deleting function of Models Boot method
      * 
      * @param  int/array  $id

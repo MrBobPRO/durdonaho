@@ -13,9 +13,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class Helper
 {
     const USERS_PATH = 'img/users';
-    const PRODUCTS_PATH = 'img/products';
-    const RESEARCHES_PATH = 'img/researches';
-    const SLIDES_PATH = 'img/slides';
+    const AUTHORS_PATH = 'img/authors';
 
     /**
      * remove tags, replace many spaces by one, remove first whitespace
@@ -66,7 +64,7 @@ class Helper
      * @param string $model Full namespace of model
      * @return string
      */
-    public static function generateSlug($string, $model)
+    public static function generateUniqueSlug($string, $model)
     {
         $cyrilic = [
             'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п',

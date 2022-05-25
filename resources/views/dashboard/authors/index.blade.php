@@ -1,13 +1,6 @@
 @extends('dashboard.layouts.app')
 @section("main")
 
-@if($activePage == 1)
-    <div class="alert alert-warning">
-        <span class="material-icons">info</span>
-        Список всех цитат, которые прошли проверку администратора и отображаются на сайте
-    </div>
-@endif
-
 @include('dashboard.layouts.search')
 
 {{-- Table form start --}}
@@ -23,20 +16,24 @@
 
                 @php $reversedOrderType = App\Helpers\Helper::reverseOrderType($orderType); @endphp
 
-                <th width="460">
-                    Текст
+                <th width="110">
+                    Изображение
                 </th>
 
                 <th>
-                    <a class="{{ $orderType }} {{ $orderBy == 'author_name' ? 'active' : '' }}" href="{{ route('dashboard.index') }}?page={{ $activePage }}&orderBy=author_name&orderType={{ $reversedOrderType }}">Автор</a>
+                    <a class="{{ $orderType }} {{ $orderBy == 'name' ? 'active' : '' }}" href="{{ route($modelShortcut . '.dashboard.index') }}?page={{ $activePage }}&orderBy=name&orderType={{ $reversedOrderType }}">Имя</a>
                 </th>
 
                 <th>
-                    <a class="{{ $orderType }} {{ $orderBy == 'category_titles' ? 'active' : '' }}" href="{{ route('dashboard.index') }}?page={{ $activePage }}&orderBy=category_titles&orderType={{ $reversedOrderType }}">Категории</a>
+                    Биография
                 </th>
 
                 <th>
-                    <a class="{{ $orderType }} {{ $orderBy == 'created_at' ? 'active' : '' }}" href="{{ route('dashboard.index') }}?page={{ $activePage }}&orderBy=created_at&orderType={{ $reversedOrderType }}">Дата добавления</a>
+                    <a class="{{ $orderType }} {{ $orderBy == 'quotes_count' ? 'active' : '' }}" href="{{ route($modelShortcut . '.dashboard.index') }}?page={{ $activePage }}&orderBy=quotes_count&orderType={{ $reversedOrderType }}">Количество цитат</a>
+                </th>
+
+                <th>
+                    <a class="{{ $orderType }} {{ $orderBy == 'created_at' ? 'active' : '' }}" href="{{ route($modelShortcut . '.dashboard.index') }}?page={{ $activePage }}&orderBy=created_at&orderType={{ $reversedOrderType }}">Дата добавления</a>
                 </th>
 
                 <th width="120">
@@ -59,27 +56,22 @@
                         </div>
                     </td>
 
-                    <td>{{ mb_strlen($item->body) > 200 ? (mb_substr($item->body, 0, 200) . '...') : $item->body }}</td>
-                    <td>{{ $item->author->name }}</td>
+                    <td><img src="{{ asset('img/authors/' . $item->image) }}"></td>
+                    <td>{{ $item->name }}</td>
+                    <td>{{ $item->biography }}</td>
 
-                    <td>
-                        @if($orderBy == 'category_titles')
-                            {!! str_replace(',', '<br>', $item->category_titles) !!}
-                        @else
-                            @foreach ($item->categories as $category)
-                                {{ $category->title }}
-                                @if(!$loop->last)
-                                    <br>
-                                @endif
-                            @endforeach
-                        @endif
-                    </td>
+                    <td>{{ $item->quotes_count }}</td>
 
                     <td>{{ Carbon\Carbon::create($item->created_at)->locale('ru')->isoFormat('DD MMMM YYYY HH:mm') }}</td>
 
                     {{-- Actions --}}
                     <td>
                         <div class="table__actions">
+                            <a class="button--main" href="{{ route('authors.show', $item->slug) }}" target="_blank"
+                                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Посмотреть">
+                                <span class="material-icons">visibility</span>
+                            </a>
+
                             <a class="button--secondary" href="{{ route($modelShortcut . '.edit', $item->id) }}" 
                                 data-bs-toggle="tooltip" data-bs-placement="bottom" title="Редактировать">
                                 <span class="material-icons">edit</span>
