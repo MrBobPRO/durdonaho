@@ -11,7 +11,7 @@
         {{-- Table Head start --}}
         <thead>
             <tr>
-                {{-- empty space for checkbox --}}
+                {{-- Empty space for checkbox --}}
                 <th width="20"></th>
 
                 @php $reversedOrderType = App\Helpers\Helper::reverseOrderType($orderType); @endphp

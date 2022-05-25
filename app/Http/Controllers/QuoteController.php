@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\Author;
+use App\Models\Category;
 use App\Models\Favorite;
 use App\Models\Quote;
+use App\Models\Source;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -175,7 +178,7 @@ class QuoteController extends Controller
     }
 
     /**
-     * Display list of items in dashboard.
+     * Display a listing of the resource in dashboard
      *
      * @return \Illuminate\Http\Response
      */
@@ -230,7 +233,15 @@ class QuoteController extends Controller
      */
     public function create()
     {
-        //
+        // used while generating route names
+        $modelShortcut = 'quotes';
+
+        $authors = Author::orderBy('name')->select('name', 'id')->get();
+        $categories = Category::orderBy('title')->select('title', 'id')->get();
+        $sources = Source::orderBy('title')->select('title', 'id')->get();
+        $users = User::orderBy('name')->select('name', 'id')->get();
+
+        return view('dashboard.quotes.create', compact('modelShortcut', 'authors', 'categories', 'sources', 'users'));
     }
 
     /**
@@ -241,7 +252,28 @@ class QuoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return rerror if there is already a quote very similar to the createing quote
+        $body = $request->body;
+        $quotes = Quote::approved()->pluck('body');
+        foreach($quotes as $quote) {
+            similar_text($body, $quote, $percentage);
+            if($percentage > 85) {
+                return redirect()->back()->withInput()->withErrors(['Похожая цитата уже существует : ' . $quote]);
+            }
+        };
+
+        // store quote
+        $quote = new Quote();
+        $fields = ['body', 'author_id', 'source_id', 'user_id', 'popular'];
+        Helper::fillModelColumns($quote, $fields, $request);
+
+        $quote->verified = true;
+        $quote->approved = true;
+        $quote->save();
+
+        $quote->categories()->attach($request->categories);
+
+        return redirect()->route('dashboard.index');
     }
 
     /**
@@ -250,9 +282,19 @@ class QuoteController extends Controller
      * @param  \App\Models\Quote  $quote
      * @return \Illuminate\Http\Response
      */
-    public function edit(Quote $quote)
+    public function edit($id)
     {
-        //
+        // used while generating route names
+        $modelShortcut = 'quotes';
+
+        $item = Quote::find($id);
+
+        $authors = Author::orderBy('name')->select('name', 'id')->get();
+        $categories = Category::orderBy('title')->select('title', 'id')->get();
+        $sources = Source::orderBy('title')->select('title', 'id')->get();
+        $users = User::orderBy('name')->select('name', 'id')->get();
+
+        return view('dashboard.quotes.edit', compact('modelShortcut', 'item', 'authors', 'categories', 'sources', 'users'));
     }
 
     /**
@@ -262,19 +304,51 @@ class QuoteController extends Controller
      * @param  \App\Models\Quote  $quote
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Quote $quote)
+    public function update(Request $request)
     {
-        //
+        // return rerror if there is already a quote very similar to the createing quote
+        $body = $request->body;
+        $quotes = Quote::approved()->where('id', '!=', $request->id)->pluck('body');
+        foreach($quotes as $quote) {
+            similar_text($body, $quote, $percentage);
+            if($percentage > 85) {
+                return redirect()->back()->withInput()->withErrors(['Похожая цитата уже существует : ' . $quote]);
+            }
+        };
+
+        // update quote
+        $quote = Quote::find($request->id);
+        $fields = ['body', 'author_id', 'source_id', 'user_id', 'popular'];
+        Helper::fillModelColumns($quote, $fields, $request);
+        $quote->save();
+
+        // reattach categories
+        $quote->categories()->detach();
+        $quote->categories()->attach($request->categories);
+
+        return redirect()->back();
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Request for deleting items by id may come in integer type (single destroy form) 
+     * or in array type (multiple destroy form)
+     * That`s why we need to get them in array type and delete them by loop
      *
-     * @param  \App\Models\Quote  $quote
+     * Checkout Models Boot methods deleting function 
+     * Models relations also deleted on deleting function of Models Boot method
+     * 
+     * @param  int/array  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Quote $quote)
-    {
-        //
+    public function destroy(Request $request)
+    {   
+        $ids = (array) $request->id;
+        
+        foreach($ids as $id) {
+            $item = Quote::find($id);
+            $item->delete();
+        }
+        
+        return redirect()->route('dashboard.index');
     }
 }

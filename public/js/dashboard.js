@@ -64,7 +64,8 @@ document.querySelector('#aside-toggler-button').addEventListener('click', (evt) 
 
 
 // Toggle Table Forms checkboxes on select all button click
-document.querySelector('#header-select-all-button').addEventListener('click', (evt) => {
+if (document.querySelector('#header-select-all-button')) {
+    document.querySelector('#header-select-all-button').addEventListener('click', (evt) => {
     let tableForm = document.querySelector('#table-form')
     let checkboxes = tableForm.querySelectorAll('input[type="checkbox"]');
 
@@ -83,12 +84,15 @@ document.querySelector('#header-select-all-button').addEventListener('click', (e
         chb.checked = !checkedAll;
     }
 });
+}
 
 
 // Submit Table Form on Multiple destroy items modal form submit
-document.querySelector('#destroy-multiple-items-form-submit-button').addEventListener('click', () => {
-    document.getElementById('table-form').submit();
-});
+if (document.querySelector('#destroy-multiple-items-form-submit-button')) {
+    document.querySelector('#destroy-multiple-items-form-submit-button').addEventListener('click', () => {
+        document.getElementById('table-form').submit();
+    });
+}
 
 
 // One modal is used to delete any item in Table Form or special item in single items edit page

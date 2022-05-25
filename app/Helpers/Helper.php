@@ -183,17 +183,17 @@ class Helper
     }
 
     /**
-     * Fill item fields. Used while storing & updating item
+     * Fill Eloquent Model Items fields from request by loop. Used while storing & updating Eloquent Model item
      * 
      * @param \Http\Request $request
-     * @param \Eloquent\Model $item
+     * @param \Eloquent\Model $model
      * @param array $fields
      * @return void
      */
-    public static function fillFields($request, $item, $fields)
+    public static function fillModelColumns($model, $fields, $request,)
     {
         foreach ($fields as $field) {
-            $item[$field] = $request[$field];
+            $model[$field] = $request[$field];
         }
     }
 

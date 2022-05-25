@@ -45,4 +45,25 @@ class Quote extends Model
     {
         return $query->where('approved', true);
     }
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        // Also delete model relations while deleting
+        static::deleting(function ($quote) {
+            $quote->categories()->detach();
+
+            $quote->manuals()->each(function($manual) {
+                $manual->delete();
+            });
+
+             $quote->likes()->each(function($like) {
+                $like->delete();
+            });
+        });
+    }
 }

@@ -1,81 +1,62 @@
 @extends('dashboard.layouts.app')
 @section("main")
 
-<form action="{{ route('products.update') }}" method="POST" class="form" enctype="multipart/form-data">
+<form action="{{ route($modelShortcut . '.update') }}" method="POST" class="form" enctype="multipart/form-data">
     @csrf
-    <input type="hidden" name="id" value="{{ $product->id }}">
+    <input type="hidden" name="id" value="{{ $item->id }}">
 
     <div class="form-group">
-        <label class="required">Название</label>
-        <input class="form-input" name="name" type="text" value="{{ $product->name }}" required>
+        <label class="required">Текст</label>
+        <textarea class="form-textarea" name="body" rows="7" required>{{ old('body') != '' ? old('body') : $item->body }}</textarea>
     </div>
 
     <div class="form-group">
-        <label class="required">Короткое описание</label>
-        <textarea class="simditor-wysiwyg" name="description" required>{{ $product->description }}</textarea>
-    </div>
-
-    <div class="form-group">
-        <label class="required">Полное описание (Показания к применению / Способ применения итд)</label>
-        <textarea class="simditor-wysiwyg" name="body" required>{{ $product->body }}</textarea>
-    </div>
-
-    <div class="form-group">
-        <label>Изображение. Необходимый размер: квадратное изображение</label>
-        <input class="form-input" name="image" type="file" accept=".png, .jpg, .jpeg"
-        data-action="show-image-from-local" data-target="local-image">
-
-        <img class="form-image" src="{{ asset('img/products/' . $product->image)}}" id="local-image">
-    </div>
-
-    <div class="form-group">
-        <label>Инструкция. Формат : pdf. <a href="{{ asset('instructions/' . $product->instruction) }}" target="_blank">Текущий файл: {{ $product->instruction }}</a></label>
-        <input class="form-input" name="instruction" accept=".pdf" type="file">
-    </div>
-
-    <div class="form-group">
-        <label>Ссылка на приобретение препарата. Полная ссылка включая https или http</label>
-        <input class="form-input" name="obtain_link" type="text" placeholder="https://salomat.tj/" value="{{ $product->obtain_link }}">
-    </div>
-
-    <div class="form-group">
-        <label class="required">Рецептурность</label>
-        <select class="selectize-singular" name="prescription_id" required>
-            @foreach ($prescriptions as $prescription)
-                <option value="{{ $prescription->id }}" {{ $product->prescription_id == $prescription->id ? 'selected' : '' }}>{{ $prescription->title }}</option>
+        <label class="required">Автор</label>
+        <select class="selectize-singular" name="author_id" required>
+            @foreach ($authors as $author)
+                <option value="{{ $author->id }}" @selected($author->id == $item->author_id)>{{ $author->name }}</option>
             @endforeach
         </select>
     </div>
 
     <div class="form-group">
-        <label class="required">Форма</label>
-        <select class="selectize-singular" name="form_id" required>
-            @foreach ($forms as $form)
-                <option value="{{ $form->id }}" {{ $product->form_id == $form->id ? 'selected' : '' }}>{{ $form->title }}</option>
+        <label>Источник</label>
+        <select class="selectize-singular" name="source_id" placeholder="Выберите источник">
+            <option></option>
+            @foreach ($sources as $source)
+                <option value="{{ $source->id }}" @selected($source->id == $item->source_id)>{{ $source->title }}</option>
             @endforeach
         </select>
     </div>
 
     <div class="form-group">
-        <label class="required">Воздействие</label>
-        <select class="selectize-singular" name="impact_id" required>
-            @foreach ($impacts as $impact)
-                <option value="{{ $impact->id }}" {{ $product->impact_id == $impact->id ? 'selected' : '' }}>{{ $impact->title }}</option>
+        <label class="required">Издатель</label>
+        <select class="selectize-singular" name="user_id" required>
+            @foreach ($users as $user)
+                <option value="{{ $user->id }}" @selected($user->id == $item->user_id)>{{ $user->name }}</option>
             @endforeach
         </select>
     </div>
 
     <div class="form-group">
-        <label class="required">Действующее вещество</label>
-        <select class="selectize-multiple" name="substances[]" multiple="multiple" required>
-            @foreach ($substances as $substance)
-                <option value="{{ $substance->id }}"
-                    @foreach ($product->substances as $prodSub)
-                        @if($prodSub->id == $substance->id) selected @endif
+        <label class="required">Категории</label>
+        <select class="selectize-multiple" name="categories[]" multiple="multiple" required>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}"
+                    @foreach ($item->categories as $itemCat)
+                        @selected($category->id == $itemCat->id)
                     @endforeach
-                    >{{ $substance->title }}
+                    >{{ $category->title }}
                 </option>
             @endforeach
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label class="required">Добавить в популярные цитаты?</label>
+        <select class="selectize-singular" name="popular" required>
+            <option value="0" @selected(!$item->popular)>Нет</option>
+            <option value="1" @selected($item->popular)>Да</option>
         </select>
     </div>
 
@@ -84,13 +65,13 @@
             <span class="material-icons">done_all</span> Обновить
         </button>
 
-        <button class="button button--danger" type="button" data-bs-toggle="modal" data-bs-target="#destroy-single-modal">
+        <button class="button button--danger" type="button" data-bs-toggle="modal" data-bs-target="#destroy-single-item-modal">
             <span class="material-icons">remove_circle</span> Удалить
         </button>
     </div>
 
 </form>
 
-@include('dashboard.modals.single-destroy', ['destroyRoute' => 'products.destroy', 'itemId' => $product->id ])
+@include('dashboard.modals.single-item-destroy', ['destroyItemId' => $item->id ])
 
 @endsection
