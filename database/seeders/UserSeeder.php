@@ -21,12 +21,12 @@ class UserSeeder extends Seeder
         $role = ['admin', 'user'];
         $image = ['1.jpg', '2.jpg'];
         $biography = ['Администратор — должностное лицо, управляющее в учреждении, коллективе, компании. Специалисты этой группы осуществляют работы по сопровождению баз данных в компьютерных системах.', 'Пользователь — лицо или организация, которое использует действующую систему для выполнения конкретной функции'];
-        $verified = [1,0];
+        $verified = [1, 0];
 
-        for($i=0; $i<count($name); $i++) {
+        for ($i = 0; $i < count($name); $i++) {
             $user = new User();
             $user->name = $name[$i];
-            $user->slug = Helper::generateSlug($name[$i], 'App\Models\User');
+            $user->slug = Helper::generateUniqueSlug($name[$i], 'App\Models\User');
             $user->email = $email[$i];
             $user->role = $role[$i];
             $user->image = $image[$i];

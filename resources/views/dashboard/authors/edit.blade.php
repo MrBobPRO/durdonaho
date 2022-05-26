@@ -6,27 +6,21 @@
     <input type="hidden" name="id" value="{{ $item->id }}">
 
     <div class="form-group">
-        <label class="required">Текст</label>
-        <textarea class="form-textarea" name="body" rows="7" required>{{ old('body') != '' ? old('body') : $item->body }}</textarea>
+        <label class="required">Имя</label>
+        <input type="text" class="form-input" name="name" value="{{ old('name') ?? $item->name }}" required />
     </div>
 
     <div class="form-group">
-        <label class="required">Автор</label>
-        <select class="selectize-singular" name="author_id" required>
-            @foreach ($authors as $author)
-                <option value="{{ $author->id }}" @selected($author->id == $item->author_id)>{{ $author->name }}</option>
-            @endforeach
-        </select>
+        <label class="required">Биография</label>
+        <textarea class="form-textarea" name="biography" rows="7" required>{{ old('biography') ?? $item->biography }}</textarea>
     </div>
 
     <div class="form-group">
-        <label>Источник</label>
-        <select class="selectize-singular" name="source_id" placeholder="Выберите источник">
-            <option></option>
-            @foreach ($sources as $source)
-                <option value="{{ $source->id }}" @selected($source->id == $item->source_id)>{{ $source->title }}</option>
-            @endforeach
-        </select>
+        <label>Изображение</label>
+        <input class="form-input" name="image" type="file" accept=".png, .jpg, .jpeg"
+        data-action="show-image-from-local" data-target="local-image">
+
+        <img class="form-image" src="{{ asset('img/authors/' . $item->image) }}" id="local-image">
     </div>
 
     <div class="form-group">
@@ -39,21 +33,15 @@
     </div>
 
     <div class="form-group">
-        <label class="required">Категории</label>
-        <select class="selectize-multiple" name="categories[]" multiple="multiple" required>
-            @foreach ($categories as $category)
-                <option value="{{ $category->id }}"
-                    @foreach ($item->categories as $itemCat)
-                        @selected($category->id == $itemCat->id)
-                    @endforeach
-                    >{{ $category->title }}
-                </option>
-            @endforeach
+        <label class="required">Является ли автор самиздатом?</label>
+        <select class="selectize-singular" name="individual" required>
+            <option value="0" @selected(!$item->individual)>Нет</option>
+            <option value="1" @selected($item->individual)>Да</option>
         </select>
     </div>
 
     <div class="form-group">
-        <label class="required">Добавить в популярные цитаты?</label>
+        <label class="required">Добавить в популярные авторы?</label>
         <select class="selectize-singular" name="popular" required>
             <option value="0" @selected(!$item->popular)>Нет</option>
             <option value="1" @selected($item->popular)>Да</option>

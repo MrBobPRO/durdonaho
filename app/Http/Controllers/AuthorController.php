@@ -210,11 +210,11 @@ class AuthorController extends Controller
         Helper::fillModelColumns($author, $fields, $request);
         $author->slug = Helper::generateUniqueSlug($request->name, Author::class);
 
-        Helper::uploadFile($request, $author, 'image', $author->slug, Helper::AUTHORS_PATH, 300);
+        Helper::uploadModelsFile($request, $author, 'image', $author->slug, Helper::AUTHORS_PATH, 300);
 
         $author->save();
 
-        return redirect()->route('dashboard.authors.index');
+        return redirect()->route('authors.dashboard.index');
     }
 
     /**
@@ -226,16 +226,12 @@ class AuthorController extends Controller
     public function edit($id)
     {
         // used while generating route names
-        $modelShortcut = 'quotes';
+        $modelShortcut = 'authors';
 
-        $item = Quote::find($id);
-
-        $authors = Author::orderBy('name')->select('name', 'id')->get();
-        $categories = Category::orderBy('title')->select('title', 'id')->get();
-        $sources = Source::orderBy('title')->select('title', 'id')->get();
+        $item = Author::find($id);
         $users = User::orderBy('name')->select('name', 'id')->get();
 
-        return view('dashboard.quotes.edit', compact('modelShortcut', 'item', 'authors', 'categories', 'sources', 'users'));
+        return view('dashboard.authors.edit', compact('modelShortcut', 'item', 'users'));
     }
 
     /**
@@ -247,25 +243,30 @@ class AuthorController extends Controller
      */
     public function update(Request $request)
     {
-        // return rerror if there is already a quote very similar to the createing quote
-        $body = $request->body;
-        $quotes = Quote::approved()->where('id', '!=', $request->id)->pluck('body');
-        foreach($quotes as $quote) {
-            similar_text($body, $quote, $percentage);
-            if($percentage > 85) {
-                return redirect()->back()->withInput()->withErrors(['Похожая цитата уже существует : ' . $quote]);
-            }
-        };
+        $author = Author::find($request->id);
 
-        // update quote
-        $quote = Quote::find($request->id);
-        $fields = ['body', 'author_id', 'source_id', 'user_id', 'popular'];
-        Helper::fillModelColumns($quote, $fields, $request);
-        $quote->save();
+        // validate request
+        $validationRules = [
+            'name' => [
+                'required',
+                Rule::unique('authors')->ignore($author->id),
+            ],
+        ];
 
-        // reattach categories
-        $quote->categories()->detach();
-        $quote->categories()->attach($request->categories);
+        $validationMessages = [
+            "name.unique" => "Автор с таким названием уже существует !",
+        ];
+
+        Validator::make($request->all(), $validationRules, $validationMessages)->validate();
+
+        // update author
+        $fields = ['name', 'user_id', 'biography', 'popular', 'individual'];
+        Helper::fillModelColumns($author, $fields, $request);
+        $author->slug = Helper::generateUniqueSlug($request->name, Author::class, $author->id);
+
+        Helper::uploadModelsFile($request, $author, 'image', $author->slug, Helper::AUTHORS_PATH, 300);
+
+        $author->save();
 
         return redirect()->back();
     }
@@ -286,10 +287,10 @@ class AuthorController extends Controller
         $ids = (array) $request->id;
         
         foreach($ids as $id) {
-            $item = Quote::find($id);
+            $item = Author::find($id);
             $item->delete();
         }
         
-        return redirect()->route('dashboard.index');
+        return redirect()->route('authors.dashboard.index');
     }
 }

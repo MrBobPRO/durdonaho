@@ -29,7 +29,7 @@ class Helper
     {
         $cleaned = preg_replace('#<[^>]+>#', ' ', $string); //remove tags
         $cleaned = str_replace('&nbsp;', ' ', $cleaned); //decode space
-        if($length) {
+        if ($length) {
             $cleaned = mb_strlen($cleaned) < $length ? $cleaned : mb_substr($cleaned, 0, ($length - 4)) . '...'; //cut length
         }
         $cleaned = preg_replace('!\s+!', ' ', $cleaned); //many spaces into one
@@ -62,9 +62,10 @@ class Helper
      *
      * @param string $string Generates slug from this string
      * @param string $model Full namespace of model
+     * @param integer $ignoreId ignore slug of a model with a given id (used while updating model)
      * @return string
      */
-    public static function generateUniqueSlug($string, $model)
+    public static function generateUniqueSlug($string, $model, $ignoreId = null)
     {
         $cyrilic = [
             'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п',
@@ -87,23 +88,23 @@ class Helper
         $transilation = str_replace($cyrilic, $latin, $string);
         $slug = strtolower($transilation);
 
-        while($model::where('slug', $slug)->first()) {
-            $slug = $slug . '(1)';
+        while ($model::where('slug', $slug)->where('id', '!=', $ignoreId)->first()) {
+            $slug = $slug . '-1';
         }
 
         return $slug;
     }
 
     /**
-     * Upload file, resize it and save it in db 
+     * Upload models file & update models column. Images can be resized after upload 
      * 
      * Resizing (Only Images) works only if width or height is given
      * Image will be croped from the center, If both width and height are given (fit)
      * Else if one of the parameters is given (width or height), another will be calculated auto (aspectRatio)
      *
      * @param \Http\Request $request
-     * @param \Eloquent\Model\ $item
-     * @param string $field Requested file input name and Model items column name
+     * @param \Eloquent\Model\ $model
+     * @param string $column Requested file input name and Models column name
      * @param string $name Name for newly creating file
      * @param string $path Path to store
      * @param integer $width Width for resize
@@ -111,35 +112,37 @@ class Helper
      * 
      * @return void
      */
-    public static function uploadFile($request, $item, $field, $name, $path, $width = null, $height = null)
+    public static function uploadModelsFile($request, $model, $column, $name, $path, $width = null, $height = null)
     {
-        // Any file input is nullable on item update
-        $file = $request->file($field);
+        // Any file input maybe nullable on model update
+        $file = $request->file($column);
         if ($file) {
             $filename = $name . '.' . $file->getClientOriginalExtension();
-            $filename = Helper::renameIfFileExists($path, $filename);
+            $filename = Helper::renameIfFileAlreadyExists($path, $filename);
 
-            $publicPath = public_path($path);
+            $fullPath = public_path($path);
 
-            $file->move($publicPath, $filename);
-            $item[$field] = $filename;
+            $file->move($fullPath, $filename);
+            $model[$column] = $filename;
 
             //resize image
-            if($width || $height) {
-                $image = Image::make($publicPath . '/' . $filename);
-                
-                if($width && $height) {
+            if ($width || $height) {
+                $image = Image::make($fullPath . '/' . $filename);
+
+                // fit
+                if ($width && $height) {
                     $image->fit($width, $height, function ($constraint) {
                         $constraint->upsize();
                     }, 'center');
-                    
+
+                // aspect ratio
                 } else {
                     $image->resize($width, $height, function ($constraint) {
                         $constraint->aspectRatio();
                     });
                 }
 
-                $image->save($publicPath . '/' . $filename);
+                $image->save($fullPath . '/' . $filename);
             }
         }
     }
@@ -161,21 +164,23 @@ class Helper
      */
     public static function createThumbs($path, $filename, $width = 400, $height = null)
     {
-        $publicPath = public_path($path);
-        $thumb = Image::make($publicPath . '/' . $filename);
-        
-        if($width && $height) {
+        $fullPath = public_path($path);
+        $thumb = Image::make($fullPath . '/' . $filename);
+
+        // fit
+        if ($width && $height) {
             $thumb->fit($width, $height, function ($constraint) {
                 $constraint->upsize();
             }, 'center');
-            
+
+        // aspect ration
         } else {
             $thumb->resize($width, $height, function ($constraint) {
                 $constraint->aspectRatio();
             });
         }
 
-        $thumb->save($publicPath . '/thumbs//' . $filename);
+        $thumb->save($fullPath . '/thumbs//' . $filename);
 
         return true;
     }
@@ -203,15 +208,15 @@ class Helper
      * @param string $filename
      * @return string
      */
-    public static function renameIfFileExists($path, $filename)
+    public static function renameIfFileAlreadyExists($path, $filename)
     {
         $name = pathinfo($filename, PATHINFO_FILENAME);
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
-        $publicPath = public_path($path) . '/';
+        $fullPath = public_path($path) . '/';
 
-        while(file_exists($publicPath . $filename)) {
-            $name = $name . '(1)'; 
+        while (file_exists($fullPath . $filename)) {
+            $name = $name . '(1)';
             $filename = $name . '.' . $extension;
         }
 
@@ -221,7 +226,7 @@ class Helper
     /**
      * Get all keywords in text and surround them by span with a highlighted class 
      */
-    public static function highlightKeyword($keyword, $text) 
+    public static function highlightKeyword($keyword, $text)
     {
         return preg_replace("/" . $keyword . "/iu", "<span class='highlighted'>" . $keyword .  "</span>", $text);
     }
@@ -229,7 +234,7 @@ class Helper
     /**
      * Get all keywords in text and surround them by span with a highlighted class 
      */
-    public static function reverseOrderType($orderType) 
+    public static function reverseOrderType($orderType)
     {
         return $orderType == 'asc' ? 'desc' : 'asc';
     }
@@ -251,5 +256,4 @@ class Helper
 
         return $routeName;
     }
-
 }

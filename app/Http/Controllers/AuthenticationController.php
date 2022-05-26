@@ -24,28 +24,28 @@ class AuthenticationController extends Controller
         $errorMessages = [];
 
         //name
-        if(User::where('name', $request->name)->first()) {
+        if (User::where('name', $request->name)->first()) {
             array_push($failedInputs, 'name');
             array_push($errorMessages, 'Пользователь с таким именем уже существует');
         }
         //email
-        if(User::where('email', $request->email)->first()) {
+        if (User::where('email', $request->email)->first()) {
             array_push($failedInputs, 'email');
             array_push($errorMessages, 'Пользователь с такой электронной почтой уже существует');
         }
         //password
-        if(mb_strlen($request->password) < 5) {
+        if (mb_strlen($request->password) < 5) {
             array_push($failedInputs, 'password');
             array_push($errorMessages, 'Слишком короткий пароль');
         }
         //password-confirmartion
-        if($request->password != $request->password_confirmation) {
+        if ($request->password != $request->password_confirmation) {
             array_push($failedInputs, 'password_confirmation');
             array_push($errorMessages, 'Пароли не совпадают');
         }
 
         //return erros on validation fail
-        if(count($failedInputs)) {
+        if (count($failedInputs)) {
             return [
                 'validation' => 'failed',
                 'failedInputs' => $failedInputs,
@@ -56,7 +56,7 @@ class AuthenticationController extends Controller
         //else store user and redirect to email verify notification page
         $user = User::create([
             'name' => $request->name,
-            'slug' => Helper::generateSlug($request->name, 'App\Models\User'),
+            'slug' => Helper::generateUniqueSlug($request->name, 'App\Models\User'),
             'email' => $request->email,
             'verified_email' => false,
             'password' => Hash::make($request->password),
@@ -92,7 +92,7 @@ class AuthenticationController extends Controller
             $request->session()->regenerate();
 
             return $ajaxRequest ? 'success' : redirect()->intended(route('home'));
-        // if authenticate failed
+            // if authenticate failed
         } else {
             return $ajaxRequest ? 'failed' : redirect()->back()->withInput()->withErrors(['auth' => 'failed']);
         }

@@ -24,7 +24,7 @@ class AuthorSeeder extends Seeder
             $a = new Author();
             $a->name = $name[$i];
             $a->user_id = 1;
-            $a->slug = Helper::generateSlug($name[$i], 'App\Models\Author');
+            $a->slug = Helper::generateUniqueSlug($name[$i], 'App\Models\Author');
             $a->biography = $bio[$i];
             $a->image = $name[$i] . '.jpg';
             $a->popular = true;

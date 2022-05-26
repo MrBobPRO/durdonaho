@@ -92,12 +92,12 @@ class QuoteController extends Controller
         $userId = $manualUserId ? $manualUserId : $request->user_id;
 
         // 1. Only approved quotes (by admin) will be taken
-        $quotes = $quotes->where('approved', true);
+        $quotes = $quotes->approved();
 
         // 2. Specific Authors quotes (valid only on authors.show route) 
         if ($authorId && $authorId != '') {
             $quotes = $quotes->where('author_id', $authorId);
-        } 
+        }
 
         // 3. Favorite (true only on favorite.quotes route)
         else if ($favorite && $favorite != '') {
@@ -196,31 +196,29 @@ class QuoteController extends Controller
         $activePage = $request->page ? $request->page : 1;
 
         // orderby Categories
-        if($orderBy == 'category_titles') {
-            $items = Quote::selectRaw('group_concat(categories.title order by categories.title asc) as category_titles, quotes.*') 
-                    ->join('category_quote', 'quotes.id', '=', 'category_quote.quote_id')
-                    ->join('categories', 'categories.id', '=', 'category_quote.category_id')
-                    ->groupBy('quote_id')
-                    ->approved()
-                    ->orderBy($orderBy, $orderType)
-                    ->paginate(30, ['*'], 'page', $activePage)
-                    ->appends($request->except('page'));
+        if ($orderBy == 'category_titles') {
+            $items = Quote::selectRaw('group_concat(categories.title order by categories.title asc) as category_titles, quotes.*')
+                ->join('category_quote', 'quotes.id', '=', 'category_quote.quote_id')
+                ->join('categories', 'categories.id', '=', 'category_quote.category_id')
+                ->groupBy('quote_id')
+                ->approved()
+                ->orderBy($orderBy, $orderType)
+                ->paginate(30, ['*'], 'page', $activePage)
+                ->appends($request->except('page'));
         }
 
         // orderBy Author name 
         else if ($orderBy == 'author_name') {
             $items = Quote::join('authors', 'quotes.author_id', '=', 'authors.id')
-                    ->select('quotes.*', 'authors.name as author_name')
-                    ->approved()
-                    ->orderBy($orderBy, $orderType)
-                    ->paginate(30, ['*'], 'page', $activePage)
-                    ->appends($request->except('page'));
-        }
-
-        else {
+                ->select('quotes.*', 'authors.name as author_name')
+                ->approved()
+                ->orderBy($orderBy, $orderType)
+                ->paginate(30, ['*'], 'page', $activePage)
+                ->appends($request->except('page'));
+        } else {
             $items = Quote::approved()->orderBy($orderBy, $orderType)
-                    ->paginate(30, ['*'], 'page', $activePage)
-                    ->appends($request->except('page'));
+                ->paginate(30, ['*'], 'page', $activePage)
+                ->appends($request->except('page'));
         }
 
         return view('dashboard.quotes.index', compact('modelShortcut', 'allItems', 'items', 'orderBy', 'orderType', 'activePage'));
@@ -255,9 +253,9 @@ class QuoteController extends Controller
         // return rerror if there is already a quote very similar to the createing quote
         $body = $request->body;
         $quotes = Quote::approved()->pluck('body');
-        foreach($quotes as $quote) {
+        foreach ($quotes as $quote) {
             similar_text($body, $quote, $percentage);
-            if($percentage > 85) {
+            if ($percentage > 85) {
                 return redirect()->back()->withInput()->withErrors(['Похожая цитата уже существует : ' . $quote]);
             }
         };
@@ -309,9 +307,9 @@ class QuoteController extends Controller
         // return rerror if there is already a quote very similar to the createing quote
         $body = $request->body;
         $quotes = Quote::approved()->where('id', '!=', $request->id)->pluck('body');
-        foreach($quotes as $quote) {
+        foreach ($quotes as $quote) {
             similar_text($body, $quote, $percentage);
-            if($percentage > 85) {
+            if ($percentage > 85) {
                 return redirect()->back()->withInput()->withErrors(['Похожая цитата уже существует : ' . $quote]);
             }
         };
@@ -341,14 +339,14 @@ class QuoteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
-    {   
+    {
         $ids = (array) $request->id;
-        
-        foreach($ids as $id) {
+
+        foreach ($ids as $id) {
             $item = Quote::find($id);
             $item->delete();
         }
-        
+
         return redirect()->route('dashboard.index');
     }
 }

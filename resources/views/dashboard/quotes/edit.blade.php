@@ -7,7 +7,7 @@
 
     <div class="form-group">
         <label class="required">Текст</label>
-        <textarea class="form-textarea" name="body" rows="7" required>{{ old('body') != '' ? old('body') : $item->body }}</textarea>
+        <textarea class="form-textarea" name="body" rows="7" required>{{ old('body') ?? $item->body }}</textarea>
     </div>
 
     <div class="form-group">

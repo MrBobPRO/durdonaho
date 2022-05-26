@@ -16,7 +16,7 @@
 
                 @php $reversedOrderType = App\Helpers\Helper::reverseOrderType($orderType); @endphp
 
-                <th width="110">
+                <th width="130">
                     Изображение
                 </th>
 

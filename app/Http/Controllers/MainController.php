@@ -10,8 +10,8 @@ class MainController extends Controller
 {
     public function home()
     {
-        $latestQuotes = Quote::where('approved', true)->latest()->take(8)->get();
-        $popularQuotes = Quote::where('popular', true)->where('approved', true)->inRandomOrder()->take(8)->get();
+        $latestQuotes = Quote::approved()->latest()->take(8)->get();
+        $popularQuotes = Quote::where('popular', true)->approved()->inRandomOrder()->take(8)->get();
         $popularAuthors = Author::where('popular', true)->inRandomOrder()->take(8)->get();
 
         return view('home.index', compact('latestQuotes', 'popularQuotes', 'popularAuthors'));
@@ -22,21 +22,22 @@ class MainController extends Controller
         $keyword = $request->keyword;
 
         $authors = Author::where("name", "LIKE", "%" . $keyword . "%")
-                        ->orWhere("biography", "LIKE", "%" . $keyword . "%")
-                        ->orderBy("name")->get();
+            ->orWhere("biography", "LIKE", "%" . $keyword . "%")
+            ->orderBy("name")->get();
 
         $quotes = Quote::where(function ($q) use ($keyword) {
-                            $q->whereHas('author', function ($a) use ($keyword) {
-                                    $a->where("name", "LIKE", "%" . $keyword . "%"); })
-                            ->where('approved', true);
-                        })
+            $q->whereHas('author', function ($a) use ($keyword) {
+                $a->where("name", "LIKE", "%" . $keyword . "%");
+            })
+                ->approved();
+        })
 
-                        ->orWhere(function ($q) use ($keyword) {
-                            $q->where("body", "LIKE", "%" . $keyword . "%")
-                            ->where('approved', true);
-                        })
-                                
-                        ->latest()->get();
+            ->orWhere(function ($q) use ($keyword) {
+                $q->where("body", "LIKE", "%" . $keyword . "%")
+                    ->approved();
+            })
+
+            ->latest()->get();
 
         return view("search.index", compact("keyword", "authors", "quotes"));
     }

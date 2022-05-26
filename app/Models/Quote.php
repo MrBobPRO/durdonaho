@@ -40,6 +40,11 @@ class Quote extends Model
         return $this->hasMany(Manual::class);
     }
 
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
     public function scopeApproved($query)
     {
         return $query->where('approved', true);
@@ -61,12 +66,16 @@ class Quote extends Model
         static::deleting(function ($quote) {
             $quote->categories()->detach();
 
-            $quote->manuals()->each(function($manual) {
+            $quote->manuals()->each(function ($manual) {
                 $manual->delete();
             });
 
-             $quote->likes()->each(function($like) {
+            $quote->likes()->each(function ($like) {
                 $like->delete();
+            });
+
+            $quote->favorites()->each(function ($favorite) {
+                $favorite->delete();
             });
         });
     }

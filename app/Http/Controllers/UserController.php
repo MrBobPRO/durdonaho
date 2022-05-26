@@ -55,7 +55,7 @@ class UserController extends Controller
         $userId = User::where('slug', $slug)->first()->id;
 
         // redirect to users.current.quotes route if $userId equals to authenticated users id
-        if(Auth::check() && $userId == Auth::user()->id) {
+        if (Auth::check() && $userId == Auth::user()->id) {
             return redirect()->route('users.current.quotes');
         }
 
@@ -119,7 +119,7 @@ class UserController extends Controller
         ];
 
         // merge validation rules while requesting for password change
-        if($request->old_password != '' ) {
+        if ($request->old_password != '') {
             $validationRules = array_merge($validationRules, $passwordValidationRules);
         }
 
@@ -134,12 +134,12 @@ class UserController extends Controller
         Helper::uploadFile($request, $user, 'image', uniqid(), Helper::USERS_PATH, 320, 320);
 
         // set default image on image delete
-        if($request->remove_image == '1') {
+        if ($request->remove_image == '1') {
             $user->image = '__default.jpg';
         }
 
         // force email verification on email change
-        if($request->email != $user->email) {
+        if ($request->email != $user->email) {
             $user->email = $request->email;
             $user->verified_email = false;
 
@@ -155,7 +155,7 @@ class UserController extends Controller
         }
 
         // change password
-        if($request->old_password != '' ) {
+        if ($request->old_password != '') {
             $user->password = bcrypt($request->new_password);
 
             // logout user
@@ -185,10 +185,10 @@ class UserController extends Controller
     {
         // return rerror if there is already a quote very similar to the createing quote
         $body = $request->body;
-        $quotes = Quote::where('approved', true)->pluck('body');
-        foreach($quotes as $quote) {
+        $quotes = Quote::approved()->pluck('body');
+        foreach ($quotes as $quote) {
             similar_text($body, $quote, $percentage);
-            if($percentage > 85) {
+            if ($percentage > 85) {
                 return redirect()->back()->with(['status' => 'similar-quote-error', 'similarQuote' => $quote])->withInput();
             }
         };
@@ -208,9 +208,9 @@ class UserController extends Controller
         // validate source
         $requestedSource = $request->source;
         $source = Source::where('title', $requestedSource)->first();
-        if($source) {
+        if ($source) {
             $quote->source_id = $source->id;
-        } else if($requestedSource && $requestedSource != '') {
+        } else if ($requestedSource && $requestedSource != '') {
             $manual = new Manual();
             $manual->quote_id = $quoteId;
             $manual->key = 'source';
@@ -221,7 +221,7 @@ class UserController extends Controller
         // validate author
         $requestedAuthor = $request->author;
         $author = Author::where('name', $requestedAuthor)->first();
-        if($author) {
+        if ($author) {
             $quote->author_id = $author->id;
         } else {
             $quote->author_id = 0;
@@ -240,9 +240,9 @@ class UserController extends Controller
         // used to store nonexistent categories
         $nonExistentCategories = [];
 
-        foreach($requestedCategories as $requestedCategory) {
+        foreach ($requestedCategories as $requestedCategory) {
             $category = Category::where('title', $requestedCategory)->first();
-            if($category) {
+            if ($category) {
                 $quote->categories()->attach($category->id);
             } else {
                 array_push($nonExistentCategories, $requestedCategory);
@@ -250,7 +250,7 @@ class UserController extends Controller
         }
 
         // create manual for categories
-        if(count($nonExistentCategories)) {
+        if (count($nonExistentCategories)) {
             $manual = new Manual;
             $manual->quote_id = $quoteId;
             $manual->key = 'categories';
@@ -266,24 +266,24 @@ class UserController extends Controller
         $quote = Quote::find($id);
 
         // return error case authenticated user isnt owner of this quote
-        if($quote->user_id != Auth::user()->id) {
+        if ($quote->user_id != Auth::user()->id) {
             abort(404);
         }
 
         // generate manual parameters
         $manualSource = Manual::where('quote_id', $quote->id)
-                                ->where('key', 'source')
-                                ->first();
+            ->where('key', 'source')
+            ->first();
 
         $manualAuthor = Manual::where('quote_id', $quote->id)
-                                ->where('key', 'author')
-                                ->first();
+            ->where('key', 'author')
+            ->first();
 
         $manualCategories = Manual::where('quote_id', $quote->id)
-                                ->where('key', 'categories')
-                                ->first();
+            ->where('key', 'categories')
+            ->first();
 
-        if($manualCategories) {
+        if ($manualCategories) {
             $manualCategories = explode(',', $manualCategories->value);
         }
 
@@ -299,16 +299,16 @@ class UserController extends Controller
         $quote = Quote::find($request->id);
 
         // escape site hack
-        if($quote->user_id != Auth::user()->id) {
+        if ($quote->user_id != Auth::user()->id) {
             return 'Ваш аккаунт будет заблокировал, при нескольких попыток взлома сайта!';
         }
 
         // return rerror if there is already a quote very similar to the updating quote
         $body = $request->body;
-        $quotes = Quote::where('approved', true)->where('id', '!=', $quote->id)->pluck('body');
-        foreach($quotes as $q) {
+        $quotes = Quote::approved()->where('id', '!=', $quote->id)->pluck('body');
+        foreach ($quotes as $q) {
             similar_text($body, $q, $percentage);
-            if($percentage > 85) {
+            if ($percentage > 85) {
                 return redirect()->back()->with(['status' => 'similar-quote-error', 'similarQuote' => $q])->withInput();
             }
         };
@@ -324,9 +324,9 @@ class UserController extends Controller
         // validate source
         $requestedSource = $request->source;
         $source = Source::where('title', $requestedSource)->first();
-        if($source) {
+        if ($source) {
             $quote->source_id = $source->id;
-        } else if($requestedSource && $requestedSource != '') {
+        } else if ($requestedSource && $requestedSource != '') {
             $manual = new Manual();
             $manual->quote_id = $quote->id;
             $manual->key = 'source';
@@ -337,7 +337,7 @@ class UserController extends Controller
         // validate author
         $requestedAuthor = $request->author;
         $author = Author::where('name', $requestedAuthor)->first();
-        if($author) {
+        if ($author) {
             $quote->author_id = $author->id;
         } else {
             $quote->author_id = 0;
@@ -357,9 +357,9 @@ class UserController extends Controller
         // used to store nonexistent categories
         $nonExistentCategories = [];
 
-        foreach($requestedCategories as $requestedCategory) {
+        foreach ($requestedCategories as $requestedCategory) {
             $category = Category::where('title', $requestedCategory)->first();
-            if($category) {
+            if ($category) {
                 $quote->categories()->attach($category->id);
             } else {
                 array_push($nonExistentCategories, $requestedCategory);
@@ -367,7 +367,7 @@ class UserController extends Controller
         }
 
         // create manual for categories
-        if(count($nonExistentCategories)) {
+        if (count($nonExistentCategories)) {
             $manual = new Manual;
             $manual->quote_id = $quote->id;
             $manual->key = 'categories';
