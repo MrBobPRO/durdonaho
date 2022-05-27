@@ -5,6 +5,7 @@
         @if(strpos($route, 'quotes') !== false  || $route == 'dashboard.index') Цитаты 
         @elseif(strpos($route, 'authors') !== false) Авторы
         @elseif(strpos($route, 'categories') !== false) Категории
+        @elseif(strpos($route, 'options') !== false) Тексты
         @endif
 
         {{-- First levels items count --}}
@@ -17,6 +18,7 @@
         @elseif($route == 'quotes.edit') / {{ $item->id }}
         @elseif($route == 'authors.edit') / {{ $item->name }}
         @elseif($route == 'categories.edit') / {{ $item->title }}
+        @elseif($route == 'options.edit') / {{ $item->title }}
         @endif
     </h1>  {{-- Title end --}}
 

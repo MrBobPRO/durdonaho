@@ -33,26 +33,30 @@ let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 
 // Initialize Simditor WYSIWYG
 Simditor.locale = 'ru-RU';
+let wysiwygs = [];
+let simditorTextareas = document.getElementsByClassName('simditor-wysiwyg');
 
-document.querySelectorAll('.simditor-wysiwyg').forEach((item) => {
-    Simditor({
-        textarea: item,
-        toolbarFloatOffset: '60px',
-        imageButton: 'upload',
-        toolbar: ['title', 'bold', 'italic', 'underline', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'hr', '|', 'indent', 'outdent', 'alignment'] //image removed
-        // upload: {
-        //    url: '/upload/simditor_photo',   //image upload url by server
-        //    params: {
-        //       folder: 'news' //used in store folder path
-        //    },
-        //    fileKey: 'simditor_photo', //name of input
-        //    connectionCount: 10,
-        //    leaveConfirm: 'Пожалуйста дождитесь окончания загрузки изображений на сервер! Вы уверены что хотите закрыть страницу?'
-        // },
-        // defaultImage: '/img/news/simditor/default/default.png', //default image thumb while uploading
-        // cleanPaste: true, //clear all styles while copy pasting,
-    });
-});
+for (i = 0; i < simditorTextareas.length; i++) {
+    wysiwygs.push(
+        new Simditor({
+            textarea: simditorTextareas[i],
+            toolbarFloatOffset: '60px',
+            imageButton: 'upload',
+            toolbar: ['title', 'bold', 'italic', 'underline', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'hr', '|', 'indent', 'outdent', 'alignment'] //image removed
+            // upload: {
+            //    url: '/upload/simditor_photo',   //image upload url by server
+            //    params: {
+            //       folder: 'news' //used in store folder path
+            //    },
+            //    fileKey: 'simditor_photo', //name of input
+            //    connectionCount: 10,
+            //    leaveConfirm: 'Пожалуйста дождитесь окончания загрузки изображений на сервер! Вы уверены что хотите закрыть страницу?'
+            // },
+            // defaultImage: '/img/news/simditor/default/default.png', //default image thumb while uploading
+            // cleanPaste: true, //clear all styles while copy pasting,
+        })
+    );
+}
 
 
 // toggle Aside Visibility

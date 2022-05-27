@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('main')
 
-@section('title', 'Сиёсати маҳрамият')
+@section('title', 'Аҳдномаи истифодабарӣ')
 
 <div class="main__content terms-page-content">
     <section class="terms-section">

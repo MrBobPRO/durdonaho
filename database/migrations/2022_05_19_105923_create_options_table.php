@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('key');
             $table->text('value');
+            $table->boolean('wysiwyg'); // simditor wysiwig or textarea
+            $table->string('title'); // used as readable text for administrator in dashboard
             $table->timestamps();
         });
     }

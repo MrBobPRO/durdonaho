@@ -43,7 +43,7 @@
             </li>
 
             <li>
-                <a class="@if( strpos($route, 'options') !== false ) active @endif" href="{{route('authors.dashboard.index')}}">
+                <a class="@if( strpos($route, 'options') !== false ) active @endif" href="{{route('options.dashboard.index')}}">
                     <span class="material-icons">notes</span> Тексты
                 </a>
             </li>
