@@ -10,6 +10,9 @@ use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
+    // used while generating route names in dashboard
+    const MODEL_SHORTCUT = 'categories';
+
     /**
      * Display a listing of the resource in dashboard
      *
@@ -18,7 +21,7 @@ class CategoryController extends Controller
     public function dashboardIndex(Request $request)
     {
         // used while generating route names
-        $modelShortcut = 'categories';
+        $modelShortcut = self::MODEL_SHORTCUT;
 
         // for search & counting on index pages
         $allItems = Category::select('title', 'id')->orderBy('title')->get();
@@ -44,7 +47,7 @@ class CategoryController extends Controller
     public function create()
     {
         // used while generating route names
-        $modelShortcut = 'categories';
+        $modelShortcut = self::MODEL_SHORTCUT;
 
         return view('dashboard.categories.create', compact('modelShortcut'));
     }
@@ -92,7 +95,7 @@ class CategoryController extends Controller
     public function edit($id)
     {
         // used while generating route names
-        $modelShortcut = 'categories';
+        $modelShortcut = self::MODEL_SHORTCUT;
 
         $item = Category::find($id);
 

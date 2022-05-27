@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Auth;
 
 class QuoteController extends Controller
 {
+    // used while generating route names in dashboard
+    const MODEL_SHORTCUT = 'quotes';
+
     /**
      * Return compacted view with filtered quotes (by categories, userId, authorId etc)
      * Used on AJAX requests by too many routes
@@ -185,7 +188,7 @@ class QuoteController extends Controller
     public function dashboardIndex(Request $request)
     {
         // used while generating route names
-        $modelShortcut = 'quotes';
+        $modelShortcut = self::MODEL_SHORTCUT;
 
         // for search & counting on index pages
         $allItems = Quote::select('body as title', 'id')->approved()->orderBy('title')->get();
@@ -232,7 +235,7 @@ class QuoteController extends Controller
     public function create()
     {
         // used while generating route names
-        $modelShortcut = 'quotes';
+        $modelShortcut = self::MODEL_SHORTCUT;
 
         $authors = Author::orderBy('name')->select('name', 'id')->get();
         $categories = Category::orderBy('title')->select('title', 'id')->get();
@@ -283,7 +286,7 @@ class QuoteController extends Controller
     public function edit($id)
     {
         // used while generating route names
-        $modelShortcut = 'quotes';
+        $modelShortcut = self::MODEL_SHORTCUT;
 
         $item = Quote::find($id);
 

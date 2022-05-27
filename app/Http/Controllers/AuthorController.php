@@ -13,6 +13,9 @@ use Illuminate\Validation\Rule;
 
 class AuthorController extends Controller
 {
+    // used while generating route names in dashboard
+    const MODEL_SHORTCUT = 'authors';
+
     /**
      * Return compacted view with filtered authors (by categories, search keyword etc)
      * Used on AJAX requests by too many routes
@@ -149,7 +152,7 @@ class AuthorController extends Controller
     public function dashboardIndex(Request $request)
     {
         // used while generating route names
-        $modelShortcut = 'authors';
+        $modelShortcut = self::MODEL_SHORTCUT;
 
         // for search & counting on index pages
         $allItems = Author::select('name as title', 'id')->orderBy('title')->get();
@@ -175,7 +178,7 @@ class AuthorController extends Controller
     public function create()
     {
         // used while generating route names
-        $modelShortcut = 'authors';
+        $modelShortcut = self::MODEL_SHORTCUT;
 
         $users = User::orderBy('name')->select('name', 'id')->get();
 
@@ -226,7 +229,7 @@ class AuthorController extends Controller
     public function edit($id)
     {
         // used while generating route names
-        $modelShortcut = 'authors';
+        $modelShortcut = self::MODEL_SHORTCUT;
 
         $item = Author::find($id);
         $users = User::orderBy('name')->select('name', 'id')->get();

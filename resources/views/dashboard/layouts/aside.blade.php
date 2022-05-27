@@ -17,6 +17,7 @@
                 </a>
             </li>
 
+            {{-- Quotes submenu start --}}
             @if( strpos($route, 'quotes') !== false || $route == 'dashboard.index') 
                 <ul class="aside__submenu">
                     <li>
@@ -27,7 +28,7 @@
                         <a href="{{ route('dashboard.index') }}" @if($route == 'sources.dashboard.index') class="active" @endif>Источники</a>
                     </li>
                 </ul>
-            @endif
+            @endif  {{-- Quotes submenu end --}}
 
             <li>
                 <a class="@if( strpos($route, 'authors') !== false ) active @endif" href="{{route('authors.dashboard.index')}}">
