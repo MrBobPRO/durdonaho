@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\LikeController;
@@ -110,6 +111,16 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     });
 
     Route::controller(AuthorController::class)->prefix('/authors')->name('authors.')->group(function () {
+        Route::get('/', 'dashboardIndex')->name('dashboard.index');
+        Route::get('/create', 'create')->name('create');
+        Route::get('/{id}', 'edit')->name('edit');
+
+        Route::post('/store', 'store')->name('store');
+        Route::post('/update', 'update')->name('update');
+        Route::post('/destroy', 'destroy')->name('destroy');
+    });
+
+    Route::controller(CategoryController::class)->prefix('/categories')->name('categories.')->group(function () {
         Route::get('/', 'dashboardIndex')->name('dashboard.index');
         Route::get('/create', 'create')->name('create');
         Route::get('/{id}', 'edit')->name('edit');

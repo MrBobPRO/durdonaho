@@ -14,4 +14,17 @@ class Category extends Model
     {
         return $this->belongsToMany(Quote::class);
     }
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        // Also delete model relations while deleting
+        static::deleting(function ($category) {
+            $category->quotes()->detach();
+        });
+    }
 }

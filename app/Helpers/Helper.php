@@ -14,6 +14,7 @@ class Helper
 {
     const USERS_PATH = 'img/users';
     const AUTHORS_PATH = 'img/authors';
+    const CATEGORIES_PATH = 'img/categories';
 
     /**
      * remove tags, replace many spaces by one, remove first whitespace

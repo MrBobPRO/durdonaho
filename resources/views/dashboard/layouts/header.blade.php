@@ -4,6 +4,7 @@
         {{-- first level --}}
         @if(strpos($route, 'quotes') !== false  || $route == 'dashboard.index') Цитаты 
         @elseif(strpos($route, 'authors') !== false) Авторы
+        @elseif(strpos($route, 'categories') !== false) Категории
         @endif
 
         {{-- First levels items count --}}
@@ -15,6 +16,7 @@
         {{-- second level for EDIT --}}
         @elseif($route == 'quotes.edit') / {{ $item->id }}
         @elseif($route == 'authors.edit') / {{ $item->name }}
+        @elseif($route == 'categories.edit') / {{ $item->title }}
         @endif
     </h1>  {{-- Title end --}}
 
@@ -24,6 +26,7 @@
         @switch($route)
             @case('dashboard.index')
             @case('authors.dashboard.index')
+            @case('categories.dashboard.index')
                 <a href="{{ route($modelShortcut . '.create') }}">
                     <span class="material-icons">add</span> Добавить
                 </a>
@@ -34,6 +37,7 @@
         @switch($route)
             @case('dashboard.index')
             @case('authors.dashboard.index')
+            @case('categories.dashboard.index')
                 <button id="header-select-all-button">
                     <span class="material-icons">done_all</span> Отметить все
                 </button>

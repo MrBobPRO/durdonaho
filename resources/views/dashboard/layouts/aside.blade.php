@@ -36,7 +36,7 @@
             </li>
 
             <li>
-                <a class="@if( strpos($route, 'categories') !== false ) active @endif" href="{{route('authors.dashboard.index')}}">
+                <a class="@if( strpos($route, 'categories') !== false ) active @endif" href="{{route('categories.dashboard.index')}}">
                     <span class="material-icons">category</span> Категории
                 </a>
             </li>
