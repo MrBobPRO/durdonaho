@@ -12,6 +12,8 @@ class CategoryController extends Controller
 {
     // used while generating route names in dashboard
     const MODEL_SHORTCUT = 'categories';
+    // used while uploading images
+    const IMAGE_PATH = 'img/categories';
 
     /**
      * Display a listing of the resource in dashboard
@@ -79,7 +81,7 @@ class CategoryController extends Controller
         $fields = ['title', 'popular'];
         Helper::fillModelColumns($category, $fields, $request);
 
-        Helper::uploadModelsFile($request, $category, 'image', uniqid(), Helper::CATEGORIES_PATH, 300);
+        Helper::uploadModelsFile($request, $category, 'image', uniqid(), self::IMAGE_PATH, 300);
 
         $category->save();
 
@@ -131,7 +133,7 @@ class CategoryController extends Controller
         $fields = ['title', 'popular'];
         Helper::fillModelColumns($category, $fields, $request);
 
-        Helper::uploadModelsFile($request, $category, 'image', uniqid(), Helper::CATEGORIES_PATH, 300);
+        Helper::uploadModelsFile($request, $category, 'image', uniqid(), self::IMAGE_PATH, 300);
 
         $category->save();
 

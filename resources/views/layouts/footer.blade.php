@@ -13,7 +13,7 @@
 
         <div class="footer__block">
             <p><a href="{{ route('privacy-policy') }}">Сиёсати махрамият</a></p>
-            <p><a href="{{ route('privacy-policy') }}">Ахдномаи истифодабари</a></p>
+            <p><a href="{{ route('terms-of-use') }}">Ахдномаи истифодабари</a></p>
         </div>
 
         {{-- <div class="footer__block footer__socials">

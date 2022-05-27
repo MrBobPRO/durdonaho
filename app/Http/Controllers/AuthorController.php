@@ -15,6 +15,8 @@ class AuthorController extends Controller
 {
     // used while generating route names in dashboard
     const MODEL_SHORTCUT = 'authors';
+    // used while uploading images
+    const IMAGE_PATH = 'img/authors';
 
     /**
      * Return compacted view with filtered authors (by categories, search keyword etc)
@@ -213,7 +215,7 @@ class AuthorController extends Controller
         Helper::fillModelColumns($author, $fields, $request);
         $author->slug = Helper::generateUniqueSlug($request->name, Author::class);
 
-        Helper::uploadModelsFile($request, $author, 'image', $author->slug, Helper::AUTHORS_PATH, 300);
+        Helper::uploadModelsFile($request, $author, 'image', $author->slug, self::IMAGE_PATH, 300);
 
         $author->save();
 
@@ -267,7 +269,7 @@ class AuthorController extends Controller
         Helper::fillModelColumns($author, $fields, $request);
         $author->slug = Helper::generateUniqueSlug($request->name, Author::class, $author->id);
 
-        Helper::uploadModelsFile($request, $author, 'image', $author->slug, Helper::AUTHORS_PATH, 300);
+        Helper::uploadModelsFile($request, $author, 'image', $author->slug, self::IMAGE_PATH, 300);
 
         $author->save();
 

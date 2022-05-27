@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
+    // used while uploading images
+    const IMAGE_PATH = 'img/users';
+
     /**
      * Display the specified resource.
      *
@@ -131,7 +134,7 @@ class UserController extends Controller
         $user->biography = $request->biography;
 
         // change users image if uploaded image
-        Helper::uploadFile($request, $user, 'image', uniqid(), Helper::USERS_PATH, 320, 320);
+        Helper::uploadModelsFile($request, $user, 'image', uniqid(), self::IMAGE_PATH, 320, 320);
 
         // set default image on image delete
         if ($request->remove_image == '1') {

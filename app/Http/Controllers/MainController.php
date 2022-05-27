@@ -44,6 +44,11 @@ class MainController extends Controller
 
     public function privacyPolicy()
     {
-        return view('privacy-policy.index');
+        return view('terms.privacy-policy');
+    }
+
+    public function termsOfUse()
+    {
+        return view('terms.terms-of-use');
     }
 }

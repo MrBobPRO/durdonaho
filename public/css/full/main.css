@@ -1602,12 +1602,12 @@ input {
 /* ------------ /end Unverified quotes ------------ */
 
 
-/* ------------ Privacy Policy ------------ */
-.privacy-policy {
+/* ------------ Terms Page ------------ */
+.terms-section__inner {
     font-size: 14px;
     padding: 30px 50px 40px;
 }
-.privacy-policy__title {
+.terms-section__title {
     margin-bottom: 18px;
 }
-/* ------------ /end Privacy Policy ------------ */
+/* ------------ /end Terms Page ------------ */

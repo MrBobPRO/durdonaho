@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\OptionController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\ReportController;
@@ -49,6 +50,7 @@ Route::controller(MainController::class)->group(function () {
     Route::get('/', 'home')->name('home');
     Route::get('/search', 'search')->name('search');
     Route::get('/privacy-policy', 'privacyPolicy')->name('privacy-policy');
+    Route::get('/terms-of-use', 'termsOfUse')->name('terms-of-use');
 });
 
 Route::controller(ReportController::class)->group(function () {
@@ -121,6 +123,16 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     });
 
     Route::controller(CategoryController::class)->prefix('/categories')->name('categories.')->group(function () {
+        Route::get('/', 'dashboardIndex')->name('dashboard.index');
+        Route::get('/create', 'create')->name('create');
+        Route::get('/{id}', 'edit')->name('edit');
+
+        Route::post('/store', 'store')->name('store');
+        Route::post('/update', 'update')->name('update');
+        Route::post('/destroy', 'destroy')->name('destroy');
+    });
+
+    Route::controller(OptionController::class)->prefix('/options')->name('options.')->group(function () {
         Route::get('/', 'dashboardIndex')->name('dashboard.index');
         Route::get('/create', 'create')->name('create');
         Route::get('/{id}', 'edit')->name('edit');
