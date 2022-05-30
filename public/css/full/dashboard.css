@@ -39,6 +39,9 @@ img {
 .visibility-hidden {
     visibility: hidden;
 }
+.danger-color {
+    color: var(--danger-color);
+}
 /* ------------ /end Main styles ------------ */
 
 

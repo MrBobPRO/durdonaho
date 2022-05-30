@@ -17,7 +17,7 @@
             $manualAuthorAlreadyCreated = $manual ? App\Models\Author::where('name', $manual->value)->first() : false;
         @endphp
 
-        <label class="required">Автор @if($manual && !$manualAuthorAlreadyCreated). Пользователь добавил нового автора: {{ $manual->value }} @endif</label>
+        <label class="required">Автор @if($manual && !$manualAuthorAlreadyCreated). Пользователь добавил нового автора: <span class="danger-color">{{ $manual->value }}</span> @endif</label>
         <select class="selectize-singular" name="author_id" placeholder="Выберите автора" required>
             <option></option>
             @foreach ($authors as $author)
@@ -32,11 +32,22 @@
     </div>
 
     <div class="form-group">
-        <label>Источник</label>
+        @php
+            $manual = App\Models\Manual::where('quote_id', $item->id)->where('key', 'source')->first();
+            // Skip manual if author was already created after quote create
+            $manualSourceAlreadyCreated = $manual ? App\Models\Source::where('title', $manual->value)->first() : false;
+        @endphp
+
+        <label>Источник @if($manual && !$manualSourceAlreadyCreated). Пользователь добавил нового источника: <span class="danger-color">{{ $manual->value }}</span> @endif</label>
         <select class="selectize-singular" name="source_id" placeholder="Выберите источник">
             <option></option>
             @foreach ($sources as $source)
-                <option value="{{ $source->id }}" @selected($source->id == $item->source_id)>{{ $source->title }}</option>
+                <option value="{{ $source->id }}" @selected($source->id == $item->source_id)
+                    @if($manualSourceAlreadyCreated)
+                        @selected($source->id == $manualSourceAlreadyCreated->id)
+                    @endif
+                    >{{ $source->title }}
+                </option>
             @endforeach
         </select>
     </div>
@@ -51,14 +62,14 @@
     </div>
 
     <div class="form-group">
-        <label class="required">Категории</label>
+        @php
+            $manual = App\Models\Manual::where('quote_id', $item->id)->where('key', 'categories')->first();
+        @endphp
+
+        <label class="required">Категории. @if($manual) Категории выбранные пользователем: <span class="danger-color">{{ $manual->value }}</span> @endif</label>
         <select class="selectize-multiple" name="categories[]" multiple="multiple" required>
             @foreach ($categories as $category)
-                <option value="{{ $category->id }}"
-                    @foreach ($item->categories as $itemCat)
-                        @selected($category->id == $itemCat->id)
-                    @endforeach
-                    >{{ $category->title }}
+                <option value="{{ $category->id }}">{{ $category->title }}
                 </option>
             @endforeach
         </select>

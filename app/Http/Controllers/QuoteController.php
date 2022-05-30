@@ -135,7 +135,7 @@ class QuoteController extends Controller
             $quotes = $quotes->where('body', 'LIKE', '%' . $keyword . '%');
         }
 
-        $quotes = $quotes->latest()
+        $quotes = $quotes->orderBy('updated_at', 'desc')
             ->paginate(6)
             ->appends($request->except(['page', 'token', 'individual', 'author_id', 'favorite', 'user_id']))
             ->fragment('quotes-section');
@@ -389,6 +389,10 @@ class QuoteController extends Controller
         $modelShortcut = self::MODEL_SHORTCUT;
 
         $item = Quote::find($id);
+        // set quote as verified
+        $item->verified = true;
+        $item->timestamps = false;
+        $item->save();
 
         $authors = Author::orderBy('name')->select('name', 'id')->get();
         $categories = Category::orderBy('title')->select('title', 'id')->get();
@@ -400,6 +404,18 @@ class QuoteController extends Controller
 
     public function approve(Request $request)
     {
-        dd($request);
+        $quote = Quote::find($request->id);
+        $quote->body = $request->body;
+        $quote->author_id = $request->author_id;
+        $quote->source_id = $request->source_id;
+        $quote->user_id = $request->user_id;
+        $quote->popular = $request->popular;
+        $quote->approved = true;
+        $quote->save();
+
+        $quote->categories()->detach();
+        $quote->categories()->attach($request->categories);
+
+        return redirect()->route('quotes.dashboard.unapproved.index');
     }
 }

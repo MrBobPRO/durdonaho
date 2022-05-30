@@ -17,8 +17,8 @@
         @if(strpos($route, 'create') ) / Добавить
 
         {{-- second level for EDIT --}}
-        @elseif($route == 'quotes.edit') / {{ $item->id }}
-        @elseif($route == 'quotes.dashboard.unapproved.edit') / {{ $item->id }}
+        @elseif($route == 'quotes.edit') / #{{ $item->id }}
+        @elseif($route == 'quotes.dashboard.unapproved.edit') / #{{ $item->id }}
         @elseif($route == 'authors.edit') / {{ $item->name }}
         @elseif($route == 'categories.edit') / {{ $item->title }}
         @elseif($route == 'options.edit') / {{ $item->title }}

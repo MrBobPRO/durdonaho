@@ -9,7 +9,9 @@ class Manual extends Model
 {
     use HasFactory;
 
-    // Manuals table is used when users add new author, source, category etc while publishing quote
+    // Manuals table is used when users add new author, source or category while publishing quote
+    // $manuals may be one of items in array : ['author', 'source', 'categories'];
+
     public function quote()
     {
         return $this->belongsTo(Quote::class);

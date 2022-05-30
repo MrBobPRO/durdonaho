@@ -58,8 +58,8 @@
                     </td>
                     
                     <td><a href="{{ route('users.show', $item->publisher->slug) }}" target="_blank">{{ $item->publisher->name }}</a></td>
-                    <td>{{ $item->verified ? '' : 'НОВЫЙ' }}</td>
-                    <td>{{ Carbon\Carbon::create($item->created_at)->locale('ru')->isoFormat('DD MMMM YYYY HH:mm') }}</td>
+                    <td>{!! $item->verified ? 'Просмотрено' : '<span class="danger-color"><b>НОВЫЙ</b></span>' !!}</td>
+                    <td>{{ Carbon\Carbon::create($item->updated_at)->locale('ru')->isoFormat('DD MMMM YYYY HH:mm') }}</td>
 
                     {{-- Actions --}}
                     <td>
