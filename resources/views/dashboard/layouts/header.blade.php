@@ -2,10 +2,12 @@
     {{-- Title start --}}
     <h1 class="header__title">
         {{-- first level --}}
-        @if(strpos($route, 'quotes') !== false  || $route == 'dashboard.index') Цитаты 
+        @if(strpos($route, 'dashboard.unapproved') !== false) Цитаты на рассмотрении
+        @elseif(strpos($route, 'quotes') !== false  || $route == 'dashboard.index') Цитаты 
         @elseif(strpos($route, 'authors') !== false) Авторы
         @elseif(strpos($route, 'categories') !== false) Категории
         @elseif(strpos($route, 'options') !== false) Тексты
+        @elseif(strpos($route, 'users') !== false) Пользователи
         @endif
 
         {{-- First levels items count --}}
@@ -16,6 +18,7 @@
 
         {{-- second level for EDIT --}}
         @elseif($route == 'quotes.edit') / {{ $item->id }}
+        @elseif($route == 'quotes.dashboard.unapproved.edit') / {{ $item->id }}
         @elseif($route == 'authors.edit') / {{ $item->name }}
         @elseif($route == 'categories.edit') / {{ $item->title }}
         @elseif($route == 'options.edit') / {{ $item->title }}

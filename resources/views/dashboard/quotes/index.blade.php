@@ -36,7 +36,7 @@
                 </th>
 
                 <th>
-                    <a class="{{ $orderType }} {{ $orderBy == 'created_at' ? 'active' : '' }}" href="{{ route('dashboard.index') }}?page={{ $activePage }}&orderBy=created_at&orderType={{ $reversedOrderType }}">Дата добавления</a>
+                    <a class="{{ $orderType }} {{ $orderBy == 'updated_at' ? 'active' : '' }}" href="{{ route('dashboard.index') }}?page={{ $activePage }}&orderBy=updated_at&orderType={{ $reversedOrderType }}">Дата посл/измен</a>
                 </th>
 
                 <th width="120">

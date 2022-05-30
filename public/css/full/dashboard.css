@@ -407,6 +407,9 @@ img {
 .main-table td img {
     border-radius: 6px;
 }
+.main-table td a {
+    text-decoration: underline;
+}
 .table__actions {
     display: flex;
     gap: 4px;
@@ -419,6 +422,7 @@ img {
     border: none;
     border-radius: 50%;
     transition: 0.3s;
+    text-decoration: none !important;
 }
 .table__actions a:hover, .table__actions button:hover {
     color: white;

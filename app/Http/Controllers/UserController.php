@@ -21,6 +21,8 @@ class UserController extends Controller
 {
     // used while uploading images
     const IMAGE_PATH = 'img/users';
+    // used while generating route names in dashboard
+    const MODEL_SHORTCUT = 'users';
 
     /**
      * Display the specified resource.
@@ -390,13 +392,28 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Display a listing of the resource in dashboard
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function dashboardIndex(Request $request)
     {
-        //
+        // used while generating route names
+        $modelShortcut = self::MODEL_SHORTCUT;
+
+        // for counting on index pages
+        $allItems = User::select('id')->get();
+
+        // Default parameters for ordering
+        $orderBy = $request->orderBy ? $request->orderBy : 'created_at';
+        $orderType = $request->orderType ? $request->orderType : 'desc';
+        $activePage = $request->page ? $request->page : 1;
+
+        $items = User::orderBy($orderBy, $orderType)
+                ->withCount('quotes')
+                ->paginate(30, ['*'], 'page', $activePage)
+                ->appends($request->except('page'));
+
+        return view('dashboard.users.index', compact('modelShortcut', 'allItems', 'items', 'orderBy', 'orderType', 'activePage'));
     }
 }

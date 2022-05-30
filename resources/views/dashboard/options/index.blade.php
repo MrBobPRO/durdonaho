@@ -11,9 +11,6 @@
         {{-- Table Head start --}}
         <thead>
             <tr>
-                {{-- Empty space for checkbox --}}
-                <th width="20"></th>
-
                 @php $reversedOrderType = App\Helpers\Helper::reverseOrderType($orderType); @endphp
 
                 <th>
@@ -30,16 +27,6 @@
         <tbody>
             @foreach ($items as $item)
                 <tr>
-                    {{-- Checkbox for multidelete --}}
-                    <td>
-                        <div class="checkbox">
-                            <label for="item{{$item->id}}">
-                                <input id="item{{$item->id}}" type="checkbox" name="id[]" value="{{$item->id}}">
-                                <span></span>
-                            </label>
-                        </div>
-                    </td>
-
                     <td>{{ $item->title }}</td>
 
                     {{-- Actions --}}

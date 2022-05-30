@@ -194,7 +194,7 @@ class QuoteController extends Controller
         $allItems = Quote::select('body as title', 'id')->approved()->orderBy('title')->get();
 
         // Default parameters for ordering
-        $orderBy = $request->orderBy ? $request->orderBy : 'created_at';
+        $orderBy = $request->orderBy ? $request->orderBy : 'updated_at';
         $orderType = $request->orderType ? $request->orderType : 'desc';
         $activePage = $request->page ? $request->page : 1;
 
@@ -351,5 +351,55 @@ class QuoteController extends Controller
         }
 
         return redirect()->route('dashboard.index');
+    }
+
+    /**
+     * Display a listing of the resource in dashboard
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dashboardUnapproved(Request $request)
+    {
+        // used while generating route names
+        $modelShortcut = self::MODEL_SHORTCUT;
+
+        // for search & counting on index pages
+        $allItems = Quote::select('body as title', 'id')->unapproved()->orderBy('title')->get();
+
+        // Default parameters for ordering
+        $orderBy = $request->orderBy ? $request->orderBy : 'updated_at';
+        $orderType = $request->orderType ? $request->orderType : 'desc';
+        $activePage = $request->page ? $request->page : 1;
+
+        $items = Quote::unapproved()->orderBy($orderBy, $orderType)
+            ->paginate(30, ['*'], 'page', $activePage)
+            ->appends($request->except('page'));
+
+        return view('dashboard.quotes.unapproved.index', compact('modelShortcut', 'allItems', 'items', 'orderBy', 'orderType', 'activePage'));
+    }
+
+    /**
+     * Display a listing of the resource in dashboard
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function editUnapproved($id)
+    {
+        // used while generating route names
+        $modelShortcut = self::MODEL_SHORTCUT;
+
+        $item = Quote::find($id);
+
+        $authors = Author::orderBy('name')->select('name', 'id')->get();
+        $categories = Category::orderBy('title')->select('title', 'id')->get();
+        $sources = Source::orderBy('title')->select('title', 'id')->get();
+        $users = User::orderBy('name')->select('name', 'id')->get();
+
+        return view('dashboard.quotes.unapproved.edit', compact('modelShortcut', 'item', 'authors', 'categories', 'sources', 'users'));
+    }
+
+    public function approve(Request $request)
+    {
+        dd($request);
     }
 }

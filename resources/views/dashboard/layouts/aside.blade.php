@@ -21,7 +21,7 @@
             @if( strpos($route, 'quotes') !== false || $route == 'dashboard.index') 
                 <ul class="aside__submenu">
                     <li>
-                        <a href="{{ route('quotes.dashboard.unapproved') }}" @if($route == 'quotes.dashboard.unapproved') class="active" @endif>На рассмотрении</a>
+                        <a href="{{ route('quotes.dashboard.unapproved.index') }}" @if( strpos($route, 'dashboard.unapproved') !== false ) class="active" @endif>На рассмотрении</a>
                     </li>
 
                     <li>
@@ -49,8 +49,14 @@
             </li>
 
             <li>
-                <a class="@if( strpos($route, 'users') !== false ) active @endif" href="{{route('authors.dashboard.index')}}">
+                <a class="@if( strpos($route, 'users') !== false ) active @endif" href="{{route('users.dashboard.index')}}">
                     <span class="material-icons">people</span> Пользователи
+                </a>
+            </li>
+
+            <li>
+                <a class="@if( strpos($route, 'reports') !== false ) active @endif" href="{{route('users.dashboard.index')}}">
+                    <span class="material-icons">error</span> Жалобы
                 </a>
             </li>
 

@@ -38,7 +38,7 @@ class Author extends Model
     {
         // Also delete model relations while deleting
         static::deleting(function ($author) {
-            $author->quotes()->each(function ($quote) {
+            $author->quotes()->approved()->each(function ($quote) {
                 $quote->delete();
             });
 
@@ -48,6 +48,18 @@ class Author extends Model
 
             $author->favorites()->each(function ($favorite) {
                 $favorite->delete();
+            });
+
+            // create new manual authors for unapproved quotes before author delete
+            $author->quotes()->unapproved()->each(function ($quote) use ($author) {
+                $quote->author_id = 0;
+                $quote->save();
+
+                $manual = new Manual();
+                $manual->quote_id = $quote->id;
+                $manual->key = 'author';
+                $manual->value = $author->name;
+                $manual->save();
             });
         });
     }

@@ -104,12 +104,14 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
 
     Route::controller(QuoteController::class)->prefix('/quotes')->name('quotes.')->group(function () {
         Route::get('/create', 'create')->name('create');
-        Route::get('/unapproved', 'unapproved')->name('dashboard.unapproved');
+        Route::get('/unapproved', 'dashboardUnapproved')->name('dashboard.unapproved.index');
+        Route::get('/unapproved/{id}', 'editUnapproved')->name('dashboard.unapproved.edit');
         Route::get('/{id}', 'edit')->name('edit');
 
         Route::post('/store', 'store')->name('store');
         Route::post('/update', 'update')->name('update');
         Route::post('/destroy', 'destroy')->name('destroy');
+        Route::post('/approve', 'approve')->name('approve');
     });
 
     Route::controller(AuthorController::class)->prefix('/authors')->name('authors.')->group(function () {
@@ -140,5 +142,9 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
         Route::post('/store', 'store')->name('store');
         Route::post('/update', 'update')->name('update');
         Route::post('/destroy', 'destroy')->name('destroy');
+    });
+
+    Route::controller(UserController::class)->prefix('/users')->name('users.')->group(function () {
+        Route::get('/', 'dashboardIndex')->name('dashboard.index');
     });
 });
