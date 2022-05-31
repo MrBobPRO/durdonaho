@@ -12,7 +12,7 @@
             </li>
 
             <li>
-                <a class="@if( strpos($route, 'quotes') !== false || $route == 'dashboard.index') active @endif" href="{{route('dashboard.index')}}">
+                <a class="@if( $route == 'dashboard.index' || strpos($route, 'quotes') !== false || strpos($route, 'sources') !== false) active @endif" href="{{route('dashboard.index')}}">
                     <span class="material-icons">article</span> Цитаты
 
                     @php $newUnapprovedQuoteCount = App\Models\Quote::unapproved()->where('verified', false)->count(); @endphp
@@ -21,11 +21,11 @@
             </li>
 
             {{-- Quotes submenu start --}}
-            @if( strpos($route, 'quotes') !== false || $route == 'dashboard.index') 
+            @if( $route == 'dashboard.index' || strpos($route, 'quotes') !== false || strpos($route, 'sources') !== false) 
                 <ul class="aside__submenu">
                     <li>
                         <a href="{{ route('quotes.dashboard.unapproved.index') }}" 
-                            @if( strpos($route, 'dashboard.unapproved') !== false ) class="active" @endif>На рассмотрении
+                            @if( strpos($route, 'unapproved') !== false ) class="active" @endif>На рассмотрении
                             
                             @php $newUnapprovedQuoteCount = App\Models\Quote::unapproved()->where('verified', false)->count(); @endphp
                             @if($newUnapprovedQuoteCount) ({{ $newUnapprovedQuoteCount  }}) @endif
@@ -33,7 +33,7 @@
                     </li>
 
                     <li>
-                        <a href="{{ route('dashboard.index') }}" @if($route == 'sources.dashboard.index') class="active" @endif>Источники</a>
+                        <a href="{{ route('sources.dashboard.index') }}" @if( strpos($route, 'sources') !== false ) class="active" @endif>Источники</a>
                     </li>
                 </ul>
             @endif  {{-- Quotes submenu end --}}

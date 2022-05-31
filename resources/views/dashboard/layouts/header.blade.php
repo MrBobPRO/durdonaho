@@ -4,6 +4,7 @@
         {{-- first level --}}
         @if(strpos($route, 'dashboard.unapproved') !== false) Цитаты на рассмотрении
         @elseif(strpos($route, 'quotes') !== false  || $route == 'dashboard.index') Цитаты 
+        @elseif(strpos($route, 'sources') !== false) Источники
         @elseif(strpos($route, 'authors') !== false) Авторы
         @elseif(strpos($route, 'categories') !== false) Категории
         @elseif(strpos($route, 'options') !== false) Тексты
@@ -20,6 +21,7 @@
         {{-- second level for EDIT --}}
         @elseif($route == 'quotes.edit') / #{{ $item->id }}
         @elseif($route == 'quotes.dashboard.unapproved.edit') / #{{ $item->id }}
+        @elseif($route == 'sources.edit') / {{ $item->title }}
         @elseif($route == 'authors.edit') / {{ $item->name }}
         @elseif($route == 'categories.edit') / {{ $item->title }}
         @elseif($route == 'options.edit') / {{ $item->title }}
@@ -32,6 +34,7 @@
         {{-- Create Items for index routes --}}
         @switch($route)
             @case('dashboard.index')
+            @case('sources.dashboard.index')
             @case('authors.dashboard.index')
             @case('categories.dashboard.index')
                 <a href="{{ route($modelShortcut . '.create') }}">
@@ -43,6 +46,7 @@
         {{-- Destroy Multiple Items actions for index routes --}}
         @switch($route)
             @case('dashboard.index')
+            @case('sources.dashboard.index')
             @case('authors.dashboard.index')
             @case('categories.dashboard.index')
             @case('reports.dashboard.index')

@@ -23,16 +23,18 @@ class Source extends Model
     {
         // Also delete model relations while deleting
         static::deleting(function ($source) {
-            // create new manual sources for unapproved quotes before author delete
-            $source->quotes()->unapproved()->each(function ($quote) use ($source) {
-                $quote->source_id = 0;
+            // remove sources all quotes source_id and create new manual sources for unapproved quotes before source delete
+            $source->quotes()->each(function ($quote) use ($source) {
+                $quote->source_id = null;
                 $quote->save();
 
-                $manual = new Manual();
-                $manual->quote_id = $quote->id;
-                $manual->key = 'source';
-                $manual->value = $source->title;
-                $manual->save();
+                if(!$quote->approved) {
+                    $manual = new Manual();
+                    $manual->quote_id = $quote->id;
+                    $manual->key = 'source';
+                    $manual->value = $source->title;
+                    $manual->save();
+                }
             });
         });
     }

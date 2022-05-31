@@ -3,7 +3,6 @@
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MainController;
@@ -11,6 +10,7 @@ use App\Http\Controllers\OptionController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SourceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
@@ -112,6 +112,16 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
         Route::post('/update', 'update')->name('update');
         Route::post('/destroy', 'destroy')->name('destroy');
         Route::post('/approve', 'approve')->name('approve');
+    });
+
+    Route::controller(SourceController::class)->prefix('/sources')->name('sources.')->group(function () {
+        Route::get('/', 'dashboardIndex')->name('dashboard.index');
+        Route::get('/create', 'create')->name('create');
+        Route::get('/{id}', 'edit')->name('edit');
+
+        Route::post('/store', 'store')->name('store');
+        Route::post('/update', 'update')->name('update');
+        Route::post('/destroy', 'destroy')->name('destroy');
     });
 
     Route::controller(AuthorController::class)->prefix('/authors')->name('authors.')->group(function () {

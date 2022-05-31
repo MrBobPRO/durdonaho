@@ -66,10 +66,14 @@
             $manual = App\Models\Manual::where('quote_id', $item->id)->where('key', 'categories')->first();
         @endphp
 
-        <label class="required">Категории. @if($manual) Категории выбранные пользователем: <span class="danger-color">{{ $manual->value }}</span> @endif</label>
+        <label class="required">Категории. @if($manual) Категории добавленные пользователем: <span class="danger-color">{{ $manual->value }}</span> @endif</label>
         <select class="selectize-multiple" name="categories[]" multiple="multiple" required>
             @foreach ($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->title }}
+                <option value="{{ $category->id }}"
+                    @foreach ($item->categories as $itemCat)
+                        @selected($category->id == $itemCat->id)
+                    @endforeach
+                    >{{ $category->title }}
                 </option>
             @endforeach
         </select>
