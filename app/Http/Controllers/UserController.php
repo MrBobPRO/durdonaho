@@ -193,7 +193,7 @@ class UserController extends Controller
         $quotes = Quote::approved()->pluck('body');
         foreach ($quotes as $quote) {
             similar_text($body, $quote, $percentage);
-            if ($percentage > 85) {
+            if ($percentage > 80) {
                 return redirect()->back()->with(['status' => 'similar-quote-error', 'similarQuote' => $quote])->withInput();
             }
         };
@@ -313,7 +313,7 @@ class UserController extends Controller
         $quotes = Quote::approved()->where('id', '!=', $quote->id)->pluck('body');
         foreach ($quotes as $q) {
             similar_text($body, $q, $percentage);
-            if ($percentage > 85) {
+            if ($percentage > 80) {
                 return redirect()->back()->with(['status' => 'similar-quote-error', 'similarQuote' => $q])->withInput();
             }
         };
@@ -410,9 +410,9 @@ class UserController extends Controller
         $activePage = $request->page ? $request->page : 1;
 
         $items = User::orderBy($orderBy, $orderType)
-                ->withCount('quotes')
-                ->paginate(30, ['*'], 'page', $activePage)
-                ->appends($request->except('page'));
+            ->withCount('quotes')
+            ->paginate(30, ['*'], 'page', $activePage)
+            ->appends($request->except('page'));
 
         return view('dashboard.users.index', compact('modelShortcut', 'allItems', 'items', 'orderBy', 'orderType', 'activePage'));
     }

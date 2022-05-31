@@ -258,7 +258,7 @@ class QuoteController extends Controller
         $quotes = Quote::approved()->pluck('body');
         foreach ($quotes as $quote) {
             similar_text($body, $quote, $percentage);
-            if ($percentage > 85) {
+            if ($percentage > 80) {
                 return redirect()->back()->withInput()->withErrors(['Похожая цитата уже существует : ' . $quote]);
             }
         };
@@ -307,12 +307,12 @@ class QuoteController extends Controller
      */
     public function update(Request $request)
     {
-        // return rerror if there is already a quote very similar to the createing quote
+        // return error if there is already a quote very similar to the updating quote
         $body = $request->body;
         $quotes = Quote::approved()->where('id', '!=', $request->id)->pluck('body');
         foreach ($quotes as $quote) {
             similar_text($body, $quote, $percentage);
-            if ($percentage > 85) {
+            if ($percentage > 80) {
                 return redirect()->back()->withInput()->withErrors(['Похожая цитата уже существует : ' . $quote]);
             }
         };
@@ -403,6 +403,16 @@ class QuoteController extends Controller
 
     public function approve(Request $request)
     {
+        // return error if there is already a quote very similar
+        $body = $request->body;
+        $quotes = Quote::approved()->where('id', '!=', $request->id)->pluck('body');
+        foreach ($quotes as $quote) {
+            similar_text($body, $quote, $percentage);
+            if ($percentage > 80) {
+                return redirect()->back()->withInput()->withErrors(['Похожая цитата уже существует : ' . $quote]);
+            }
+        };
+
         $quote = Quote::find($request->id);
         $quote->body = $request->body;
         $quote->author_id = $request->author_id;
