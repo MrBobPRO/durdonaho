@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('quote_id')->nullable();
             $table->integer('author_id')->nullable();
             $table->text('message');
+            $table->boolean('new')->default(1);
             $table->timestamps();
         });
     }

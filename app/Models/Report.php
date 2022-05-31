@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Report extends Model
 {
     use HasFactory;
+
+    public function quote()
+    {
+        return $this->belongsTo(Quote::class);
+    }
+
+    public function author()
+    {
+        return $this->belongsTo(Author::class);
+    }
 }

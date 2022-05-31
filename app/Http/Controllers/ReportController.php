@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
+    // used while generating route names in dashboard
+    const MODEL_SHORTCUT = 'reports';
+
     /**
      * Display a listing of the resource.
      *
@@ -46,47 +49,69 @@ class ReportController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display a listing of the resource in dashboard
      *
-     * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function show(Report $report)
+    public function dashboardIndex(Request $request)
     {
-        //
+        // used while generating route names
+        $modelShortcut = self::MODEL_SHORTCUT;
+
+        // for search & counting on index pages
+        $allItems = Report::select('id')->get();
+
+        // Default parameters for ordering
+        $orderBy = $request->orderBy ? $request->orderBy : 'created_at';
+        $orderType = $request->orderType ? $request->orderType : 'desc';
+        $activePage = $request->page ? $request->page : 1;
+
+        $items = Report::join('users', 'reports.user_id', '=', 'users.id')
+                ->select('reports.*', 'users.name as user_name')
+                ->orderBy($orderBy, $orderType)
+                ->paginate(30, ['*'], 'page', $activePage)
+                ->appends($request->except('page'));
+
+        return view('dashboard.reports.index', compact('modelShortcut', 'allItems', 'items', 'orderBy', 'orderType', 'activePage'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Report  $report
+     * @param  \App\Models\Quote  $quote
      * @return \Illuminate\Http\Response
      */
-    public function edit(Report $report)
+    public function edit($id)
     {
-        //
+        // used while generating route names
+        $modelShortcut = self::MODEL_SHORTCUT;
+
+        $item = Report::find($id);
+        $item->new = false;
+        $item->save();
+
+        return view('dashboard.reports.edit', compact('modelShortcut', 'item'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Request for deleting items by id may come in integer type (single item destroy form) 
+     * or in array type (multiple item destroy form)
+     * That`s why we need to get them in array type and delete them by loop
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Report  $report
+     * Checkout Model Boot methods deleting function 
+     * Models relations also deleted on deleting function of Models Boot method
+     * 
+     * @param  int/array  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Report $report)
+    public function destroy(Request $request)
     {
-        //
-    }
+        $ids = (array) $request->id;
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Report  $report
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Report $report)
-    {
-        //
+        foreach ($ids as $id) {
+            Report::find($id)->delete();
+        }
+
+        return redirect()->route('reports.dashboard.index');
     }
 }

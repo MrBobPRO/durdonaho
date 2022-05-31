@@ -346,8 +346,7 @@ class QuoteController extends Controller
         $ids = (array) $request->id;
 
         foreach ($ids as $id) {
-            $item = Quote::find($id);
-            $item->delete();
+            Quote::find($id)->delete();
         }
 
         return redirect()->route('dashboard.index');

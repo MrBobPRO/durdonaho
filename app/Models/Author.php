@@ -29,6 +29,11 @@ class Author extends Model
         return $this->hasMany(Favorite::class);
     }
 
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
     /**
      * The "booted" method of the model.
      *
@@ -48,6 +53,10 @@ class Author extends Model
 
             $author->favorites()->each(function ($favorite) {
                 $favorite->delete();
+            });
+
+            $author->reports()->each(function ($report) {
+                $report->delete();
             });
 
             // create new manual authors for unapproved quotes before author delete

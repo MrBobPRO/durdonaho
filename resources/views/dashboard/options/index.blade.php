@@ -4,7 +4,7 @@
 @include('dashboard.layouts.search')
 
 {{-- Table form start --}}
-<form action="{{ route($modelShortcut . '.destroy') }}" method="POST" class="table-form" id="table-form">
+<form action="javascript:void(0)" method="POST" class="table-form" id="table-form">
     @csrf
     {{-- Table start --}}
     <table class="main-table" cellpadding = "8" cellspacing = "10">

@@ -136,15 +136,19 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
 
     Route::controller(OptionController::class)->prefix('/options')->name('options.')->group(function () {
         Route::get('/', 'dashboardIndex')->name('dashboard.index');
-        Route::get('/create', 'create')->name('create');
         Route::get('/{id}', 'edit')->name('edit');
 
-        Route::post('/store', 'store')->name('store');
         Route::post('/update', 'update')->name('update');
-        Route::post('/destroy', 'destroy')->name('destroy');
     });
 
     Route::controller(UserController::class)->prefix('/users')->name('users.')->group(function () {
         Route::get('/', 'dashboardIndex')->name('dashboard.index');
+    });
+
+    Route::controller(ReportController::class)->prefix('/reports')->name('reports.')->group(function () {
+        Route::get('/', 'dashboardIndex')->name('dashboard.index');
+        Route::get('/{id}', 'edit')->name('edit');
+
+        Route::post('/destroy', 'destroy')->name('destroy');
     });
 });

@@ -63,8 +63,11 @@
             </li>
 
             <li>
-                <a class="@if( strpos($route, 'reports') !== false ) active @endif" href="{{route('users.dashboard.index')}}">
+                <a class="@if( strpos($route, 'reports') !== false ) active @endif" href="{{route('reports.dashboard.index')}}">
                     <span class="material-icons">error</span> Жалобы
+
+                    @php $newReportsCount = App\Models\Report::where('new', true)->count(); @endphp
+                    @if($newReportsCount) ({{ $newReportsCount  }}) @endif
                 </a>
             </li>
 

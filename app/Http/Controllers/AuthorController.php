@@ -292,8 +292,7 @@ class AuthorController extends Controller
         $ids = (array) $request->id;
         
         foreach($ids as $id) {
-            $item = Author::find($id);
-            $item->delete();
+            Author::find($id)->delete();
         }
         
         return redirect()->route('authors.dashboard.index');

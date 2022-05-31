@@ -45,6 +45,11 @@ class Quote extends Model
         return $this->hasMany(Favorite::class);
     }
 
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
     public function scopeApproved($query)
     {
         return $query->where('approved', true);
@@ -76,6 +81,10 @@ class Quote extends Model
 
             $quote->favorites()->each(function ($favorite) {
                 $favorite->delete();
+            });
+
+            $quote->reports()->each(function ($report) {
+                $report->delete();
             });
         });
     }

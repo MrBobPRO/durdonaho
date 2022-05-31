@@ -156,8 +156,7 @@ class CategoryController extends Controller
         $ids = (array) $request->id;
         
         foreach($ids as $id) {
-            $item = Category::find($id);
-            $item->delete();
+            Category::find($id)->delete();
         }
         
         return redirect()->route('categories.dashboard.index');

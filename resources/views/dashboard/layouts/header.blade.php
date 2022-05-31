@@ -8,6 +8,7 @@
         @elseif(strpos($route, 'categories') !== false) Категории
         @elseif(strpos($route, 'options') !== false) Тексты
         @elseif(strpos($route, 'users') !== false) Пользователи
+        @elseif(strpos($route, 'reports') !== false) Жалобы
         @endif
 
         {{-- First levels items count --}}
@@ -22,6 +23,7 @@
         @elseif($route == 'authors.edit') / {{ $item->name }}
         @elseif($route == 'categories.edit') / {{ $item->title }}
         @elseif($route == 'options.edit') / {{ $item->title }}
+        @elseif($route == 'reports.edit') / #{{ $item->id }}
         @endif
     </h1>  {{-- Title end --}}
 
@@ -43,6 +45,7 @@
             @case('dashboard.index')
             @case('authors.dashboard.index')
             @case('categories.dashboard.index')
+            @case('reports.dashboard.index')
                 <button id="header-select-all-button">
                     <span class="material-icons">done_all</span> Отметить все
                 </button>
