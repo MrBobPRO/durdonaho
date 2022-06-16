@@ -29,7 +29,6 @@ class QuoteController extends Controller
 
         // validate query pagination path and card style due to the requests route
         $authorId = $request->author_id;
-        $individual = $request->individual;
         $favorite = $request->favorite;
         $userId = $request->user_id;
 
@@ -38,10 +37,6 @@ class QuoteController extends Controller
         // authors.show route
         if ($authorId && $authorId != '') {
             $quotes->withPath(route('authors.show', Author::find($authorId)->slug));
-        }
-        // quotes.individual route
-        else if ($individual && $individual == 1) {
-            $quotes->withPath(route('quotes.individual'));
         }
         // favorite.quotes route
         else if ($favorite && $favorite == 1) {
@@ -74,9 +69,9 @@ class QuoteController extends Controller
     /**
      * Return filtered quotes for the given request
      * 
-     * Manual parameters (manualIndividual && manualAuthorId etc) needed because filter function is
-     * also called from many different GET routes (index pages). $request may also have individual
-     * & author_id & favorite etc parameters, but manuals are more priority
+     * Manual parameters (manualAuthorId etc) needed because filter function is
+     * also called from many different GET routes (index pages). $request may also have author_id
+     * & favorite etc parameters, but manuals are more priority
      * 
      * You don`t have to include manual parameters while paginating!!! They are manually declared on each controllers functions
      * 
@@ -84,13 +79,12 @@ class QuoteController extends Controller
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public static function filter($request, $manualIndividual = null, $manualAuthorId = null, $manualFavorite = null, $manualUserId = null)
+    public static function filter($request, $manualAuthorId = null, $manualFavorite = null, $manualUserId = null)
     {
         $quotes = Quote::query();
 
         // Filter Query Step by step
         $authorId = $manualAuthorId ? $manualAuthorId : $request->author_id;
-        $individual = $manualIndividual ? $manualIndividual : $request->individual;
         $favorite = $manualFavorite ? $manualFavorite : $request->favorite;
         $userId = $manualUserId ? $manualUserId : $request->user_id;
 
@@ -108,18 +102,12 @@ class QuoteController extends Controller
             $quotes = $quotes->whereIn('id', $quoteIds);
         }
 
-        // 4. Individual (true only on quotes.individual route)
-        else if ($individual && $individual != '') {
-            $authorIds = Author::where('individual', true)->pluck('id');
-            $quotes = $quotes->whereIn('author_id', $authorIds);
-        }
-
-        // 5. Specific users quotes (valid only on users.quotes && users.current.quotes route) 
+        // 4. Specific users quotes (valid only on users.quotes && users.current.quotes route) 
         else if ($userId && $userId != '') {
             $quotes = $quotes->where('user_id', $userId);
         }
 
-        // 6. Categories
+        // 5. Categories
         $category_id = $request->category_id;
         if ($category_id && $category_id != '') {
             // category_id comes in string type joined by '-' because of FormData
@@ -129,7 +117,7 @@ class QuoteController extends Controller
             });
         }
 
-        // 7. Search keyword
+        // 6. Search keyword
         $keyword = $request->keyword;
         if ($keyword && $keyword != '') {
             $quotes = $quotes->where('body', 'LIKE', '%' . $keyword . '%');
@@ -137,7 +125,7 @@ class QuoteController extends Controller
 
         $quotes = $quotes->orderBy('updated_at', 'desc')
             ->paginate(6)
-            ->appends($request->except(['page', 'token', 'individual', 'author_id', 'favorite', 'user_id']))
+            ->appends($request->except(['page', 'token', 'author_id', 'favorite', 'user_id']))
             ->fragment('quotes-section');
 
         return $quotes;
@@ -150,23 +138,10 @@ class QuoteController extends Controller
      */
     public function index(Request $request)
     {
-        $quotes = $this->filter($request, false);
+        $quotes = $this->filter($request);
 
         return view('quotes.index', compact('quotes', 'request'));
     }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function individual(Request $request)
-    {
-        $quotes = $this->filter($request, true);
-
-        return view('quotes.individual', compact('quotes', 'request'));
-    }
-
 
     /**
      * Display a listing of the resource.

@@ -64,7 +64,7 @@ class UserController extends Controller
             return redirect()->route('users.current.quotes');
         }
 
-        $quotes = QuoteController::filter($request, null, null, null, $userId);
+        $quotes = QuoteController::filter($request, null, null, $userId);
 
         return view('users.quotes', compact('quotes', 'userId', 'request'));
     }
@@ -77,7 +77,7 @@ class UserController extends Controller
     public function currentUsersQuotes(Request $request)
     {
         $userId = Auth::user()->id;
-        $quotes = QuoteController::filter($request, null, null, null, $userId);
+        $quotes = QuoteController::filter($request, null, null, $userId);
 
         return view('users.current-users-quotes', compact('quotes', 'userId', 'request'));
     }

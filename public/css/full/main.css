@@ -278,10 +278,6 @@ input {
     align-items: center;
     gap: 24px;
 }
-.header-top__register {
-    font-weight: 500;
-    font-size: 16px;
-}
 .header-top__login {
     padding: 9px 48px;
 }
@@ -595,6 +591,18 @@ input {
 .owl-carousel .card__categories-item:first-child, .owl-carousel .card__categories-item:nth-child(2), .owl-carousel .card__categories-item:nth-child(3) {
     display: block;
 }
+.owl-carousel .ya-share2__popup {
+    top: auto !important;
+    bottom: -50px;
+}
+.owl-carousel .ya-share2__container_size_m .ya-share2__badge .ya-share2__icon {
+    height: 20px !important;
+    width: 20px !important;
+    background-size: 20px 20px !important;
+}
+.owl-carousel .ya-share2__container_size_m .ya-share2__title {
+    line-height: 20px !important;
+}
 /* ------------ /end Home carousel ------------ */
 
 
@@ -689,24 +697,24 @@ input {
     flex-wrap: wrap;
     align-items: center;
     gap: 8px 12px;
-}
-.card__publication-date {
     color: #A6A6A6;
     font-weight: 500;
+    font-size: 14px;
+}
+.card__publication-date {
     margin: 0;
+    font-size: 14px;
     font-family: sans-serif;
 }
 .card__publication-text {
-    color: #A6A6A6;
-    font-weight: 500;
     margin: 0;
+    font-size: 14px;
 }
 .card__publication-user {
-    color: var(--main-color);
     display: flex;
     align-items: center;
     gap: 4px;
-    font-weight: 500;
+    color: #A6A6A6;
 }
 .card__publication-user span {
     font-size: 18px;

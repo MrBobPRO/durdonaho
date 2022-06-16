@@ -85,7 +85,6 @@ Route::controller(UserController::class)->name('users.')->group(function () {
 
 Route::controller(QuoteController::class)->prefix('quotes')->name('quotes.')->group(function () {
     Route::get('/', 'index')->name('index');
-    Route::get('/individual', 'individual')->name('individual');
     Route::get('/top', 'top')->name('top');
 
     Route::post('/ajax-get', 'ajaxGet')->name('ajax.get');
@@ -93,7 +92,6 @@ Route::controller(QuoteController::class)->prefix('quotes')->name('quotes.')->gr
 
 Route::controller(AuthorController::class)->prefix('authors')->name('authors.')->group(function () {
     Route::get('/', 'index')->name('index');
-    Route::get('/individual', 'individual')->name('individual');
     Route::get('/{slug}', 'show')->name('show');
 
     Route::post('/ajax-get', 'ajaxGet')->name('ajax.get');

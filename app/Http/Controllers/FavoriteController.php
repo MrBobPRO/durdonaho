@@ -16,7 +16,7 @@ class FavoriteController extends Controller
      */
     public function quotes(Request $request)
     {
-        $quotes = QuoteController::filter($request, null, null, true);
+        $quotes = QuoteController::filter($request, null, true);
 
         return view('favorites.quotes', compact('request', 'quotes'));
     }
@@ -28,7 +28,7 @@ class FavoriteController extends Controller
      */
     public function authors(Request $request)
     {
-        $authors = AuthorController::filter($request, null, true);
+        $authors = AuthorController::filter($request, true);
 
         return view('favorites.authors', compact('request', 'authors'));
     }

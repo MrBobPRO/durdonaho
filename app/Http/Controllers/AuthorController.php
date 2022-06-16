@@ -29,17 +29,12 @@ class AuthorController extends Controller
         $authors = $this->filter($request);
 
         // validate query pagination path and card style due to the request route
-        $individual = $request->individual;
         $favorite = $request->favorite;
 
         $cardClass = 'card_with_medium_image';
 
-        // authors.individual route
-        if($individual && $individual == 1) {
-            $authors->withPath(route('authors.individual'));
-        }
         // favorite.authors route
-        else if ($favorite && $favorite == 1) {
+        if ($favorite && $favorite == 1) {
             $authors->withPath(route('favorite.authors'));
             $cardClass = 'card_with_medium_image card--full_width';
         }
@@ -54,34 +49,28 @@ class AuthorController extends Controller
     /**
      * Return filtered authors for the given request
      * 
-     * Manual parameters (manualIndividual etc) needed because filter function is
-     * also called from many different GET routes (index pages). $request may also have individual 
+     * Manual parameters (manualFavorite etc) needed because filter function is
+     * also called from many different GET routes (index pages). $request may also have favorite 
      * etc parameter, but manuals are more priority
      * 
      * You don`t have to include manual parameters while paginating!!! They are manually declared on each controllers functions
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public static function filter($request, $manualIndividual = null, $manualFavorite = null)
+    public static function filter($request, $manualFavorite = null)
     {
         $authors = Author::query();
 
         // Filter Query Step by step
-        $individual = $manualIndividual ? $manualIndividual : $request->individual;
         $favorite = $manualFavorite ? $manualFavorite : $request->favorite;
 
-        // 1. Individual (true only on authors.individual route)
-        if($individual && $individual != '') {
-            $authors = $authors->where('individual', $individual);
-        }
-
-        // 2. Favorite (true only on favorite.quotes route)
-        else if ($favorite && $favorite != '') {
+        // 1. Favorite (true only on favorite.quotes route)
+        if ($favorite && $favorite != '') {
             $authorIds = Favorite::where('user_id', Auth::user()->id)->where('author_id', '!=', '')->pluck('author_id');
             $authors = $authors->whereIn('id', $authorIds);
         }
 
-        // 3. Categories
+        // 2. Categories
         $category_id = $request->category_id;
         if($category_id && $category_id != '') {
             // category_id comes in string type joined by '-' because of FormData
@@ -94,7 +83,7 @@ class AuthorController extends Controller
             });
         }
 
-        // 4. Search keyword
+        // 3. Search keyword
         $keyword = $request->keyword;
         if($keyword && $keyword != '') {
             $authors = $authors->where('name', 'LIKE', '%' . $keyword . '%');
@@ -102,7 +91,7 @@ class AuthorController extends Controller
 
         $authors = $authors->orderBy('name')
                         ->paginate(6)
-                        ->appends($request->except(['page', 'token', 'individual', 'favorite']))
+                        ->appends($request->except(['page', 'token', 'favorite']))
                         ->fragment('authors-section');
 
         return $authors;
@@ -115,21 +104,9 @@ class AuthorController extends Controller
      */
     public function index(Request $request)
     {
-        $authors = $this->filter($request, false);
+        $authors = $this->filter($request);
 
         return view('authors.index', compact('authors', 'request'));
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function individual(Request $request)
-    {
-        $authors = $this->filter($request, true);
-
-        return view('authors.individual', compact('authors', 'request'));
     }
 
     /**
@@ -141,7 +118,7 @@ class AuthorController extends Controller
     public function show(Request $request, $slug)
     {
         $author = Author::where('slug', $slug)->first();
-        $quotes = QuoteController::filter($request, null, $author->id);
+        $quotes = QuoteController::filter($request, $author->id);
 
         return view('authors.show', compact('author', 'quotes', 'request'));
     }
@@ -211,7 +188,7 @@ class AuthorController extends Controller
 
         // store quote
         $author = new Author();
-        $fields = ['name', 'user_id', 'biography', 'popular', 'individual'];
+        $fields = ['name', 'user_id', 'biography', 'popular'];
         Helper::fillModelColumns($author, $fields, $request);
         $author->slug = Helper::generateUniqueSlug($request->name, Author::class);
 
@@ -265,7 +242,7 @@ class AuthorController extends Controller
         Validator::make($request->all(), $validationRules, $validationMessages)->validate();
 
         // update author
-        $fields = ['name', 'user_id', 'biography', 'popular', 'individual'];
+        $fields = ['name', 'user_id', 'biography', 'popular'];
         Helper::fillModelColumns($author, $fields, $request);
         $author->slug = Helper::generateUniqueSlug($request->name, Author::class, $author->id);
 

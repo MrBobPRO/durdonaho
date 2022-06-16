@@ -63,7 +63,7 @@
             
                     <button class="card__actions-button card__actions-share">
                         <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
-                            data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype" data-url="{{ route('authors.show', $author->slug) }}">
+                            data-services="vkontakte,facebook,telegram,twitter,viber,whatsapp,skype" data-url="{{ route('authors.show', $author->slug) }}">
                         </div>
                     </button>
             
@@ -84,7 +84,7 @@
             
                     <button class="card__actions-button card__actions-share">
                         <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
-                            data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype" data-url="{{ route('authors.show', $author->slug) }}">
+                            data-services="vkontakte,facebook,telegram,twitter,viber,whatsapp,skype" data-url="{{ route('authors.show', $author->slug) }}">
                         </div>
                     </button>
             

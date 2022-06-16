@@ -32,14 +32,6 @@
     </div>
 
     <div class="form-group">
-        <label class="required">Является ли автор самиздатом?</label>
-        <select class="selectize-singular" name="individual" required>
-            <option value="0">Нет</option>
-            <option value="1">Да</option>
-        </select>
-    </div>
-
-    <div class="form-group">
         <label class="required">Добавить в популярные авторы?</label>
         <select class="selectize-singular" name="popular" required>
             <option value="0">Нет</option>

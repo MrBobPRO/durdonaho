@@ -4,7 +4,6 @@
 
     $title ->        Title of the block
     $formAction ->   Used as url for AJAX request
-    $individual ->   Used as filter for quotes.individual & authors.individual routes. FALSE on other routes
     $favorite ->     Used as filter for favorite.quotes & favorite.authors routes. FALSE on other routes
     $authorId ->     Filter only specific authors quotes (authors.show route). NULL on other routes
     $userId ->       Filter only specific users quotes (users.quotes route). NULL on other routes
@@ -15,7 +14,6 @@
 
 @php
     // Default values
-    $individual = 0;
     $favorite = 0;
     $formAction = '/quotes/ajax-get';
     $placeholder = 'Ҷустуҷӯи иқтибосҳо';
@@ -24,22 +22,10 @@
         case 'quotes.index':
             $title = 'Ҳама иқтибосҳо';
             break;
-        
-        case 'quotes.individual':
-            $title = 'Иқтибосҳои самиздат';
-            $individual = 1;
-            break;
 
         case 'authors.index':
             $title = 'Ҳама муаллифон';
             $formAction = '/authors/ajax-get';
-            $placeholder = 'Ҷустуҷӯи муаллифон';
-            break;
-        
-        case 'authors.individual':
-            $title = 'Муаллифони самиздат';
-            $formAction = '/authors/ajax-get';
-            $individual = 1;
             $placeholder = 'Ҷустуҷӯи муаллифон';
             break;
 
@@ -83,7 +69,6 @@
         <h1 class="categories-filter__title main-title">{{ $title }}</h1>
 
         <form class="categories-filter__form" action="{{ $formAction }}" id="categories-filter-form">
-            <input type="hidden" name="individual" value="{{ $individual }}">
             <input type="hidden" name="favorite" value="{{ $favorite }}">
 
             @if ($authorId)

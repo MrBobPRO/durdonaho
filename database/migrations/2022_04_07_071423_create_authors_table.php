@@ -15,13 +15,12 @@ return new class extends Migration
     {
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
-            $table->string("name")->unique();
+            $table->string('name')->unique();
             $table->string('slug')->unique();
             $table->integer('user_id'); //publisher
-            $table->text("biography");
-            $table->string("image")->default("__default.jpg");
+            $table->text('biography');
+            $table->string('image')->default('__default.jpg');
             $table->boolean('popular');
-            $table->boolean('individual'); //Самиздат
             $table->timestamps();
         });
     }

@@ -58,7 +58,7 @@
 
                     <button class="card__actions-button card__actions-share">
                         <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
-                            data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype" data-title="{{ App\Helpers\Helper::generateShareText($quote->author->name . ': “' . $quote->body) . '”'}}" data-image="{{ asset('img/main/logo-share.png') }}" data-url="{{ route('quotes.index') }}">
+                            data-services="vkontakte,facebook,telegram,twitter,viber,whatsapp,skype" data-title="{{ App\Helpers\Helper::generateShareText($quote->author->name . ': “' . $quote->body) . '”'}}" data-image="{{ asset('img/main/logo-share.png') }}" data-url="{{ route('quotes.index') }}">
                         </div>
                     </button>
 
@@ -79,7 +79,7 @@
 
                     <button class="card__actions-button card__actions-share">
                         <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
-                            data-services="vkontakte,facebook,odnoklassniki,telegram,twitter,viber,whatsapp,skype" data-title="{{ App\Helpers\Helper::generateShareText($quote->author->name . ': “' . $quote->body) . '”'}}" data-image="{{ asset('img/main/logo-share.png') }}" data-url="{{ route('quotes.index') }}">
+                            data-services="vkontakte,facebook,telegram,twitter,viber,whatsapp,skype" data-title="{{ App\Helpers\Helper::generateShareText($quote->author->name . ': “' . $quote->body) . '”'}}" data-image="{{ asset('img/main/logo-share.png') }}" data-url="{{ route('quotes.index') }}">
                         </div>
                     </button>
 
