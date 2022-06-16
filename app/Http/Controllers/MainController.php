@@ -21,25 +21,25 @@ class MainController extends Controller
     {
         $keyword = $request->keyword;
 
-        $authors = Author::where("name", "LIKE", "%" . $keyword . "%")
-            ->orWhere("biography", "LIKE", "%" . $keyword . "%")
-            ->orderBy("name")->get();
+        $authors = Author::where('name', 'LIKE', '%' . $keyword . '%')
+            ->orWhere('biography', 'LIKE', '%' . $keyword . '%')
+            ->orderBy('name')->get();
 
         $quotes = Quote::where(function ($q) use ($keyword) {
             $q->whereHas('author', function ($a) use ($keyword) {
-                $a->where("name", "LIKE", "%" . $keyword . "%");
+                $a->where('name', 'LIKE', '%' . $keyword . '%');
             })
                 ->approved();
         })
 
             ->orWhere(function ($q) use ($keyword) {
-                $q->where("body", "LIKE", "%" . $keyword . "%")
+                $q->where('body', 'LIKE', '%' . $keyword . '%')
                     ->approved();
             })
 
             ->latest()->get();
 
-        return view("search.index", compact("keyword", "authors", "quotes"));
+        return view('search.index', compact('keyword', 'authors', 'quotes'));
     }
 
     public function privacyPolicy()

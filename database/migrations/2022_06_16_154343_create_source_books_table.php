@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sources', function (Blueprint $table) {
+        Schema::create('source_books', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('key');
+            $table->string('author');
+            $table->unique(['title', 'author']);
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sources');
+        Schema::dropIfExists('source_books');
     }
 };

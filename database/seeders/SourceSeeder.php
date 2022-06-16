@@ -15,11 +15,13 @@ class SourceSeeder extends Seeder
      */
     public function run()
     {
-        $title = ['Из книги "Пятачок"', 'Из фильма "Властелин Колец"', 'Народные мудрости', 'Из аниме'];
+        $title = ['Моя цитата', 'Автор неизвестен', 'Цитата известного автора', 'Цитата из книги', 'Цитата из фильма или сериала', 'Цитата из песни', 'Пословица/поговорка', 'Притча'];
+        $key = ['user', 'unknown', 'author', 'book', 'movie', 'song', 'proverb', 'parable'];
 
         for($i=0; $i<count($title); $i++) {
             $source = new Source();
             $source->title = $title[$i];
+            $source->key = $key[$i];
             $source->save();
         }
     }

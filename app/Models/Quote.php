@@ -34,12 +34,6 @@ class Quote extends Model
         return $this->hasMany(Like::class);
     }
 
-    // Manuals table is used when users add new author, source, category etc while publishing quote
-    public function manuals()
-    {
-        return $this->hasMany(Manual::class);
-    }
-
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
@@ -70,10 +64,6 @@ class Quote extends Model
         // Also delete model relations while deleting
         static::deleting(function ($quote) {
             $quote->categories()->detach();
-
-            $quote->manuals()->each(function ($manual) {
-                $manual->delete();
-            });
 
             $quote->likes()->each(function ($like) {
                 $like->delete();

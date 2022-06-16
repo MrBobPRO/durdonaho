@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('manuals', function (Blueprint $table) {
-            // Manuals table is used when users add new author, source, category etc while publishing quote
+        Schema::create('source_songs', function (Blueprint $table) {
             $table->id();
-            $table->string('key'); // author, source, category etc 
-            $table->text('value');
-            $table->integer('quote_id');
+            $table->string('title');
+            $table->string('singer');
+            $table->unique(['title', 'singer']);
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('manuals');
+        Schema::dropIfExists('source_songs');
     }
 };

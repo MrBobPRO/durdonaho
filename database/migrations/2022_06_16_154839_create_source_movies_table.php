@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sources', function (Blueprint $table) {
+        Schema::create('source_movies', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('key');
+            $table->string('year');
+            $table->unique(['title', 'year']);
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sources');
+        Schema::dropIfExists('source_movies');
     }
 };

@@ -16,9 +16,12 @@ return new class extends Migration
         Schema::create('quotes', function (Blueprint $table) {
             $table->id();
             $table->text('body');
-            $table->integer('author_id');
-            $table->integer('source_id')->nullable();
+            $table->integer('author_id')->nullable();
             $table->integer('user_id'); // publisher
+            $table->integer('source_id');
+            $table->integer('source_book_id')->nullable();
+            $table->integer('source_movie_id')->nullable();
+            $table->integer('source_song_id')->nullable();
             $table->boolean('popular')->default(0);
             $table->boolean('verified')->default(0); // by admin (проверено)
             $table->boolean('approved')->default(0); // approved or denied by admin (одобрено)
