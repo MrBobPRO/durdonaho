@@ -15,7 +15,41 @@
 
         {{-- Card Header start --}}
         <div class="card__header">
-            <img class="card__image card__image--small" src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}">
+            <img class="card__image card__image--small"
+                @switch($quote->source->key)
+                    @case(App\Models\Source::AUTHORS_QUOTE_KEY)
+                        src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}"
+                        @break
+
+                    @case(App\Models\Source::OWN_QUOTE_KEY)
+                        src="{{ asset('img/users/' . $quote->user->image) }}" alt="{{ $quote->user->name }}"
+                        @break
+
+                    @case(App\Models\Source::UNKNOWN_AUTHOR_KEY)
+                        src="{{ asset('img/sources/' . $quote->source->image ?? App\Models\Source::UNKNOWN_AUTHOR_DEFAULT_IMAGE) }}" alt="Неизвестный автор"
+                        @break
+
+                    @case(App\Models\Source::FROM_BOOK_KEY)
+                        src="{{ asset('img/sources/' . $quote->source->image ?? App\Models\Source::FROM_BOOK_DEFAULT_IMAGE) }}" alt="{{ $quote->bookSource->title }}"
+                        @break
+
+                    @case(App\Models\Source::FROM_MOVIE_KEY)
+                        src="{{ asset('img/sources/' . $quote->source->image ?? App\Models\Source::FROM_MOVIE_DEFAULT_IMAEG) }}" alt="{{ $quote->movieSource->title }}"
+                        @break
+
+                    @case(App\Models\Source::FROM_SONG_KEY)
+                        src="{{ asset('img/sources/' . $quote->source->image ?? App\Models\Source::FROM_SONG_DEFAULT_IMAGE) }}" alt="{{ $quote->songSource->title }}"
+                        @break
+
+                    @case(App\Models\Source::FROM_PROVERB_KEY)
+                        src="{{ asset('img/sources/' . $quote->source->image ?? App\Models\Source::FROM_PROVERB_DEFAULT_IMAGE) }}" alt="Пословица/поговорка"
+                        @break
+
+                    @case(App\Models\Source::FROM_PARABLE_KEY)
+                        src="{{ asset('img/sources/' . $quote->source->image ?? App\Models\Source::FROM_PARABLE_DEFAULT_IMAGE) }}" alt="Притча"
+                        @break
+                @endswitch
+            >
 
             <div class="card__header-text">
                 @if($showEditButton)
@@ -24,9 +58,46 @@
                     </a>
                 @endif
 
-                <a class="card__title" href="{{ route('authors.show', $quote->author->slug) }}">
-                    {!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->author->name) : $quote->author->name !!}
-                </a>
+                <h3 class="card__title">
+                    @switch($quote->source->key)
+                        @case(App\Models\Source::AUTHORS_QUOTE_KEY)
+                            <a class="card__title-link" href="{{ route('authors.show', $quote->author->slug) }}">
+                                {!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->author->name) : $quote->author->name !!}
+                            </a>
+                            @break
+
+                        @case(App\Models\Source::OWN_QUOTE_KEY)
+                            <a class="card__title-link" href="{{ route('users.show', $quote->user->slug) }}">
+                                {{ $quote->user->name }}
+                            </a>
+                            @break
+
+                        @case(App\Models\Source::UNKNOWN_AUTHOR_KEY)
+                            Неизвестный автор
+                            @break
+
+                        @case(App\Models\Source::FROM_BOOK_KEY)
+                            {{ $quote->bookSource->title }}
+                            @break
+
+                        @case(App\Models\Source::FROM_MOVIE_KEY)
+                            {{ $quote->movieSource->title }}
+                            @break
+
+                        @case(App\Models\Source::FROM_SONG_KEY)
+                            {{ $quote->songSource->title }}
+                            @break
+
+                        @case(App\Models\Source::FROM_PROVERB_KEY)
+                            Пословица/поговорка
+                            @break
+
+                        @case(App\Models\Source::FROM_PARABLE_KEY)
+                            Притча
+                            @break
+                    @endswitch
+                </h3>
+
 
                 <ul class="card__categories">
                     @foreach ($quote->categories as $category)

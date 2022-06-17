@@ -19,11 +19,6 @@ class Quote extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function source()
-    {
-        return $this->belongsTo(Source::class);
-    }
-
     public function categories()
     {
         return $this->belongsToMany(Category::class);
@@ -52,6 +47,31 @@ class Quote extends Model
     public function scopeUnapproved($query)
     {
         return $query->where('approved', false);
+    }
+
+    public function source()
+    {
+        return $this->belongsTo(Source::class);
+    }
+
+    public function bookSource()
+    {
+        return $this->belongsTo(SourceBook::class, 'source_book_id');
+    }
+
+    public function movieSource()
+    {
+        return $this->belongsTo(SourceMovie::class, 'source_movie_id');
+    }
+
+    public function songSource()
+    {
+        return $this->belongsTo(SourceSong::class, 'source_song_id');
+    }
+
+    public function sourcedFrom($key)
+    {
+        return $this->source->key == $key ? true : false;
     }
 
     /**

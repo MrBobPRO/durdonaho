@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Source;
+use App\Models\SourceBook;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -24,5 +25,10 @@ class SourceSeeder extends Seeder
             $source->key = $key[$i];
             $source->save();
         }
+
+        $sb = new SourceBook();
+        $sb->title = 'Алиса в стране чудес';
+        $sb->author = 'Полина Гагарина';
+        $sb->save();
     }
 }

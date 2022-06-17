@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
+    const DEFAULT_IMAGE = '__default.jpg';
     // used while uploading images
     const IMAGE_PATH = 'img/users';
     // used while generating route names in dashboard
@@ -140,7 +141,7 @@ class UserController extends Controller
 
         // set default image on image delete
         if ($request->remove_image == '1') {
-            $user->image = '__default.jpg';
+            $user->image = self::DEFAULT_IMAGE;
         }
 
         // force email verification on email change

@@ -9,6 +9,22 @@ class Source extends Model
 {
     use HasFactory;
 
+    const OWN_QUOTE_KEY = 'user';
+    const UNKNOWN_AUTHOR_KEY = 'unknown';
+    const AUTHORS_QUOTE_KEY = 'author';
+    const FROM_BOOK_KEY = 'book';
+    const FROM_MOVIE_KEY = 'movie';
+    const FROM_SONG_KEY = 'song';
+    const FROM_PROVERB_KEY = 'proverb';
+    const FROM_PARABLE_KEY = 'parable';
+
+    const UNKNOWN_AUTHOR_DEFAULT_IMAGE = '__default-unknown-author.jpg';
+    const FROM_BOOK_DEFAULT_IMAGE = '__default-book.jpg';
+    const FROM_MOVIE_DEFAULT_IMAEG = '__default-movie.jpg';
+    const FROM_SONG_DEFAULT_IMAGE = '__default-image.jpg';
+    const FROM_PROVERB_DEFAULT_IMAGE = '__default-proverb.jpg';
+    const FROM_PARABLE_DEFAULT_IMAGE = '__default-parable.jpg';
+
     public function quotes()
     {
         return $this->hasMany(Quote::class);

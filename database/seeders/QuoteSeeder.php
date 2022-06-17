@@ -40,7 +40,11 @@ class QuoteSeeder extends Seeder
             $q->author_id = $i+1;
             $q->user_id = rand(1,2);
             $q->popular = true;
-            $q->source_id = 4;
+            $q->source_id = 3;
+            if($i == 2) {
+                $q->source_id = 4;
+                $q->source_book_id = 1;
+            }
             $q->verified = true;
             $q->approved = true;
             $q->save();

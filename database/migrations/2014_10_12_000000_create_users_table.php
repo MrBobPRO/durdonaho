@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('role');
             $table->string('gender');
-            $table->string('image');
+            $table->string('image')->default('__default.jpg');
             $table->text('biography')->nullable();
             $table->rememberToken();
             $table->timestamps();
