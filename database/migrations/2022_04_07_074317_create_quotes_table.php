@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('author_id')->nullable();
             $table->integer('user_id'); // publisher
             $table->integer('source_id');
-            $table->integer('source_image')->nullable();
+            $table->string('source_image')->nullable();
             $table->integer('source_book_id')->nullable();
             $table->integer('source_movie_id')->nullable();
             $table->integer('source_song_id')->nullable();

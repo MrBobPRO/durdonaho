@@ -18,40 +18,15 @@ class Source extends Model
     const FROM_PROVERB_KEY = 'proverb';
     const FROM_PARABLE_KEY = 'parable';
 
-    const UNKNOWN_AUTHOR_DEFAULT_IMAGE = '__default-unknown-author.jpg';
-    const FROM_BOOK_DEFAULT_IMAGE = '__default-book.jpg';
-    const FROM_MOVIE_DEFAULT_IMAEG = '__default-movie.jpg';
-    const FROM_SONG_DEFAULT_IMAGE = '__default-image.jpg';
-    const FROM_PROVERB_DEFAULT_IMAGE = '__default-proverb.jpg';
-    const FROM_PARABLE_DEFAULT_IMAGE = '__default-parable.jpg';
+    const UNKNOWN_AUTHOR_DEFAULT_IMAGE = '__default-unknown-author.png';
+    const FROM_BOOK_DEFAULT_IMAGE = '__default-book.png';
+    const FROM_MOVIE_DEFAULT_IMAEG = '__default-movie.png';
+    const FROM_SONG_DEFAULT_IMAGE = '__default-song.png';
+    const FROM_PROVERB_DEFAULT_IMAGE = '__default-proverb.png';
+    const FROM_PARABLE_DEFAULT_IMAGE = '__default-parable.png';
 
     public function quotes()
     {
         return $this->hasMany(Quote::class);
-    }
-
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        // Also delete model relations while deleting
-        static::deleting(function ($source) {
-            // remove sources all quotes source_id and create new manual sources for unapproved quotes before source delete
-            $source->quotes()->each(function ($quote) use ($source) {
-                $quote->source_id = null;
-                $quote->save();
-
-                if(!$quote->approved) {
-                    $manual = new Manual();
-                    $manual->quote_id = $quote->id;
-                    $manual->key = 'source';
-                    $manual->value = $source->title;
-                    $manual->save();
-                }
-            });
-        });
     }
 }

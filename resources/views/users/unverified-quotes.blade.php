@@ -11,7 +11,7 @@
         </div>
     
         <div class="unverified-quotes-list">
-                @foreach ($quotes as $quote)
+            @foreach ($quotes as $quote)
                 <div class="card theme-styled-block card--full_width unverified-quotes-card">
                     <div class="card__inner">
                 
@@ -58,8 +58,7 @@
                         </div> {{-- Card Footer end --}}
                     </div>  {{-- Card Inner end --}}
                 </div>
-                @endforeach
-            </div>
+            @endforeach
         </div>
     </section>
 </div>

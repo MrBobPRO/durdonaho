@@ -626,9 +626,6 @@ input {
     display: block;
     width: max-content;
 }
-.card__title-link {
-    
-}
 .card__edit-btn {
     position: absolute;
     right: -160px;

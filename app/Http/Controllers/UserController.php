@@ -6,7 +6,6 @@ use App\Helpers\Helper;
 use App\Mail\EmailVerifyNotification;
 use App\Models\Author;
 use App\Models\Category;
-use App\Models\Manual;
 use App\Models\Quote;
 use App\Models\Source;
 use App\Models\User;

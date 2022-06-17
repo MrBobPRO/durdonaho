@@ -22,31 +22,31 @@
                         @break
 
                     @case(App\Models\Source::OWN_QUOTE_KEY)
-                        src="{{ asset('img/users/' . $quote->user->image) }}" alt="{{ $quote->user->name }}"
+                        src="{{ asset('img/users/' . $quote->publisher->image) }}" alt="{{ $quote->publisher->name }}"
                         @break
 
                     @case(App\Models\Source::UNKNOWN_AUTHOR_KEY)
-                        src="{{ asset('img/sources/' . $quote->source->image ?? App\Models\Source::UNKNOWN_AUTHOR_DEFAULT_IMAGE) }}" alt="Неизвестный автор"
+                        src="{{ asset('img/sources/' . ($quote->source_image ?? App\Models\Source::UNKNOWN_AUTHOR_DEFAULT_IMAGE)) }}" alt="Неизвестный автор"
                         @break
 
                     @case(App\Models\Source::FROM_BOOK_KEY)
-                        src="{{ asset('img/sources/' . $quote->source->image ?? App\Models\Source::FROM_BOOK_DEFAULT_IMAGE) }}" alt="{{ $quote->bookSource->title }}"
+                        src="{{ asset('img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_BOOK_DEFAULT_IMAGE)) }}" alt="{{ $quote->bookSource->title }}"
                         @break
 
                     @case(App\Models\Source::FROM_MOVIE_KEY)
-                        src="{{ asset('img/sources/' . $quote->source->image ?? App\Models\Source::FROM_MOVIE_DEFAULT_IMAEG) }}" alt="{{ $quote->movieSource->title }}"
+                        src="{{ asset('img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_MOVIE_DEFAULT_IMAEG)) }}" alt="{{ $quote->movieSource->title }}"
                         @break
 
                     @case(App\Models\Source::FROM_SONG_KEY)
-                        src="{{ asset('img/sources/' . $quote->source->image ?? App\Models\Source::FROM_SONG_DEFAULT_IMAGE) }}" alt="{{ $quote->songSource->title }}"
+                        src="{{ asset('img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_SONG_DEFAULT_IMAGE)) }}" alt="{{ $quote->songSource->title }}"
                         @break
 
                     @case(App\Models\Source::FROM_PROVERB_KEY)
-                        src="{{ asset('img/sources/' . $quote->source->image ?? App\Models\Source::FROM_PROVERB_DEFAULT_IMAGE) }}" alt="Пословица/поговорка"
+                        src="{{ asset('img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_PROVERB_DEFAULT_IMAGE)) }}" alt="Пословица/поговорка"
                         @break
 
                     @case(App\Models\Source::FROM_PARABLE_KEY)
-                        src="{{ asset('img/sources/' . $quote->source->image ?? App\Models\Source::FROM_PARABLE_DEFAULT_IMAGE) }}" alt="Притча"
+                        src="{{ asset('img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_PARABLE_DEFAULT_IMAGE)) }}" alt="Притча"
                         @break
                 @endswitch
             >
@@ -67,8 +67,8 @@
                             @break
 
                         @case(App\Models\Source::OWN_QUOTE_KEY)
-                            <a class="card__title-link" href="{{ route('users.show', $quote->user->slug) }}">
-                                {{ $quote->user->name }}
+                            <a class="card__title-link" href="{{ route('users.show', $quote->publisher->slug) }}">
+                                {{ $quote->publisher->name }}
                             </a>
                             @break
 
@@ -97,7 +97,6 @@
                             @break
                     @endswitch
                 </h3>
-
 
                 <ul class="card__categories">
                     @foreach ($quote->categories as $category)

@@ -72,7 +72,7 @@ Route::controller(UserController::class)->name('users.')->group(function () {
     Route::get('/users/{slug}', 'show')->name('show');
 
     Route::get('/profile', 'profile')->name('profile')->middleware('auth');
-    Route::get('/add-quote', 'createQuote')->name('quotes.create')->middleware('auth');
+    Route::get('/create-quote', 'createQuote')->name('quotes.create')->middleware('auth');
     Route::get('/users/{slug}/quotes', 'quotes')->name('quotes'); // anyone can see any users quotes
     Route::get('/edit-quotes', 'currentUsersQuotes')->name('current.quotes')->middleware('auth'); // show current users list of quotes for edit
     Route::get('/unverified-quotes', 'unverifiedQuotes')->name('quotes.unverified')->middleware('auth'); // show current users list of unverified quotes
