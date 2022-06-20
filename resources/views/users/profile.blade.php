@@ -34,9 +34,10 @@
                         </div>
                     </div>
     
-                    <div class="main-form__group main-form__group-select-container">
-                        <select class="selectize-singular main-form__selectize-singular" name="gender" placeholder="Выберите пол" required>
-                            <option></option>
+                    <div class="main-form__group">
+                        <label class="label main-form__label" for="gender-select">Выберите пол</label>
+
+                        <select class="selectize-singular main-form__selectize-singular" name="gender" id="gender-select" required>
                             <option value="male" @selected($user->gender == 'male')>Мужской</option>
                             <option value="female" @selected($user->gender == 'female')>Женский</option>
                         </select>

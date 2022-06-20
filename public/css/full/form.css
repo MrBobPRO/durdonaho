@@ -1,0 +1,209 @@
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+
+/* Label */
+.label {
+    font-size: 16px;
+}
+
+
+/* Input */
+input {
+    font-family: 'Raleway', sans-serif;
+}
+.input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    width: 100%;
+    background: transparent;
+    border-bottom: 1px solid black;
+    color: var(--text-color);
+}
+.input::placeholder {
+    color: var(--text-color);
+}
+.input--light {
+    border-color: white;
+    color: white;
+}
+.input--light::placeholder {
+    color: white;
+}
+.input--error {
+    border-color: red;
+}
+
+
+/* Textarea */
+.textarea {
+    font-size: 16px;
+    resize: none;
+    overflow: hidden;
+    min-height: 161px;
+    font-family: 'Raleway', sans-serif;
+    outline: none;
+    background: transparent;
+    border: none;
+    line-height: 4ch;
+    background-image: linear-gradient(transparent, transparent calc(4ch - 1px), #747474 0px);
+    background-size: 100% 4ch;
+    color: var(--text-color);
+}
+.textarea--light {
+    background-image: linear-gradient(transparent, transparent calc(4ch - 1px), white 0px);
+    background-size: 100% 4ch;
+    color: white;
+}
+
+
+/* Radio */
+.radio-container {
+    position: relative;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.radio {
+    opacity: 0;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+.radio-replacer {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    position: absolute;
+    background-color: white;
+    pointer-events: none;
+}
+.radio-replacer::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    background-color: black;
+    display: none;
+}
+.radio:checked + .radio-replacer::after {
+    display: block;
+}
+.radio-label {
+    cursor: pointer;
+}
+.radio-group {
+    display: flex;
+    gap: 20px;
+}
+
+
+/* Checkbox */
+.checkbox-container {
+    position: relative;
+}
+.checkbox {
+    opacity: 0;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+}
+.checkbox-replacer {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    position: absolute;
+    background-color: white;
+    pointer-events: none;
+    top: 0;
+    left: 0px;
+}
+.checkbox-replacer::after {
+    content: '';
+    display: block;
+    width: 0.5em;
+    height: 1em;
+    border-style: solid;
+    border-width: 0 0.2em 0.2em 0;
+    border-color: black;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+    position: absolute;
+    left: 4px;
+    bottom: 2px;
+    display: none;
+}
+.checkbox:checked + .checkbox-replacer::after {
+    display: block;
+}
+
+
+/* Selectize */
+.selectize-singular, .selectize-singular-taggable, .selectize-multiple , .selectize-multiple-taggable {
+    width: 100%;
+    display: flex;
+}
+.selectize-input {
+    background-color: #EBF3F0 !important;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+}
+.selectize-input.focus {
+    box-shadow: inset 0 1px 1px rgb(0 0 0 / 10%);
+}
+.selectize-input.input-active {
+    background-color: #EBF3F0 !important;
+}
+.selectize-dropdown .option {
+    padding: 10px 14px;
+    font-size: 14px;
+}
+.selectize-dropdown .create {
+    padding: 10px 14px;
+    font-size: 14px;
+}
+.selectize-control.multi .selectize-input>div {
+    margin: 0 4px 4px 0;
+    padding: 4px 8px;
+    background: #fff4c6;
+    color: var(--text-color);
+    border-radius: 8px;
+}
+
+
+/* ------------ Modal Form ------------ */
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: white;
+}
+.modal-form input {
+    padding: 10px 0;
+}
+.modal-radio-group {
+    color: white;
+    gap: 32px;
+}
+.modal-submit {
+    margin-top: 20px;
+}
+.modal-form__errors {
+    margin: 0px 0 -12px;
+    padding: 0 0 0 20px;
+    font-size: 15px;
+}
+.modal-form__errors:empty {
+    display: none;
+}
+/* ------------ /end Modal Form ------------ */

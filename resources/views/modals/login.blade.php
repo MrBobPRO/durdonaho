@@ -1,6 +1,6 @@
 <div class="modal login-modal" id="login-modal" style="background-image: url({{ asset('img/main/modal-bg.PNG') }})">
     {{-- Modal Dialog start --}}
-    <div class="modal-dialog login-modal-dialog">
+    <div class="modal-dialog">
         
         {{-- Modal Header start --}}
         <div class="modal-dialog__header">
@@ -16,23 +16,23 @@
                 <form class="form modal-form" action="/login" method="POST" id="login-form">
                     <input type="hidden" name="ajax" value="1">
 
-                    <div class="form-group modal-form-group">
-                        <input class="input input--light modal-input" type="email" placeholder="Электронная почта" name="email" required>
+                    <div class="form-group">
+                        <input class="input input--light" type="email" placeholder="Электронная почта" name="email" required>
                     </div>
 
-                    <div class="form-group modal-form-group">
-                        <input class="input input--light modal-input" type="password" placeholder="Пароль" name="password" autocomplete="current-password" required>
+                    <div class="form-group">
+                        <input class="input input--light" type="password" placeholder="Пароль" name="password" autocomplete="current-password" required>
                     </div>
 
-                    <ul class="modal-form-errors"></ul>
+                    <ul class="modal-form__errors"></ul>
 
                     <button class="button button--main modal-submit">
-                        <span class="material-icons modal-submit-icon">sensor_door</span> Войти
+                        <span class="material-icons">sensor_door</span> Войти
                     </button>
                 </form>
 
                 <div class="login-modal__additional-actions">
-                    <button class="login-modal__forgot-password" href="#" id="login-modal-forgot-password">Забыли пароль?</button>
+                    <button class="login-modal__forgot-password" id="login-modal-forgot-password">Забыли пароль?</button>
                     <button class="button--transparent login-modal__register" id="login-modal-register-button">Зарегистрируйтесь</button>
                 </div>
             </div>  {{-- Modal Body Inner end --}}

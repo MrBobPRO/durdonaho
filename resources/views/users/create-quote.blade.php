@@ -27,8 +27,8 @@
                 <div class="main-form__divider">
                     <h1 class="main-title main-form__title main-form__title--indented">Добавить цитату</h1>
     
-                    <div class="main-form__group main-form__group-select-container">
-                        <select class="selectize-singular-taggable main-form__selectize-singular" name="source" placeholder="Выберите источник цитаты (Необъязательно поле)">
+                    <div class="main-form__group">
+                        <select class="selectize-singular-taggable main-form__selectize-singular" name="source" placeholder="Выберите источника цитаты">
                             <option></option>
                             @foreach ($sources as $source)
                                 <option value="{{ $source->title }}">{{ $source->title }}</option>
@@ -36,7 +36,7 @@
                         </select>
                     </div>
 
-                    <div class="main-form__group main-form__group-select-container">
+                    <div class="main-form__group">
                         <select class="selectize-singular-taggable main-form__selectize-singular" name="author" placeholder="Выберите автора цитаты" required>
                             <option></option>
                             @foreach ($authors as $author)
@@ -45,7 +45,7 @@
                         </select>
                     </div>
 
-                    <div class="main-form__group main-form__group-select-container">
+                    <div class="main-form__group">
                         <select class="selectize-multiple-taggable main-form__selectize-multiple" multiple name="categories[]" placeholder="Выберите категории цитаты или добавьте новый" required>
                             <option></option>
                             @foreach ($categories as $category)
@@ -59,7 +59,7 @@
                 <div class="main-form__divider">
                     <h1 class="main-title main-form__title">Текст цитаты</h1>
 
-                    <div class="main-form__group main-form__group--columned main-form__group--borderless">
+                    <div class="main-form__group">
                         <textarea class="textarea main-form__textarea textrarea_resize_on_input" name="body">{{ old('body') }}</textarea>
                     </div>
                 </div>  {{-- /end Body --}}

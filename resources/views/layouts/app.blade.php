@@ -48,6 +48,11 @@
         <link href="{{ asset('js/plugins/selectize/dist/css/selectize.css') }}" rel="stylesheet">
 
         <link rel="stylesheet" href="{{ asset('css/full/main.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/full/form.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/full/lists.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/full/cards.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/full/components.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/full/pages.css') }}">
     </head>
     
     <body>

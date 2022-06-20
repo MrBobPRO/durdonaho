@@ -1,3 +1,7 @@
+// Initialize global vars
+let spinner = document.querySelector('#spinner');
+
+
 // Document onclick listeners
 document.body.addEventListener('click', function (evt) {
     if (evt.target.dataset.action == 'like') {
@@ -6,6 +10,7 @@ document.body.addEventListener('click', function (evt) {
         favorite(evt.target);
     }
 });
+
 
 // initialize components
 $(document).ready(function () {
@@ -54,7 +59,7 @@ $(document).ready(function () {
         }
     });
 
-    // Recalculate textareas height 
+    // Recalculate resizable textareas height 
     document.querySelectorAll('.textrarea_resize_on_input').forEach((item) => {
         item.style.height = (item.scrollHeight) + "px";
     });
@@ -69,7 +74,7 @@ $.ajaxSetup({
 });
 
 
-// debounce
+// debounce function
 function debounce (callback, timeoutDelay = 500) {
     let timeoutId;
 
@@ -95,26 +100,26 @@ cardCarousels.owlCarousel({
 });
 
 // change carousel counter on carousel item change
-cardCarousels.on('translated.owl.carousel', function(event) {
-    let carouselSection = event.target.closest('.carousel-section');
-    let counter = carouselSection.getElementsByClassName('carousel-section__counter-active');
+cardCarousels.on('translated.owl.carousel', function(evt) {
+    let carouselSection = evt.target.closest('.carousel-section');
+    let counter = carouselSection.querySelector('.carousel-section__counter-active');
 
-    let activeItem = event.target.querySelector('.owl-item.active');
+    let activeItem = evt.target.querySelector('.owl-item.active');
     let activeItemCard = activeItem.querySelector('.owl-carousel__item');
 
-    counter[0].innerHTML = activeItemCard.dataset.carouselItemIndex;
+    counter.innerHTML = activeItemCard.dataset.carouselItemIndex;
 })
 
 
 // dropdown
 document.querySelectorAll('.dropdown__button').forEach(item => {
-    item.addEventListener('click', event => {
+    item.addEventListener('click', (evt) => {
         item.closest('.dropdown').classList.add('dropdown--opened');
     })
 })
 
 document.querySelectorAll('.dropdown__background').forEach(item => {
-    item.addEventListener('click', event => {
+    item.addEventListener('click', (evt) => {
         item.closest('.dropdown').classList.remove('dropdown--opened');
     })
 })
@@ -122,33 +127,38 @@ document.querySelectorAll('.dropdown__background').forEach(item => {
 
 // modals
 document.querySelectorAll('[data-action="show-modal"]').forEach(item => {
-    item.addEventListener('click', event => {
+    item.addEventListener('click', (evt) => {
         document.getElementById(item.dataset.targetId).classList.add('modal--visible');
         document.body.style.overflowY = "hidden";
     });
 });
+
 // hide modals
 document.querySelectorAll('[data-action="hide-modal"]').forEach(item => {
-    item.addEventListener('click', event => {
+    item.addEventListener('click', (evt) => {
         document.body.style.overflowY = "auto";
         document.getElementById(item.dataset.targetId).classList.remove('modal--visible');
     });
 });
+
 // Login Modals Register button
-document.getElementById('login-modal-register-button').addEventListener('click', event => {
-    document.getElementById('register-modal').classList.add('modal--visible');
-    document.getElementById('login-modal').classList.remove('modal--visible');
-});
-// Login Modals Forgot Password button
-document.getElementById('login-modal-forgot-password').addEventListener('click', event => {
-    document.getElementById('forgot-password-modal').classList.add('modal--visible');
-    document.getElementById('login-modal').classList.remove('modal--visible');
+document.querySelector('.login-modal-register-button').addEventListener('click', (evt) => {
+    document.querySelector('#register-modal').classList.add('modal--visible');
+    document.querySelector('#login-modal').classList.remove('modal--visible');
 });
 
-// Function is also called on ajax list update
+// Login Modals Forgot Password button
+document.querySelector('#login-modal-forgot-password').addEventListener('click', (evt) => {
+    document.querySelector('#forgot-password-modal').classList.add('modal--visible');
+    document.querySelector('#login-modal').classList.remove('modal--visible');
+});
+
+
+// Initialize Report Modals
+// Function is also called after ajax quotes/authors list update
 function initializeReportModals() {
     document.querySelectorAll('[data-action="show-report-bug-modal"]').forEach((item) => {
-        item.addEventListener('click', event => {
+        item.addEventListener('click', (evt) => {
             document.body.style.overflowY = "hidden";
             let modal = document.querySelector('#report-bug-modal');
     
@@ -168,7 +178,7 @@ function initializeReportModals() {
 initializeReportModals();
 
 
-// Auto Height Textareas on input
+// Auto Height Resizable Textareas on input
 document.querySelectorAll('.textrarea_resize_on_input').forEach((item) => {
     item.addEventListener('input', (evt) => {
         item.style.height = "20px";
@@ -177,13 +187,11 @@ document.querySelectorAll('.textrarea_resize_on_input').forEach((item) => {
 });
 
 
-let spinner = document.getElementById('spinner');
-
 // Ajax Register
-let registerForm = document.getElementById('register-form');
+let registerForm = document.querySelector('#register-form');
 if (registerForm) {
-    registerForm.addEventListener('submit', event => {
-        event.preventDefault();
+    registerForm.addEventListener('submit', (evt) => {
+        evt.preventDefault();
         spinner.classList.add('spinner--show');
 
         $.ajax({
@@ -199,20 +207,21 @@ if (registerForm) {
                     window.location.reload();
                 } else if (response.validation == 'failed') {
                     // else display error messages
-                    let errorsList = registerForm.getElementsByClassName('modal-form-errors')[0];
+                    let errorsList = registerForm.querySelector('.modal-form__errors');
                     errorsList.innerHTML = '';
                     for (let message of response.errorMessages) {
                         errorsList.innerHTML += `<li>${message}</li>`
                     };
 
                     // unhighlight all previous failed inputs
-                    let failedInputs = registerForm.getElementsByClassName('modal-input--error');
+                    let failedInputs = registerForm.querySelector('.input--error');
                     for (let failedInput of failedInputs) {
-                        failedInput.classList.remove('modal-input--error');
+                        failedInput.classList.remove('input--error');
                     }
+
                     // highlight failed inputs
                     for (let failedInput of response.failedInputs) {
-                        registerForm.querySelector(`[name="${failedInput}"]`).classList.add('modal-input--error');
+                        registerForm.querySelector(`[name="${failedInput}"]`).classList.add('input--error');
                     }
                 }
 
@@ -228,10 +237,10 @@ if (registerForm) {
 
 
 // Ajax Login
-let loginForm = document.getElementById('login-form');
+let loginForm = document.querySelector('#login-form');
 if (loginForm) {
-    loginForm.addEventListener('submit', event => {
-        event.preventDefault();
+    loginForm.addEventListener('submit', (evt) => {
+        evt.preventDefault();
         spinner.classList.add('spinner--show');
 
         $.ajax({
@@ -247,7 +256,7 @@ if (loginForm) {
                     window.location.reload();
                 } else if (response == 'failed') {
                     // else display error messages
-                    let errorsList = loginForm.getElementsByClassName('modal-form-errors')[0];
+                    let errorsList = loginForm.querySelector('.modal-form__errors');
                     errorsList.innerHTML = '<li>Неверный логин или пароль</li>';
                 }
 
@@ -264,10 +273,10 @@ if (loginForm) {
 
 
 // Ajax Verification Resend Email
-let verificationResendForm = document.getElementById('verification-resend-email-form');
+let verificationResendForm = document.querySelector('#verification-resend-email-form');
 if (verificationResendForm) {
-    verificationResendForm.addEventListener('submit', event => {
-        event.preventDefault();
+    verificationResendForm.addEventListener('submit', (evt) => {
+        evt.preventDefault();
         spinner.classList.add('spinner--show');
 
         $.ajax({
@@ -292,10 +301,10 @@ if (verificationResendForm) {
 
 
 // Ajax Forgot Password
-let forgotPasswordForm = document.getElementById('forgot-password-form');
+let forgotPasswordForm = document.querySelector('#forgot-password-form');
 if (forgotPasswordForm) {
-    forgotPasswordForm.addEventListener('submit', event => {
-        event.preventDefault();
+    forgotPasswordForm.addEventListener('submit', (evt) => {
+        evt.preventDefault();
         spinner.classList.add('spinner--show');
 
         $.ajax({
@@ -311,7 +320,7 @@ if (forgotPasswordForm) {
                     window.location.reload();
                 } else if (response == 'failed') {
                     // else display error messages
-                    let errorsList = forgotPasswordForm.getElementsByClassName('modal-form-errors')[0];
+                    let errorsList = forgotPasswordForm.querySelector('.modal-form__errors');
                     errorsList.innerHTML = '<li>Пользователь с такой электронной почтой не существует!</li>';
                 }
 
@@ -328,7 +337,7 @@ if (forgotPasswordForm) {
 
 
 // Aside categories search
-let asideSearchInput = document.getElementById('aside-search-input');
+let asideSearchInput = document.querySelector('#aside-search-input');
 if (asideSearchInput) {
     let categoryEls = document.querySelectorAll('.aside-categories__item');
 
@@ -351,7 +360,7 @@ if (filterForm) {
 // on all categories buttons click
 let filterCatAllBtn = document.querySelector('#categories-filter-all-btn');
 if (filterCatAllBtn) {
-    filterCatAllBtn.addEventListener('click', evt => {
+    filterCatAllBtn.addEventListener('click', (evt) => {
         // uncheck all checked categories
         let checkboxes = filterForm.querySelectorAll('input[name=category_id]:checked');
 
@@ -361,6 +370,7 @@ if (filterCatAllBtn) {
 
         // add active class 
         filterCatAllBtn.classList.add('categories-filter__button--active');
+
         // update list
         ajaxUpdateList();
     });
@@ -369,7 +379,7 @@ if (filterCatAllBtn) {
 // on more categories buttons click
 let filterCatMoreBtn = document.querySelector('#categories-filter-more-btn');
 if (filterCatMoreBtn) {
-    filterCatMoreBtn.addEventListener('click', evt => {
+    filterCatMoreBtn.addEventListener('click', (evt) => {
         // display all hidden categories
         let hiddenChbs = document.querySelectorAll('.categories-filter__checkbox--hidden');
 
@@ -383,7 +393,7 @@ if (filterCatMoreBtn) {
 
 // run AJAX function to update quotes or authors list on any filters checkbox change
 document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
-    item.addEventListener('change', evt => {
+    item.addEventListener('change', (evt) => {
         let checkedChbs = filterForm.querySelectorAll('input[name=category_id]:checked');
         
         // remove active class from all categories button case any categories selected
@@ -392,15 +402,16 @@ document.querySelectorAll('.categories-filter__checkbox').forEach(item => {
         } else {
             filterCatAllBtn.classList.add('categories-filter__button--active');
         }
+
         // update list
         ajaxUpdateList();
     });
 });
 
-// run AJAX function to update quotes or authors list on search input value change
+// run AJAX function to update quotes/authors list on search input value change
 let catSearchInput = document.querySelector('#categories-filter-search-input');
 if (catSearchInput) {
-    catSearchInput.addEventListener('input', debounce(evt => {
+    catSearchInput.addEventListener('input', debounce((evt) => {
         ajaxUpdateList();
     }));
 }
@@ -586,18 +597,18 @@ if (profileUpdateForm) {
 //------------- Profile edit -------------
 
 
-//------------- Quotes create & update form -------------
-let storeQuoteForm = document.querySelector('#store-quotes-form');
-if (storeQuoteForm) {
-    storeQuoteForm.addEventListener('submit', () => {
+//------------- Quotes create & update forms -------------
+let storeQuotesForm = document.querySelector('#store-quotes-form');
+if (storeQuotesForm) {
+    storeQuotesForm.addEventListener('submit', () => {
         spinner.classList.add('spinner--show');
     });
 }
 
-let updateQuoteForm = document.querySelector('#update-quotes-form');
-if (updateQuoteForm) {
-    updateQuoteForm.addEventListener('submit', () => {
+let updateQuotesForm = document.querySelector('#update-quotes-form');
+if (updateQuotesForm) {
+    updateQuotesForm.addEventListener('submit', () => {
         spinner.classList.add('spinner--show');
     });
 }
-//------------- Quotes create & update form -------------
+//------------- Quotes create & update forms -------------
