@@ -1,45 +1,3 @@
-/* ------------ Form & form components ------------ */
-
-
-
-
-
-
-
-
-/* ------------ /end Form & form components ------------ */
-
-
-
-/* ------------ Terms ------------ */
-.terms {
-    display: flex;
-    gap: 12px;
-}
-.terms__divider {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-.terms__label {
-    color: black;
-    cursor: pointer;
-    width: max-content;
-    line-height: 1;
-}
-.terms__link {
-    color: var(--main-color);
-}
-/* ------------ /end Terms ------------ */
-
-
-
-
-
-
-
-
-
 /* ------------ Aside cards ------------ */
 .aside-popularity {
     padding: 32px;
@@ -163,32 +121,6 @@
 }
 /* ------------ /end Pagination ------------ */
 
-
-/* ------------ Modal ------------ */
-
-
-
-/* Forgot Password modal */
-.forgot-password-modal-dialog {
-    max-width: 520px;
-    width: 100%;
-}
-.forgot-password-modal-text {
-    color: white;
-}
-
-/* Report bug modal */
-.report-bug-modal .modal-dialog {
-    width: 880px;
-}
-.report-bug-modal__text {
-    color: white;
-}
-.report-bug-modal__submit {
-    width: max-content;
-    padding: 14px 120px;
-}
-/* ------------ /end Modal ------------ */
 
 
 /* ------------ Email Verification ------------ */

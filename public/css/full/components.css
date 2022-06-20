@@ -217,6 +217,23 @@
 .register-modal .modal-dialog {
     width: 520px;
 }
+
+
+/* Forgot Password modal */
+.forgot-password-modal .modal-dialog {
+    max-width: 520px;
+    width: 100%;
+}
+
+
+/* Report bug modal */
+.report-bug-modal .modal-dialog {
+    width: 880px;
+}
+.report-bug-modal .modal-submit {
+    width: max-content;
+    padding: 14px 120px;
+}
 /* ------------ /end Modal ------------ */
 
 
@@ -250,3 +267,28 @@
     100% { transform: rotate(360deg); }
   }
 /* ------------ /end Spinner ------------ */
+
+
+/* ------------ Accept Terms ------------ */
+.accept-terms {
+    display: flex;
+    gap: 12px;
+}
+.accept-terms__divider {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.accept-terms__label {
+    color: black;
+    cursor: pointer;
+    width: max-content;
+    line-height: 1;
+}
+.accept-terms__link {
+    color: var(--main-color);
+}
+.modal-form .accept-terms__link {
+    color: white;
+}
+/* ------------ /end Accept Terms ------------ */

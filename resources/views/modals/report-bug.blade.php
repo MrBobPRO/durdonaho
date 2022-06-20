@@ -1,6 +1,6 @@
 <div class="modal report-bug-modal" id="report-bug-modal" style="background-image: url({{ asset('img/main/modal-bg.PNG') }})">
     {{-- Modal Dialog start --}}
-    <div class="modal-dialog report-bug-modal-dialog">
+    <div class="modal-dialog">
         
         {{-- Modal Header start --}}
         <div class="modal-dialog__header">
@@ -20,24 +20,14 @@
                     <input type="hidden" name="quote_id">
                     <input type="hidden" name="author_id">
 
-                    <div class="form-group modal-form-group">
-                        <label class="label modal-label" for="report-message">Введите текст ошибки или жалобу</label>
-                        <textarea class="textarea textarea--light modal-textarea textrarea_resize_on_input" name="message" id="report-message" required></textarea>
+                    <div class="form-group">
+                        <label class="label" for="report-message">Введите текст ошибки или жалобу</label>
+                        <textarea class="textarea textarea--light textrarea_resize_on_input" name="message" id="report-message" required></textarea>
                     </div>
 
-                    <button class="button button--main modal-submit report-bug-modal__submit">Отправить</button>
+                    <button class="button button--main modal-submit">Отправить</button>
 
-                    <div class="terms modal-terms">
-                        <div class="checkbox-container">
-                            <input class="checkbox terms__checkbox" type="checkbox" name="terms" value="accepted" id="report-bug-terms-checkbox" required>
-                            <div class="checkbox-replacer"></div>
-                        </div>
-
-                        <div class="terms__divider">
-                            <label class="terms__label unselectable" for="report-bug-terms-checkbox">Я принимаю</label>
-                            <a class="terms__link" href="{{ route('terms-of-use') }}" target="_blank">пользовательское соглашение</a>
-                        </div>
-                    </div>
+                    <x-terms-of-use class="modal-tems" id="report-bug-terms" />
                 </form>
             </div>  {{-- Modal Body Inner end --}}
         </div>  {{-- Modal Body end --}}

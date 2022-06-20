@@ -142,7 +142,7 @@ document.querySelectorAll('[data-action="hide-modal"]').forEach(item => {
 });
 
 // Login Modals Register button
-document.querySelector('.login-modal-register-button').addEventListener('click', (evt) => {
+document.querySelector('#login-modal-register-button').addEventListener('click', (evt) => {
     document.querySelector('#register-modal').classList.add('modal--visible');
     document.querySelector('#login-modal').classList.remove('modal--visible');
 });
