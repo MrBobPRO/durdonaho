@@ -5,39 +5,37 @@
     <section class="theme-styled-block profile-section">
         <div class="profile-section__inner">
 
-            <form class="main-form profile-form" action="{{ route('users.update') }}" method="POST" id="profile-update-form" enctype="multipart/form-data">
+            <form class="form main-form profile-update-form" action="{{ route('users.update') }}" method="POST" id="profile-update-form" enctype="multipart/form-data">
                 @csrf
 
                 {{-- Profile Settings --}}
-                <div class="main-form__divider">
-                    <h1 class="main-title main-form__title">Настройки профиля</h1>
+                <div class="main-form__block">
+                    <h1 class="main-title">Настройки профиля</h1>
 
-                    <div class="main-form__group">
+                    <div class="form-group">
                         @error('name')
-                            <span class="main-form__error">{{ $message }}</span>
+                            <span class="form-error-message">{{ $message }}</span>
                         @enderror
 
-                        <div class="main-form__editable-block @error('name') main-form__editable-block--error @enderror">
-                            <input class="main-form__editable-block-input" name="name" type="text" value="{{ old('name') != '' ? old('name') : $user->name }}" placeholder="Имя" readonly required>
-                            <button class="main-form__editable-block-button" type="button" data-target-input-name="name"><span class="material-icons">edit</span> Редактировать</button>
+                        <div class="block_with_edit_button @error('name') block_with_edit_button--error @enderror">
+                            <input class="input" name="name" type="text" value="{{ old('name') != '' ? old('name') : $user->name }}" placeholder="Имя" readonly required>
+                            <button class="button" type="button" data-target-input-name="name"><span class="material-icons">edit</span> Редактировать</button>
                         </div>
                     </div>
                     
-                    <div class="main-form__group">
+                    <div class="form-group">
                         @error('email')
-                            <span class="main-form__error">{{ $message }}</span>
+                            <span class="form-error-message">{{ $message }}</span>
                         @enderror
 
-                        <div class="main-form__editable-block @error('email') main-form__editable-block--error @enderror">
-                            <input class="main-form__editable-block-input" name="email" type="email" value="{{ old('email') != '' ? old('email') : $user->email }}" placeholder="Электронная почта" readonly required>
-                            <button class="main-form__editable-block-button" type="button" data-target-input-name="email"><span class="material-icons">edit</span> Редактировать</button>
+                        <div class="block_with_edit_button @error('email') block_with_edit_button--error @enderror">
+                            <input class="input" name="email" type="email" value="{{ old('email') != '' ? old('email') : $user->email }}" placeholder="Электронная почта" readonly required>
+                            <button class="button" type="button" data-target-input-name="email"><span class="material-icons">edit</span> Редактировать</button>
                         </div>
                     </div>
     
-                    <div class="main-form__group">
-                        <label class="label main-form__label" for="gender-select">Выберите пол</label>
-
-                        <select class="selectize-singular main-form__selectize-singular" name="gender" id="gender-select" required>
+                    <div class="form-group selectize-container">
+                        <select class="selectize-singular" name="gender" id="gender-select" required>
                             <option value="male" @selected($user->gender == 'male')>Мужской</option>
                             <option value="female" @selected($user->gender == 'female')>Женский</option>
                         </select>
@@ -60,53 +58,42 @@
                 </div>  {{-- /end Profile Settings --}}
 
                 {{-- Password --}}
-                <div class="main-form__divider">
-                    <h1 class="main-title main-form__title">Изменить пароль</h1>
+                <div class="main-form__block">
+                    <h1 class="main-title">Изменить пароль</h1>
 
-                    <div class="main-form__group">
+                    <div class="form-group">
                         @error('old_password')
-                            <span class="main-form__error">{{ $message }}</span>
+                            <span class="form-error-message">{{ $message }}</span>
                         @enderror
 
-                        <div class="main-form__editable-block @error('old_password') main-form__editable-block--error @enderror">
-                            <input class="main-form__editable-block-input" name="old_password" type="password" placeholder="Старый пароль" minlength="5" readonly>
-                            <button class="main-form__editable-block-button" type="button" data-target-input-name="old_password"><span class="material-icons">edit</span> Редактировать</button>
+                        <div class="block_with_edit_button @error('old_password') block_with_edit_button--error @enderror">
+                            <input class="input" name="old_password" type="password" placeholder="Старый пароль" minlength="5" readonly>
+                            <button class="button" type="button" data-target-input-name="old_password"><span class="material-icons">edit</span> Редактировать</button>
                         </div>
                     </div>
 
-                    <div class="main-form__group">
-                        <div class="main-form__editable-block">
-                            <input class="main-form__editable-block-input" name="new_password" type="password" placeholder="Новый пароль" minlength="5" autocomplete="new-password" readonly>
+                    <div class="form-group">
+                        <div class="block_with_edit_button">
+                            <input class="input" name="new_password" type="password" placeholder="Новый пароль" minlength="5" autocomplete="new-password" readonly>
                         </div>
                     </div>
                 </div>  {{-- /end Password --}}
 
                 {{-- About --}}
-                <div class="main-form__divider">
-                    <h1 class="main-title main-form__title">Коротко обо мне и интересах</h1>
+                <div class="main-form__block">
+                    <h1 class="main-title">Коротко обо мне и интересах</h1>
 
-                    <div class="main-form__group">
-                        <div class="main-form__editable-block main-form__editable-block--columned">
-                            <textarea class="textarea main-form__textarea textrarea_resize_on_input" name="biography" placeholder="Коротко обо мне и интересах" readonly>{{ $user->biography }}</textarea>
-                            <button class="main-form__editable-block-button" type="button" data-target-input-name="biography"><span class="material-icons">edit</span> Редактировать</button>
+                    <div class="form-group">
+                        <div class="block_with_edit_button block_with_edit_button--columned">
+                            <textarea class="textarea textrarea_resize_on_input" name="biography" placeholder="Коротко обо мне и интересах" readonly>{{ $user->biography }}</textarea>
+                            <button class="button" type="button" data-target-input-name="biography"><span class="material-icons">edit</span> Редактировать</button>
                         </div>
                     </div>
                 </div>  {{-- /end About --}}
 
                 <button class="button button--main main-form__submit">Сохранить изменения</button>
 
-                {{-- Terms --}}
-                <div class="terms main-form-terms">
-                    <div class="checkbox-container">
-                        <input class="checkbox terms__checkbox" type="checkbox" name="terms" value="accepted" id="main-form-terms-checkbox" required checked>
-                        <div class="checkbox-replacer"></div>
-                    </div>
-
-                    <div class="terms__divider">
-                        <label class="terms__label unselectable" for="main-form-terms-checkbox">Я принимаю</label>
-                        <a class="terms__link" href="{{ route('terms-of-use') }}" target="_blank">пользовательское соглашение</a>
-                    </div>
-                </div>  {{-- /end Terms --}}
+                <x-terms-of-use class="accept-terms_with_dark_checkbox" id="profile-update-terms" />
             </form> 
 
         </div>

@@ -180,6 +180,7 @@
     content: "Мулохиза";
 }
 
+
 /* Card with MEDIUM image */
 .card_with_medium_image .card__image--medium {
     display: block !important;
@@ -191,6 +192,7 @@
     display: block;
 }
 
+
 /* Card with SMALL image */
 .card_with_small_image .card__image--small {
     display: block !important;
@@ -198,6 +200,7 @@
     height: 58px;
     object-fit: cover;
 }
+
 
 /* Vertical Card */
 .card--vertical {
@@ -246,13 +249,15 @@
     right: -16px;
 }
 .card--vertical .ya-share2__icon.ya-share2__icon_more {
-    width: 17px;
+    width: 17px !important;
 }
+
 
 /* Full Width card */
 .card--full_width .card__inner {
     max-width: 520px;
 }
+
 
 /* Users card */
 .users-card__main-title {

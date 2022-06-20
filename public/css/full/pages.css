@@ -77,3 +77,38 @@
     line-height: 20px !important;
 }
 /* ------------ /end Home Page ------------ */
+
+
+/* ------------ Terms Page ------------ */
+.terms-section__inner {
+    font-size: 14px;
+    padding: 30px 50px 40px;
+}
+.terms-section__title {
+    margin-bottom: 18px;
+}
+/* ------------ /end Terms Page ------------ */
+
+
+/* ------------ Users show page ------------ */
+.users-card-section__inner {
+    padding: 40px 200px;
+}
+.users-card-section__title {
+    margin-bottom: 40px;
+}
+/* ------------ /end Users show page ------------ */
+
+
+/* ------------ Search page ------------ */
+.search-quotes-section {
+    margin-top: 32px;
+}
+.highlighted {
+    background-color: var(--main-color);
+    color: white;
+}
+.search-page-content .card__title {
+    text-transform: capitalize;
+}
+/* ------------ /end Search page ------------ */

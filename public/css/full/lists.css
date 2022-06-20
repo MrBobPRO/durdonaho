@@ -58,3 +58,22 @@
     margin-bottom: 32px;
 }
 /* ------------ /end Authors List ------------ */
+
+
+/* ------------ Empty query Warning ------------ */
+.empty-query-warning {
+    padding: 32px;
+}
+.empty-query-warning__inner {
+    margin: auto;
+}
+.favorite-authors-page-content .empty-query-warning__inner {
+    max-width: 520px;
+}
+.favorite-quotes-page-content .empty-query-warning__inner {
+    max-width: 520px;
+}
+.users-quotes-page-content .empty-query-warning__inner {
+    max-width: 520px;
+}
+/* ------------ /end Empty Query Warning ------------ */

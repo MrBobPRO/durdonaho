@@ -1,7 +1,15 @@
+.form {
+    display: flex;
+    flex-direction: column;
+}
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+.form-error-message {
+    color: red;
+    font-size: 14px;
 }
 
 
@@ -183,8 +191,6 @@ input {
 
 /* ------------ Modal Form ------------ */
 .modal-form {
-    display: flex;
-    flex-direction: column;
     gap: 20px;
     color: white;
 }
@@ -207,3 +213,130 @@ input {
     display: none;
 }
 /* ------------ /end Modal Form ------------ */
+
+
+/* ------------ Main Form ------------ */
+.main-form {
+    max-width: 500px;
+    margin: auto;
+    padding: 40px 32px;
+    gap: 40px;  
+}
+.main-form .main-title {
+    margin-bottom: -4px;
+}
+.main-form .main-title--indented {
+    margin-bottom: 12px;
+}
+.main-form__block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.main-form .input {
+    flex-grow: 1;
+    outline: none;
+    font-size: 16px;
+    padding: 8px 0;
+}
+.main-form .input::placeholder {
+    color: #A6A6A6;
+}
+.main-form__submit {
+    padding: 14px 100px;
+    width: max-content;
+    margin-top: 8px;
+}
+.main-form .selectize-container {
+    margin-top: 6px;
+}
+/* ------------ /end Main Form ------------ */
+
+
+/* ------------ Block with Edit Button ------------ */
+.block_with_edit_button {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+    padding: 6px 0;
+    align-items: center;
+}
+.block_with_edit_button--error {
+    border-bottom: 1px solid red;
+}
+.block_with_edit_button--columned {
+    flex-direction: column;
+    border: none;
+}
+.block_with_edit_button .input {
+    border: none;
+    padding: 4px 0;
+    flex-grow: 1;
+    outline: none;
+    font-size: 16px;
+}
+.block_with_edit_button .textarea {
+    width: 100%;
+}
+.block_with_edit_button .button {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    padding: 0;
+}
+.block_with_edit_button .button span {
+    font-size: 20px;
+}
+.block_with_edit_button--columned .button {
+    margin: 20px 0 0 auto;
+}
+/* ------------ /end Block with Edit Button ------------ */
+
+
+/* ------------ Profile update Form ------------ */
+.profile-form__image-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+}
+.profile-form__image-group-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+.profile-form__image-group-input {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
+.profile-form__image-group-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-end;
+}
+.profile-form__image-group-label {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    padding: 0;
+    cursor: pointer;
+}
+.profile-form__image-group-label span {
+    font-size: 20px;
+}
+.profile-form__image-group-remove-btn {
+    background: transparent;
+    border: none;
+    color: red;
+    padding: 0;
+    font-size: 16px;
+}
+/* ------------ /end Profile update Form ------------ */

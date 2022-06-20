@@ -213,6 +213,7 @@ button {
     font-weight: 500;
 }
 
+
 /* Aside Categories */
 .aside-categories {
     padding: 32px;
@@ -227,6 +228,7 @@ button {
     pointer-events: none;
 }
 
+
 /* Aside Popular Categories */
 .aside-popular-categories {
     padding: 32px 32px 40px;
@@ -235,6 +237,15 @@ button {
     margin-bottom: 20px;
 }
 .aside-popular-categories__text {
+    margin-bottom: 28px;
+}
+
+
+/* aside popularity */
+.aside-popularity {
+    padding: 32px;
+}
+.aside-popularity__title {
     margin-bottom: 28px;
 }
 /* ------------ /end Aside ------------ */

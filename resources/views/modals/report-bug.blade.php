@@ -27,7 +27,7 @@
 
                     <button class="button button--main modal-submit">Отправить</button>
 
-                    <x-terms-of-use class="modal-tems" id="report-bug-terms" />
+                    <x-terms-of-use id="report-bug-terms" />
                 </form>
             </div>  {{-- Modal Body Inner end --}}
         </div>  {{-- Modal Body end --}}

@@ -5,7 +5,7 @@
     <section class="theme-styled-block quotes-create-section">
         <div class="quotes-create-section__inner">
 
-            <form class="main-form quotes-store-form" action="{{ route('users.quotes.store') }}" method="POST" id="store-quotes-form" enctype="multipart/form-data">
+            <form class="form main-form store-quotes-form" action="{{ route('users.quotes.store') }}" method="POST" id="store-quotes-form" enctype="multipart/form-data">
                 @csrf
 
                 @if(session('status') == 'success')
@@ -24,10 +24,10 @@
                 @endif
 
                 {{-- Selects --}}
-                <div class="main-form__divider">
-                    <h1 class="main-title main-form__title main-form__title--indented">Добавить цитату</h1>
+                <div class="main-form__block">
+                    <h1 class="main-title main-title--indented">Добавить цитату</h1>
     
-                    <div class="main-form__group">
+                    <div class="form-group selectize-container">
                         <select class="selectize-singular-taggable main-form__selectize-singular" name="source" placeholder="Выберите источника цитаты">
                             <option></option>
                             @foreach ($sources as $source)
@@ -36,7 +36,7 @@
                         </select>
                     </div>
 
-                    <div class="main-form__group">
+                    <div class="form-group selectize-container">
                         <select class="selectize-singular-taggable main-form__selectize-singular" name="author" placeholder="Выберите автора цитаты" required>
                             <option></option>
                             @foreach ($authors as $author)
@@ -45,7 +45,7 @@
                         </select>
                     </div>
 
-                    <div class="main-form__group">
+                    <div class="form-group selectize-container">
                         <select class="selectize-multiple-taggable main-form__selectize-multiple" multiple name="categories[]" placeholder="Выберите категории цитаты или добавьте новый" required>
                             <option></option>
                             @foreach ($categories as $category)
@@ -56,28 +56,17 @@
                 </div>  {{-- /end Selects --}}
 
                 {{-- Body --}}
-                <div class="main-form__divider">
-                    <h1 class="main-title main-form__title">Текст цитаты</h1>
+                <div class="main-form__block">
+                    <h1 class="main-title">Текст цитаты</h1>
 
-                    <div class="main-form__group">
-                        <textarea class="textarea main-form__textarea textrarea_resize_on_input" name="body">{{ old('body') }}</textarea>
+                    <div class="form-group">
+                        <textarea class="textarea textrarea_resize_on_input" name="body">{{ old('body') }}</textarea>
                     </div>
                 </div>  {{-- /end Body --}}
 
                 <button class="button button--main main-form__submit">Опубликовать цитату</button>
 
-                {{-- Terms --}}
-                <div class="terms main-form-terms">
-                    <div class="checkbox-container">
-                        <input class="checkbox terms__checkbox" type="checkbox" name="terms" value="accepted" id="main-form-terms-checkbox" required checked>
-                        <div class="checkbox-replacer"></div>
-                    </div>
-
-                    <div class="terms__divider">
-                        <label class="terms__label unselectable" for="main-form-terms-checkbox">Я принимаю</label>
-                        <a class="terms__link" href="{{ route('terms-of-use') }}" target="_blank">пользовательское соглашение</a>
-                    </div>
-                </div>  {{-- /end Terms --}}
+                <x-terms-of-use class="accept-terms_with_dark_checkbox" id="create-quote-terms" />
             </form> 
 
         </div>

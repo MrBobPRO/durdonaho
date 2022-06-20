@@ -56,7 +56,7 @@
                         <span class="material-icons">sensor_door</span> Зарегестрироваться
                     </button>
 
-                    <x-terms-of-use class="modal-tems" id="register-terms" />
+                    <x-terms-of-use id="register-terms" />
                 </form>
             </div>
         </div>  {{-- Modal Body end --}}
