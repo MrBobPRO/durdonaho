@@ -522,10 +522,10 @@ if (profileUpdateForm) {
     });
 
     //remove readonly attr from input or textarea and set focus to needed input
-    document.querySelectorAll('.main-form__editable-block-button').forEach((item) => {
+    document.querySelectorAll('[data-action="enable-readonly-input"]').forEach((item) => {
         item.addEventListener('click', (evt) => {
             // remove readonly attr from input or textarea
-            let parent = item.closest('.main-form__group');
+            let parent = item.closest('.form-group');
 
             parent.querySelectorAll('input').forEach((item) => {
                 item.readOnly = false;

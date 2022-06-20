@@ -22,15 +22,45 @@
                                     <span class="material-icons-outlined card__edit-btn-icon">edit</span> Редактировать
                                 </a>
             
-                                @if($quote->author)
-                                    <a class="card__title" href="{{ route('authors.show', $quote->author->slug) }}">
-                                        <span class="card__title-span">Автор цитаты:</span> {{ $quote->author->name }}
-                                    </a>
-                                @else
-                                    <a class="card__title">
-                                        <span class="card__title-span">Автор цитаты:</span> {{ $quote->manuals()->where('key', 'author')->first()->value }}
-                                    </a>
-                                @endif
+                                <h3 class="card__title">
+                                    @switch($quote->source->key)
+                                        @case(App\Models\Source::AUTHORS_QUOTE_KEY)
+                                            <a class="card__title-link" href="{{ route('authors.show', $quote->author->slug) }}">
+                                                {{ $quote->author->name }}
+                                            </a>
+                                            @break
+                
+                                        @case(App\Models\Source::OWN_QUOTE_KEY)
+                                            <a class="card__title-link" href="{{ route('users.show', $quote->publisher->slug) }}">
+                                                {{ $quote->publisher->name }}
+                                            </a>
+                                            @break
+                
+                                        @case(App\Models\Source::UNKNOWN_AUTHOR_KEY)
+                                            Неизвестный автор
+                                            @break
+                
+                                        @case(App\Models\Source::FROM_BOOK_KEY)
+                                            {{ $quote->bookSource->title }}
+                                            @break
+                
+                                        @case(App\Models\Source::FROM_MOVIE_KEY)
+                                            {{ $quote->movieSource->title }}
+                                            @break
+                
+                                        @case(App\Models\Source::FROM_SONG_KEY)
+                                            {{ $quote->songSource->title }}
+                                            @break
+                
+                                        @case(App\Models\Source::FROM_PROVERB_KEY)
+                                            Пословица/поговорка
+                                            @break
+                
+                                        @case(App\Models\Source::FROM_PARABLE_KEY)
+                                            Притча
+                                            @break
+                                    @endswitch
+                                </h3>
                             </div>
                         </div> {{-- Card Header end --}}
                 

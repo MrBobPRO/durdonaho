@@ -275,28 +275,11 @@ class UserController extends Controller
             abort(404);
         }
 
-        // generate manual parameters
-        $manualSource = Manual::where('quote_id', $quote->id)
-            ->where('key', 'source')
-            ->first();
-
-        $manualAuthor = Manual::where('quote_id', $quote->id)
-            ->where('key', 'author')
-            ->first();
-
-        $manualCategories = Manual::where('quote_id', $quote->id)
-            ->where('key', 'categories')
-            ->first();
-
-        if ($manualCategories) {
-            $manualCategories = explode(',', $manualCategories->value);
-        }
-
         $sources = Source::orderBy('title')->select('title', 'id')->get();
         $authors = Author::orderBy('name')->select('name', 'id')->get();
         $categories = Category::orderBy('title')->select('title', 'id')->get();
 
-        return view('users.edit-quote', compact('quote', 'authors', 'sources', 'categories', 'manualSource', 'manualAuthor', 'manualCategories'));
+        return view('users.edit-quote', compact('quote', 'authors', 'sources', 'categories'));
     }
 
     public function updateQuote(Request $request)
