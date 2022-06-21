@@ -8,6 +8,9 @@ use App\Models\Author;
 use App\Models\Category;
 use App\Models\Quote;
 use App\Models\Source;
+use App\Models\SourceBook;
+use App\Models\SourceMovie;
+use App\Models\SourceSong;
 use App\Models\User;
 use App\Models\VerifyEmail;
 use Illuminate\Http\Request;
@@ -179,7 +182,7 @@ class UserController extends Controller
 
     public function createQuote()
     {
-        $sources = Source::orderBy('title')->select('title')->get();
+        $sources = Source::select('title', 'key')->get();
         $authors = Author::orderBy('name')->select('name')->get();
         $categories = Category::orderBy('title')->select('title')->get();
 

@@ -35,7 +35,7 @@
                     <h1 class="main-title main-title--indented">Редактировать цитату</h1>
     
                     <div class="form-group selectize-container">
-                        <select class="selectize-singular-taggable main-form__selectize-singular" name="source" placeholder="Выберите источник цитаты (Необъязательно поле)">
+                        <select class="selectize-singular-taggable" name="source" placeholder="Выберите источник цитаты (Необъязательно поле)">
                             <option></option>
                             @foreach ($sources as $source)
                                 <option value="{{ $source->title }}" @if($quote->source_id == $source->id) selected @endif>{{ $source->title }}</option>
@@ -44,7 +44,7 @@
                     </div>
 
                     <div class="form-group selectize-container">
-                        <select class="selectize-singular-taggable main-form__selectize-singular" name="author" placeholder="Выберите автора цитаты" required>
+                        <select class="selectize-singular-taggable" name="author" placeholder="Выберите автора цитаты" required>
                             <option></option>
                             @foreach ($authors as $author)
                                 <option value="{{ $author->name }}" @if($quote->author_id == $author->id) selected @endif>{{ $author->name }}</option>
@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="form-group selectize-container">
-                        <select class="selectize-multiple-taggable main-form__selectize-multiple" multiple name="categories[]" placeholder="Выберите категории цитаты или добавьте новый" required>
+                        <select class="selectize-multiple-taggable" multiple name="categories[]" placeholder="Выберите категории цитаты или добавьте новый" required>
                             <option></option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->title }}" 

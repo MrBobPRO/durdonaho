@@ -7,6 +7,9 @@
     flex-direction: column;
     gap: 8px;
 }
+.form-group--hidden {
+    display: none;
+}
 .form-error-message {
     color: red;
     font-size: 14px;
