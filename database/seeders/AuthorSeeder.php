@@ -27,6 +27,7 @@ class AuthorSeeder extends Seeder
             $a->biography = $bio[$i];
             $a->image = $name[$i] . '.jpg';
             $a->popular = true;
+            $a->approved = true;
             $a->save();
         }
     }

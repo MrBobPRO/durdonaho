@@ -36,7 +36,7 @@
     
                     @foreach ($categories->unique('title')->shuffle()->take(3) as $category)
                         <li class="card__categories-item">
-                            <a class="card__categories-link" href="#">{{ $category->title }}</a>
+                            <a class="card__categories-link" href="{{ route('quotes.index') }}?category_id={{ $category->id }}">{{ $category->title }}</a>
                         </li>
                     @endforeach
                 </ul>

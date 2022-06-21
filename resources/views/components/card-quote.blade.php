@@ -13,43 +13,61 @@
 <div class="{{ $class }} card" data-card-id="quote{{ $quote->id }}" data-carousel-item-index="{{ $dataCarouselItemIndex }}">
     <div class="card__inner">
 
+        @php
+            switch ($quote->source->key) {
+                case App\Models\Source::AUTHORS_QUOTE_KEY:
+                    $image = 'img/authors/' . $quote->author->image;
+                    $title = $quote->author->name;
+                    $link = route('authors.show', $quote->author->slug);
+                    break;
+
+                case App\Models\Source::OWN_QUOTE_KEY:
+                    $image = 'img/users/' . $quote->publisher->image;
+                    $title = $quote->publisher->name;
+                    $link = route('users.show', $quote->publisher->slug);
+                    break;
+
+                case App\Models\Source::UNKNOWN_AUTHOR_KEY:
+                    $image = 'img/sources/' . ($quote->source_image ?? App\Models\Source::UNKNOWN_AUTHOR_DEFAULT_IMAGE);
+                    $title = 'Неизвестный автор';
+                    $link = null;
+                    break;
+
+                case App\Models\Source::FROM_BOOK_KEY:
+                    $image = 'img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_BOOK_DEFAULT_IMAGE);
+                    $title = $quote->bookSource->title;
+                    $link = null;
+                    break;
+
+                case App\Models\Source::FROM_MOVIE_KEY:
+                    $image = 'img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_MOVIE_DEFAULT_IMAEG);
+                    $title = $quote->movieSource->title;
+                    $link = null;
+                    break;
+
+                case App\Models\Source::FROM_SONG_KEY:
+                    $image = 'img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_SONG_DEFAULT_IMAGE);
+                    $title = $quote->songSource->title;
+                    $link = null;
+                    break;
+
+                case App\Models\Source::FROM_PROVERB_KEY:
+                    $image = 'img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_PROVERB_DEFAULT_IMAGE);
+                    $title = 'Пословица/поговорка';
+                    $link = null;
+                    break;
+
+                case App\Models\Source::FROM_PARABLE_KEY:
+                    $image = 'img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_PARABLE_DEFAULT_IMAGE);
+                    $title = 'Притча';
+                    $link = null;
+                    break;
+            }
+        @endphp
+
         {{-- Card Header start --}}
         <div class="card__header">
-            <img class="card__image card__image--small"
-                @switch($quote->source->key)
-                    @case(App\Models\Source::AUTHORS_QUOTE_KEY)
-                        src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}"
-                        @break
-
-                    @case(App\Models\Source::OWN_QUOTE_KEY)
-                        src="{{ asset('img/users/' . $quote->publisher->image) }}" alt="{{ $quote->publisher->name }}"
-                        @break
-
-                    @case(App\Models\Source::UNKNOWN_AUTHOR_KEY)
-                        src="{{ asset('img/sources/' . ($quote->source_image ?? App\Models\Source::UNKNOWN_AUTHOR_DEFAULT_IMAGE)) }}" alt="Неизвестный автор"
-                        @break
-
-                    @case(App\Models\Source::FROM_BOOK_KEY)
-                        src="{{ asset('img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_BOOK_DEFAULT_IMAGE)) }}" alt="{{ $quote->bookSource->title }}"
-                        @break
-
-                    @case(App\Models\Source::FROM_MOVIE_KEY)
-                        src="{{ asset('img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_MOVIE_DEFAULT_IMAEG)) }}" alt="{{ $quote->movieSource->title }}"
-                        @break
-
-                    @case(App\Models\Source::FROM_SONG_KEY)
-                        src="{{ asset('img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_SONG_DEFAULT_IMAGE)) }}" alt="{{ $quote->songSource->title }}"
-                        @break
-
-                    @case(App\Models\Source::FROM_PROVERB_KEY)
-                        src="{{ asset('img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_PROVERB_DEFAULT_IMAGE)) }}" alt="Пословица/поговорка"
-                        @break
-
-                    @case(App\Models\Source::FROM_PARABLE_KEY)
-                        src="{{ asset('img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_PARABLE_DEFAULT_IMAGE)) }}" alt="Притча"
-                        @break
-                @endswitch
-            >
+            <img class="card__image card__image--small" src="{{ asset($image) }}" alt="{{ $title }}">
 
             <div class="card__header-text">
                 @if($showEditButton)
@@ -59,43 +77,17 @@
                 @endif
 
                 <h3 class="card__title">
-                    @switch($quote->source->key)
-                        @case(App\Models\Source::AUTHORS_QUOTE_KEY)
-                            <a class="card__title-link" href="{{ route('authors.show', $quote->author->slug) }}">
-                                {!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->author->name) : $quote->author->name !!}
-                            </a>
-                            @break
-
-                        @case(App\Models\Source::OWN_QUOTE_KEY)
-                            <a class="card__title-link" href="{{ route('users.show', $quote->publisher->slug) }}">
-                                {{ $quote->publisher->name }}
-                            </a>
-                            @break
-
-                        @case(App\Models\Source::UNKNOWN_AUTHOR_KEY)
-                            Неизвестный автор
-                            @break
-
-                        @case(App\Models\Source::FROM_BOOK_KEY)
-                            {{ $quote->bookSource->title }}
-                            @break
-
-                        @case(App\Models\Source::FROM_MOVIE_KEY)
-                            {{ $quote->movieSource->title }}
-                            @break
-
-                        @case(App\Models\Source::FROM_SONG_KEY)
-                            {{ $quote->songSource->title }}
-                            @break
-
-                        @case(App\Models\Source::FROM_PROVERB_KEY)
-                            Пословица/поговорка
-                            @break
-
-                        @case(App\Models\Source::FROM_PARABLE_KEY)
-                            Притча
-                            @break
-                    @endswitch
+                    @if($link)
+                        <a class="card__title-link" href="{{ $link }}">
+                            @if($routeName == 'search' && $quote->source->key)
+                                {!! App\Helpers\Helper::highlightKeyword($keyword, $title) !!}
+                            @else
+                                {{ $title }}
+                            @endif
+                        </a>
+                    @else
+                        {{ $title }}
+                    @endif
                 </h3>
 
                 <ul class="card__categories">
@@ -110,7 +102,7 @@
 
         {{-- Card Body start --}}
         <div class="card__body">
-            <img class="card__image card__image--medium" src="{{ asset('img/authors/' . $quote->author->image) }}" alt="{{ $quote->author->name }}">
+            <img class="card__image card__image--medium" src="{{ asset($image) }}" alt="{{ $title }}">
             
             <div class="card__body-text-container">
                 <p class="card__body-text">{!! $routeName == 'search' ? App\Helpers\Helper::highlightKeyword($keyword, $quote->body) : $quote->body !!}</p>
@@ -128,7 +120,7 @@
 
                     <button class="card__actions-button card__actions-share">
                         <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
-                            data-services="vkontakte,facebook,telegram,twitter,viber,whatsapp,skype" data-title="{{ App\Helpers\Helper::generateShareText($quote->author->name . ': “' . $quote->body) . '”'}}" data-image="{{ asset('img/main/logo-share.png') }}" data-url="{{ route('quotes.index') }}">
+                            data-services="vkontakte,facebook,telegram,twitter,viber,whatsapp,skype" data-title="{{ App\Helpers\Helper::generateShareText($title . ': “' . $quote->body) . '”'}}" data-image="{{ asset('img/main/logo-share.png') }}" data-url="{{ route('quotes.index') }}">
                         </div>
                     </button>
 
@@ -149,7 +141,7 @@
 
                     <button class="card__actions-button card__actions-share">
                         <div class="ya-share2" data-copy="last" data-curtain data-limit="0" data-more-button-type="long"
-                            data-services="vkontakte,facebook,telegram,twitter,viber,whatsapp,skype" data-title="{{ App\Helpers\Helper::generateShareText($quote->author->name . ': “' . $quote->body) . '”'}}" data-image="{{ asset('img/main/logo-share.png') }}" data-url="{{ route('quotes.index') }}">
+                            data-services="vkontakte,facebook,telegram,twitter,viber,whatsapp,skype" data-title="{{ App\Helpers\Helper::generateShareText($title . ': “' . $quote->body) . '”'}}" data-image="{{ asset('img/main/logo-share.png') }}" data-url="{{ route('quotes.index') }}">
                         </div>
                     </button>
 

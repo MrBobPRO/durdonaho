@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('title')->unique();
             $table->string('image')->nullable();
-            $table->boolean('popular');
+            $table->boolean('approved')->default(0);
+            $table->boolean('popular')->default(0);
         });
     }
 

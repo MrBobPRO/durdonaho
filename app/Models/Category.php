@@ -15,6 +15,23 @@ class Category extends Model
         return $this->belongsToMany(Quote::class);
     }
 
+    public function scopeApproved($query)
+    {
+        return $query->where('approved', true);
+    }
+
+    public function scopeUnapproved($query)
+    {
+        return $query->where('approved', false);
+    }
+
+    public static function createUnapprovedCategory($title)
+    {
+        $category = new Category();
+        $category->title = $title;
+        $category->save();
+    }
+
     /**
      * The "booted" method of the model.
      *

@@ -20,7 +20,8 @@ return new class extends Migration
             $table->integer('user_id'); //publisher
             $table->text('biography');
             $table->string('image')->default('__default.jpg');
-            $table->boolean('popular');
+            $table->boolean('approved')->default(0);
+            $table->boolean('popular')->default(0);
             $table->timestamps();
         });
     }

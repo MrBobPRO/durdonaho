@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Helpers\Helper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Author extends Model
 {
@@ -32,6 +34,26 @@ class Author extends Model
     public function reports()
     {
         return $this->hasMany(Report::class);
+    }
+
+    public function scopeApproved($query)
+    {
+        return $query->where('approved', true);
+    }
+
+    public function scopeUnapproved($query)
+    {
+        return $query->where('approved', false);
+    }
+
+    public static function createUnapprovedAuthor($name)
+    {
+        $author = new Author();
+        $author->name = $name;
+        $author->slug = Helper::generateUniqueSlug($name, Author::class);
+        $author->user_id = Auth::user()->id;
+        $author->biography = 'Биография';
+        $author->save();
     }
 
     /**

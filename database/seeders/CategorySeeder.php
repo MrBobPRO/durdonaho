@@ -21,6 +21,7 @@ class CategorySeeder extends Seeder
             $category = new Category();
             $category->title = $cat;
             $category->popular = false;
+            $category->approved = true;
             $category->save();
         }
 

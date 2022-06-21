@@ -40,7 +40,7 @@
                     <script>let activeSource = '{{ $activeSource }}';</script>
 
                     <div class="form-group selectize-container">
-                        <select class="source-selectize" name="source" placeholder="Выберите источника цитаты" required>
+                        <select class="source-selectize" name="source_key" placeholder="Выберите источника цитаты" required>
                             <option></option>
                             @foreach ($sources as $source)
                                 <option value="{{ $source->key }}" @selected($source->key == $activeSource)>{{ $source->title }}</option>
@@ -50,31 +50,31 @@
 
                     {{-- Additional Source Inputs --}}
                     <div class="form-group" data-source-key="book">
-                        <input class="input" type="text" name="title" placeholder="Автор книги">
+                        <input class="input" type="text" name="book_title" placeholder="Автор книги">
                     </div>
 
                     <div class="form-group" data-source-key="book">
-                        <input class="input" type="text" name="author" placeholder="Название книги">
+                        <input class="input" type="text" name="book_author" placeholder="Название книги">
                     </div>
 
                     <div class="form-group" data-source-key="movie">
-                        <input class="input" type="text" name="title" placeholder="Название фильма">
+                        <input class="input" type="text" name="movie_title" placeholder="Название фильма">
                     </div>
 
                     <div class="form-group" data-source-key="movie">
-                        <input class="input" type="text" name="year" placeholder="Год выпуска">
+                        <input class="input" type="text" name="movie_year" placeholder="Год выпуска">
                     </div>
 
                     <div class="form-group" data-source-key="song">
-                        <input class="input" type="text" name="title" placeholder="Название песни">
+                        <input class="input" type="text" name="song_title" placeholder="Название песни">
                     </div>
 
                     <div class="form-group" data-source-key="song">
-                        <input class="input" type="text" name="singer" placeholder="Исполнитель">
+                        <input class="input" type="text" name="song_singer" placeholder="Исполнитель">
                     </div>
                     
                     <div class="form-group selectize-container" data-source-key="author">
-                        <select class="selectize-singular-taggable" name="author" placeholder="Выберите автора цитаты">
+                        <select class="selectize-singular-taggable" name="author_name" placeholder="Выберите автора цитаты или добавьте нового">
                             <option></option>
                             @foreach ($authors as $author)
                                 <option value="{{ $author->name }}">{{ $author->name }}</option>

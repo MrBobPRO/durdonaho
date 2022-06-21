@@ -614,7 +614,6 @@ if (updateQuotesForm) {
 //------------- Quotes create & update forms -------------
 
 
-
 //------------- Validating Source Inputs while Creating / Updating quote (visibility and required statements) -------------
 function validateSourceInputs(key) {
     document.querySelectorAll(['[data-source-key]']).forEach((item) => {
@@ -629,6 +628,7 @@ function validateSourceInputs(key) {
                 item.required = true;
             });
         }
+
         else {
             item.classList.add('form-group--hidden');
 
@@ -643,7 +643,7 @@ function validateSourceInputs(key) {
     });
 }
 
-let sourceSelect = document.querySelector('select[name="source"]');
+let sourceSelect = document.querySelector('select[name="source_key"]');
 if (sourceSelect) {
     $('.source-selectize').selectize({
         onChange(value) {
@@ -651,7 +651,7 @@ if (sourceSelect) {
         }
     });
 
-    // activeSource is initialized via PHP on blade
+    // activeSource is initialized via PHP on blade view
     validateSourceInputs(activeSource);
 }
 //------------- Validating Source Inputs while Creating / Updating quote -------------

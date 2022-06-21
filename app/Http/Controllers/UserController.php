@@ -204,66 +204,98 @@ class UserController extends Controller
         // else store quote
         $quote = new Quote();
         $quote->body = $request->body;
-        $quote->popular = false;
-        $quote->verified = false;
-        $quote->approved = false;
         $quote->user_id = Auth::user()->id;
 
-        // get id for newly creating quote
-        $statement = DB::select("show table status like 'quotes'");
-        $quoteId = $statement[0]->Auto_increment;
+        $sourceKey = $request->source_key;
+        $quote->source_id = Source::where('key', $sourceKey)->first()->id;
+        
+        // validate quotes source
+        switch ($sourceKey) {
+            case Source::OWN_QUOTE_KEY:
+            case Source::UNKNOWN_AUTHOR_KEY:
+            case Source::FROM_PROVERB_KEY:
+            case Source::FROM_PARABLE_KEY:
+                // code...
+                break;
+            
+            // Author
+            case Source::AUTHORS_QUOTE_KEY:
+                $authorName = $request->author_name;
 
-        // validate source
-        $requestedSource = $request->source;
-        $source = Source::where('title', $requestedSource)->first();
-        if ($source) {
-            $quote->source_id = $source->id;
-        } else if ($requestedSource && $requestedSource != '') {
-            $manual = new Manual();
-            $manual->quote_id = $quoteId;
-            $manual->key = 'source';
-            $manual->value = $requestedSource;
-            $manual->save();
+                $author = Author::where('name', $authorName)->first();
+
+                // Create new unapproved author if author doesnt exists
+                if(!$author) {
+                    Author::createUnapprovedAuthor($authorName);
+                }
+
+                $quote->author_id = Author::where('name', $authorName)->first()->id;
+
+                break;
+
+            // From Book
+            case Source::FROM_BOOK_KEY:
+                $bookTitle = $request->book_title;
+                $bookAuthor = $request->book_author;
+
+                $sourceBook = SourceBook::where('title', $bookTitle)->where('author', $bookAuthor)->first();
+
+                // create new unapproved source book if its doens exists
+                if(!$sourceBook) {
+                    SourceBook::createUnapprovedBook($bookTitle, $bookAuthor);
+                }
+
+                $quote->source_book_id = SourceBook::where('title', $bookTitle)->where('author', $bookAuthor)->first()->id;
+
+                break;
+
+            // From Movie
+            case Source::FROM_MOVIE_KEY:
+                $movieTitle = $request->movie_title;
+                $movieYear = $request->movie_year;
+
+                $sourceMovie = SourceMovie::where('title', $movieTitle)->where('year', $movieYear)->first();
+
+                // create new unapproved source movie if its doens exists
+                if(!$sourceMovie) {
+                    SourceMovie::createUnapprovedMovie($movieTitle, $movieYear);
+                }
+
+                $quote->source_movie_id = SourceMovie::where('title', $movieTitle)->where('year', $movieYear)->first()->id;
+
+                break;
+
+            // From song
+            case Source::FROM_SONG_KEY:
+                $songTitle = $request->song_title;
+                $songSinger = $request->song_singer;
+
+                $sourceSong = SourceSong::where('title', $songTitle)->where('singer', $songSinger)->first();
+
+                // create new unapproved source song if its doens exists
+                if(!$sourceSong) {
+                    SourceSong::createUnapprovedSong($songTitle, $songSinger);
+                }
+
+                $quote->source_song_id = SourceSong::where('title', $songTitle)->where('singer', $songSinger)->first()->id;
+
+                break;
         }
-
-        // validate author
-        $requestedAuthor = $request->author;
-        $author = Author::where('name', $requestedAuthor)->first();
-        if ($author) {
-            $quote->author_id = $author->id;
-        } else {
-            $quote->author_id = 0;
-            $manual = new Manual();
-            $manual->quote_id = $quoteId;
-            $manual->key = 'author';
-            $manual->value = $requestedAuthor;
-            $manual->save();
-        }
-
-        // save quote before attaching categories
+        
         $quote->save();
 
-        // validate categories
+        // validate & attach categories
         $requestedCategories = $request->categories;
-        // used to store nonexistent categories
-        $nonExistentCategories = [];
 
         foreach ($requestedCategories as $requestedCategory) {
             $category = Category::where('title', $requestedCategory)->first();
-            if ($category) {
-                $quote->categories()->attach($category->id);
-            } else {
-                array_push($nonExistentCategories, $requestedCategory);
+            
+            // create new unappoved category if category doesnt exists
+            if (!$category) {
+                Category::createUnapprovedCategory($requestedCategory);
             }
-        }
 
-        // create manual for categories
-        if (count($nonExistentCategories)) {
-            $manual = new Manual;
-            $manual->quote_id = $quoteId;
-            $manual->key = 'categories';
-            $manual->value = implode(', ', $nonExistentCategories);
-            $manual->save();
+            $quote->categories()->attach(Category::where('title', $requestedCategory)->first()->id);
         }
 
         return redirect()->back()->with(['status' => 'success']);
