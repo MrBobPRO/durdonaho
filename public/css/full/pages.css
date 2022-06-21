@@ -160,18 +160,7 @@
 .unverified-quotes-about__text {
     margin: 0;
 }
-.unverified-quotes-list {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
-.unverified-quotes-card .card__header {
-    margin-bottom: 0px;
-}
-.unverified-quotes-card .card__title {
-    margin-bottom: 4px;
-}
-.unverified-quotes-card .card__body {
-    margin: 10px 0 16px;
+.unverified-quotes-section .card__actions {
+    display: none;
 }
 /* ------------ /end Unverified quotes ------------ */

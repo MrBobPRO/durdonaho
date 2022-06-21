@@ -404,7 +404,7 @@ class UserController extends Controller
     public function unverifiedQuotes()
     {
         $user = Auth::user();
-        $quotes = Quote::where('user_id', $user->id)->where('approved', false)->get();
+        $quotes = Quote::where('user_id', $user->id)->where('approved', false)->paginate(10);
 
         return view('users.unverified-quotes', compact('quotes'));
     }

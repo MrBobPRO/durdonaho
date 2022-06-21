@@ -35,7 +35,7 @@
                         </select>
                     </div>
 
-                    @php $activeSource = old('source', 'author'); @endphp
+                    @php $activeSource = old('source_key', 'author'); @endphp
                     {{-- Validating additional Source Inputs via JS (visibility and required statements) --}}
                     <script>let activeSource = '{{ $activeSource }}';</script>
 
