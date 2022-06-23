@@ -183,8 +183,8 @@ class UserController extends Controller
     public function createQuote()
     {
         $sources = Source::select('title', 'key')->get();
-        $authors = Author::orderBy('name')->select('name')->get();
-        $categories = Category::orderBy('title')->select('title')->get();
+        $authors = Author::approved()->orderBy('name')->select('name')->get();
+        $categories = Category::approved()->orderBy('title')->select('title')->get();
 
         return view('users.create-quote', compact('authors', 'sources', 'categories'));
     }
@@ -206,11 +206,73 @@ class UserController extends Controller
         $quote->body = $request->body;
         $quote->user_id = Auth::user()->id;
 
-        $sourceKey = $request->source_key;
-        $quote->source_id = Source::where('key', $sourceKey)->first()->id;
+        $quote->source_id = Source::where('key', $request->source_key)->first()->id;
         
         // validate quotes source
-        switch ($sourceKey) {
+        $this->validateQuoteSource($quote, $request);
+        
+        $quote->save();
+
+        // validate & attach categories
+        $this->validateQuoteCategories($quote, $request);
+
+        return redirect()->back()->with(['status' => 'success']);
+    }
+
+    public function editQuote($id)
+    {
+        $quote = Quote::find($id);
+
+        // return error case authenticated user isnt owner of this quote
+        if ($quote->user_id != Auth::user()->id) {
+            abort(404);
+        }
+
+        $sources = Source::orderBy('title')->select('title', 'id')->get();
+        $authors = Author::approved()->orderBy('name')->select('name', 'id')->get();
+        $categories = Category::approved()->orderBy('title')->select('title', 'id')->get();
+
+        return view('users.edit-quote', compact('quote', 'authors', 'sources', 'categories'));
+    }
+
+    public function updateQuote(Request $request)
+    {
+        $quote = Quote::find($request->id);
+
+        // escape site hack
+        if ($quote->user_id != Auth::user()->id) {
+            return 'Ваш аккаунт будет заблокировал, при нескольких попыток взлома сайта!';
+        }
+
+        // return rerror if there is already a quote very similar to the updating quote
+        $body = $request->body;
+        $quotes = Quote::approved()->where('id', '!=', $quote->id)->pluck('body');
+        foreach ($quotes as $q) {
+            similar_text($body, $q, $percentage);
+            if ($percentage > 80) {
+                return redirect()->back()->with(['status' => 'similar-quote-error', 'similarQuote' => $q])->withInput();
+            }
+        };
+
+        // else update quote
+        $quote->body = $request->body;
+        $quote->verified = false;
+        $quote->approved = false;
+
+        return redirect()->back()->with(['status' => 'success']);
+    }
+
+    public function unverifiedQuotes()
+    {
+        $user = Auth::user();
+        $quotes = Quote::where('user_id', $user->id)->unapproved()->paginate(10);
+
+        return view('users.unverified-quotes', compact('quotes'));
+    }
+
+    private static function validateQuoteSource($quote, $request)
+    {
+        switch ($request->source_key) {
             case Source::OWN_QUOTE_KEY:
             case Source::UNKNOWN_AUTHOR_KEY:
             case Source::FROM_PROVERB_KEY:
@@ -281,13 +343,11 @@ class UserController extends Controller
 
                 break;
         }
-        
-        $quote->save();
+    }
 
-        // validate & attach categories
-        $requestedCategories = $request->categories;
-
-        foreach ($requestedCategories as $requestedCategory) {
+    private static function validateQuoteCategories($quote, $request)
+    {
+        foreach ($request->categories as $requestedCategory) {
             $category = Category::where('title', $requestedCategory)->first();
             
             // create new unappoved category if category doesnt exists
@@ -297,116 +357,6 @@ class UserController extends Controller
 
             $quote->categories()->attach(Category::where('title', $requestedCategory)->first()->id);
         }
-
-        return redirect()->back()->with(['status' => 'success']);
-    }
-
-    public function editQuote($id)
-    {
-        $quote = Quote::find($id);
-
-        // return error case authenticated user isnt owner of this quote
-        if ($quote->user_id != Auth::user()->id) {
-            abort(404);
-        }
-
-        $sources = Source::orderBy('title')->select('title', 'id')->get();
-        $authors = Author::orderBy('name')->select('name', 'id')->get();
-        $categories = Category::orderBy('title')->select('title', 'id')->get();
-
-        return view('users.edit-quote', compact('quote', 'authors', 'sources', 'categories'));
-    }
-
-    public function updateQuote(Request $request)
-    {
-        $quote = Quote::find($request->id);
-
-        // escape site hack
-        if ($quote->user_id != Auth::user()->id) {
-            return 'Ваш аккаунт будет заблокировал, при нескольких попыток взлома сайта!';
-        }
-
-        // return rerror if there is already a quote very similar to the updating quote
-        $body = $request->body;
-        $quotes = Quote::approved()->where('id', '!=', $quote->id)->pluck('body');
-        foreach ($quotes as $q) {
-            similar_text($body, $q, $percentage);
-            if ($percentage > 80) {
-                return redirect()->back()->with(['status' => 'similar-quote-error', 'similarQuote' => $q])->withInput();
-            }
-        };
-
-        // else update quote
-        $quote->body = $request->body;
-        $quote->verified = false;
-        $quote->approved = false;
-
-        // replace old manuals with new ones
-        Manual::where('quote_id', $quote->id)->delete();
-
-        // validate source
-        $requestedSource = $request->source;
-        $source = Source::where('title', $requestedSource)->first();
-        if ($source) {
-            $quote->source_id = $source->id;
-        } else if ($requestedSource && $requestedSource != '') {
-            $manual = new Manual();
-            $manual->quote_id = $quote->id;
-            $manual->key = 'source';
-            $manual->value = $requestedSource;
-            $manual->save();
-        }
-
-        // validate author
-        $requestedAuthor = $request->author;
-        $author = Author::where('name', $requestedAuthor)->first();
-        if ($author) {
-            $quote->author_id = $author->id;
-        } else {
-            $quote->author_id = 0;
-            $manual = new Manual();
-            $manual->quote_id = $quote->id;
-            $manual->key = 'author';
-            $manual->value = $requestedAuthor;
-            $manual->save();
-        }
-
-        // save quote before attaching categories
-        $quote->save();
-
-        // reattach & validate categories
-        $quote->categories()->detach();
-        $requestedCategories = $request->categories;
-        // used to store nonexistent categories
-        $nonExistentCategories = [];
-
-        foreach ($requestedCategories as $requestedCategory) {
-            $category = Category::where('title', $requestedCategory)->first();
-            if ($category) {
-                $quote->categories()->attach($category->id);
-            } else {
-                array_push($nonExistentCategories, $requestedCategory);
-            }
-        }
-
-        // create manual for categories
-        if (count($nonExistentCategories)) {
-            $manual = new Manual;
-            $manual->quote_id = $quote->id;
-            $manual->key = 'categories';
-            $manual->value = implode(', ', $nonExistentCategories);
-            $manual->save();
-        }
-
-        return redirect()->back()->with(['status' => 'success']);
-    }
-
-    public function unverifiedQuotes()
-    {
-        $user = Auth::user();
-        $quotes = Quote::where('user_id', $user->id)->where('approved', false)->paginate(10);
-
-        return view('users.unverified-quotes', compact('quotes'));
     }
 
     /**

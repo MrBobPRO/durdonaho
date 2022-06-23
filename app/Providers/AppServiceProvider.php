@@ -29,25 +29,25 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer(["layouts.app", "dashboard.layouts.app"], function ($view) {
+        View::composer(['layouts.app', 'dashboard.layouts.app'], function ($view) {
             $view->with('route', Route::currentRouteName());
         });
 
-        View::composer(["components.aside-categories"], function ($view) {
-            $view->with('categories', Category::orderBy('title')->get());
+        View::composer(['components.aside-categories'], function ($view) {
+            $view->with('categories', Category::approved()->orderBy('title')->get());
         });
 
-        View::composer(["components.aside-popular-categories"], function ($view) {
-            $view->with('categories', Category::where('popular', true)->inRandomOrder()->get());
+        View::composer(['components.aside-popular-categories'], function ($view) {
+            $view->with('categories', Category::where('popular', true)->approved()->inRandomOrder()->get());
         });
 
-        View::composer(["components.aside-popularity"], function ($view) {
-            $view->with('quote', Quote::where('popular', true)->inRandomOrder()->first())
-                ->with('author', Author::where('popular', true)->inRandomOrder()->first());
+        View::composer(['components.aside-popularity'], function ($view) {
+            $view->with('quote', Quote::where('popular', true)->approved()->inRandomOrder()->first())
+                ->with('author', Author::where('popular', true)->approved()->inRandomOrder()->first());
         });
 
-        View::composer(["components.filter-categories"], function ($view) {
-            $view->with('categories', Category::orderBy('title')->get());
+        View::composer(['components.filter-categories'], function ($view) {
+            $view->with('categories', Category::approved()->orderBy('title')->get());
         });
     }
 }

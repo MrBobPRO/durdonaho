@@ -12,7 +12,7 @@ class MainController extends Controller
     {
         $latestQuotes = Quote::approved()->latest()->take(8)->get();
         $popularQuotes = Quote::where('popular', true)->approved()->inRandomOrder()->take(8)->get();
-        $popularAuthors = Author::where('popular', true)->inRandomOrder()->take(8)->get();
+        $popularAuthors = Author::where('popular', true)->approved()->inRandomOrder()->take(8)->get();
 
         return view('home.index', compact('latestQuotes', 'popularQuotes', 'popularAuthors'));
     }
@@ -21,9 +21,13 @@ class MainController extends Controller
     {
         $keyword = $request->keyword;
 
-        $authors = Author::where('name', 'LIKE', '%' . $keyword . '%')
-            ->orWhere('biography', 'LIKE', '%' . $keyword . '%')
-            ->orderBy('name')->get();
+        $authors = Author::where(function ($q) use ($keyword) {
+                        $q->where('name', 'LIKE', '%' . $keyword . '%')
+                        ->orWhere('biography', 'LIKE', '%' . $keyword . '%');
+                    })
+                    ->approved()
+                    
+                    ->orderBy('name')->get();
 
         $quotes = Quote::where(function ($q) use ($keyword) {
             $q->whereHas('author', function ($a) use ($keyword) {

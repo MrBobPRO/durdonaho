@@ -64,13 +64,16 @@ class AuthorController extends Controller
         // Filter Query Step by step
         $favorite = $manualFavorite ? $manualFavorite : $request->favorite;
 
-        // 1. Favorite (true only on favorite.quotes route)
+        // 1. Only approved authors (by admin) will be taken
+        $authors = $authors->approved();
+
+        // 2. Favorite (true only on favorite.quotes route)
         if ($favorite && $favorite != '') {
             $authorIds = Favorite::where('user_id', Auth::user()->id)->where('author_id', '!=', '')->pluck('author_id');
             $authors = $authors->whereIn('id', $authorIds);
         }
 
-        // 2. Categories
+        // 3. Categories
         $category_id = $request->category_id;
         if($category_id && $category_id != '') {
             // category_id comes in string type joined by '-' because of FormData
@@ -83,7 +86,7 @@ class AuthorController extends Controller
             });
         }
 
-        // 3. Search keyword
+        // 4. Search keyword
         $keyword = $request->keyword;
         if($keyword && $keyword != '') {
             $authors = $authors->where('name', 'LIKE', '%' . $keyword . '%');

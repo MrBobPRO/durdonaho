@@ -50,6 +50,7 @@ class FavoriteController extends Controller
             $favorited->delete();
 
             $status = 'removed-from-favorites';
+
         } else {
             $favorite = new Favorite();
             $favorite->user_id = Auth::user()->id;
@@ -63,50 +64,5 @@ class FavoriteController extends Controller
         return [
             'status' => $status
         ];
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Favorite  $favorite
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Favorite $favorite)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Favorite  $favorite
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Favorite $favorite)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Favorite  $favorite
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Favorite $favorite)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Favorite  $favorite
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Favorite $favorite)
-    {
-        //
     }
 }

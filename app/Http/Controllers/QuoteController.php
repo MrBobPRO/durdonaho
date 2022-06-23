@@ -150,7 +150,7 @@ class QuoteController extends Controller
      */
     public function top()
     {
-        $quotes = Quote::withCount('likes')->orderBy('likes_count', 'desc')->take(20)->paginate(10)->fragment('quotes-section');
+        $quotes = Quote::approved()->withCount('likes')->orderBy('likes_count', 'desc')->take(20)->paginate(10)->fragment('quotes-section');
 
         return view('quotes.top', compact('quotes'));
     }
