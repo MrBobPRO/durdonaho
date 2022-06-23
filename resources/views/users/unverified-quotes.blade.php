@@ -9,9 +9,9 @@
                 <p class="unverified-quotes-about__text">Здесь будут отображатся цитаты добавлении вами, которые нахдятся на рассмотрении у администратора!</p>
             </div>
         </div>
-    
+
         <div class="quotes-list" id="main-list">
-            <x-list-inner-quotes :quotes="$quotes" card-class="card_with_small_image card--full_width"/>
+            <x-list-inner-quotes :quotes="$quotes" card-class="card_with_small_image card--full_width" show-edit-button="1" />
         </div>
     </section>
 </div>

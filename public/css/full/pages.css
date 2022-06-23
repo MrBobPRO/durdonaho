@@ -163,4 +163,7 @@
 .unverified-quotes-section .card__actions {
     display: none;
 }
+.unverified-quotes-section .card__categories-link {
+    pointer-events: none;
+}
 /* ------------ /end Unverified quotes ------------ */

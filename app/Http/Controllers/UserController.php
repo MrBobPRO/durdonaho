@@ -85,6 +85,14 @@ class UserController extends Controller
         return view('users.current-users-quotes', compact('quotes', 'userId', 'request'));
     }
 
+    public function unverifiedQuotes()
+    {
+        $user = Auth::user();
+        $quotes = Quote::where('user_id', $user->id)->unapproved()->orderBy('updated_at', 'desc')->paginate(10);
+
+        return view('users.unverified-quotes', compact('quotes'));
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -228,7 +236,7 @@ class UserController extends Controller
             abort(404);
         }
 
-        $sources = Source::orderBy('title')->select('title', 'id')->get();
+        $sources = Source::orderBy('title')->select('title', 'key')->get();
         $authors = Author::approved()->orderBy('name')->select('name', 'id')->get();
         $categories = Category::approved()->orderBy('title')->select('title', 'id')->get();
 
@@ -259,15 +267,23 @@ class UserController extends Controller
         $quote->verified = false;
         $quote->approved = false;
 
+        $quote->source_id = Source::where('key', $request->source_key)->first()->id;
+        
+        // validate quotes source
+        $quote->author_id = null;
+        $quote->source_book_id = null;
+        $quote->source_movie_id = null;
+        $quote->source_song_id = null;
+
+        $this->validateQuoteSource($quote, $request);
+        
+        $quote->save();
+
+        // validate & reattach categories
+        $quote->categories()->detach();
+        $this->validateQuoteCategories($quote, $request);
+
         return redirect()->back()->with(['status' => 'success']);
-    }
-
-    public function unverifiedQuotes()
-    {
-        $user = Auth::user();
-        $quotes = Quote::where('user_id', $user->id)->unapproved()->paginate(10);
-
-        return view('users.unverified-quotes', compact('quotes'));
     }
 
     private static function validateQuoteSource($quote, $request)

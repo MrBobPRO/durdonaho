@@ -18,7 +18,7 @@
                 case App\Models\Source::AUTHORS_QUOTE_KEY:
                     $image = 'img/authors/' . $quote->author->image;
                     $title = $quote->author->name;
-                    $link = route('authors.show', $quote->author->slug);
+                    $link = $quote->author->approved ? route('authors.show', $quote->author->slug) : null;
                     break;
 
                 case App\Models\Source::OWN_QUOTE_KEY:
@@ -35,19 +35,19 @@
 
                 case App\Models\Source::FROM_BOOK_KEY:
                     $image = 'img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_BOOK_DEFAULT_IMAGE);
-                    $title = $quote->bookSource->title;
+                    $title = $quote->sourceBook->title;
                     $link = null;
                     break;
 
                 case App\Models\Source::FROM_MOVIE_KEY:
                     $image = 'img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_MOVIE_DEFAULT_IMAEG);
-                    $title = $quote->movieSource->title;
+                    $title = $quote->sourceMovie->title;
                     $link = null;
                     break;
 
                 case App\Models\Source::FROM_SONG_KEY:
                     $image = 'img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_SONG_DEFAULT_IMAGE);
-                    $title = $quote->songSource->title;
+                    $title = $quote->sourceSong->title;
                     $link = null;
                     break;
 

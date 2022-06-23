@@ -54,17 +54,17 @@ class Quote extends Model
         return $this->belongsTo(Source::class);
     }
 
-    public function bookSource()
+    public function sourceBook()
     {
         return $this->belongsTo(SourceBook::class, 'source_book_id');
     }
 
-    public function movieSource()
+    public function sourceMovie()
     {
         return $this->belongsTo(SourceMovie::class, 'source_movie_id');
     }
 
-    public function songSource()
+    public function sourceSong()
     {
         return $this->belongsTo(SourceSong::class, 'source_song_id');
     }
