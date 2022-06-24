@@ -57,7 +57,7 @@
                     <td>{{ $item->user_name }}</td>
                     <td>{{ mb_strlen($item->message) > 200 ? (mb_substr($item->message, 0, 200) . '...') : $item->message }}</td>
                     <td>{{ $item->author ? $item->author->name : 'Цитата #' . $item->quote->id }}</td>
-                    <td>{!! $item->new ? '<span class="danger-color"><b>НОВЫЙ</b></span>' : 'Просмотрено' !!}</td>
+                    <td>{!! $item->new ? '<span class="new">НОВЫЙ</span>' : 'Просмотрено' !!}</td>
                     <td>{{ Carbon\Carbon::create($item->created_at)->locale('ru')->isoFormat('DD MMMM YYYY HH:mm') }}</td>
 
                     {{-- Actions --}}

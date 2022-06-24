@@ -25,12 +25,11 @@
                 </th>
 
                 <th>
-                    Автор
+                    <a class="{{ $orderType }} {{ $orderBy == 'source_id' ? 'active' : '' }}" href="{{ route('quotes.dashboard.unapproved.index') }}?page={{ $activePage }}&orderBy=source_id&orderType={{ $reversedOrderType }}">Источник</a>
                 </th>
 
                 <th>
-                    Издатель
-                </th>
+                    <a class="{{ $orderType }} {{ $orderBy == 'user_id' ? 'active' : '' }}" href="{{ route('quotes.dashboard.unapproved.index') }}?page={{ $activePage }}&orderBy=user_id&orderType={{ $reversedOrderType }}">Издатель</a>
 
                 <th>
                     <a class="{{ $orderType }} {{ $orderBy == 'author_name' ? 'active' : '' }}" href="{{ route('quotes.dashboard.unapproved.index') }}?page={{ $activePage }}&orderBy=author_name&orderType={{ $reversedOrderType }}">Статус</a>
@@ -51,14 +50,10 @@
             @foreach ($items as $item)
                 <tr>
                     <td>{{ mb_strlen($item->body) > 200 ? (mb_substr($item->body, 0, 200) . '...') : $item->body }}</td>
-
-                    <td>
-                        @php $manual = App\Models\Manual::where('quote_id', $item->id)->where('key', 'author')->first(); @endphp
-                        {{ $manual ? $manual->value : $item->author->name }}
-                    </td>
+                    <td>{{ $item->source->title }}</td>
                     
                     <td><a href="{{ route('users.show', $item->publisher->slug) }}" target="_blank">{{ $item->publisher->name }}</a></td>
-                    <td>{!! $item->verified ? 'Просмотрено' : '<span class="danger-color"><b>НОВЫЙ</b></span>' !!}</td>
+                    <td>{!! $item->verified ? 'Просмотрено' : '<span class="new">НОВЫЙ</span>' !!}</td>
                     <td>{{ Carbon\Carbon::create($item->updated_at)->locale('ru')->isoFormat('DD MMMM YYYY HH:mm') }}</td>
 
                     {{-- Actions --}}

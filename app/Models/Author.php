@@ -55,7 +55,7 @@ class Author extends Model
         $author->name = $name;
         $author->slug = Helper::generateUniqueSlug($name, Author::class);
         $author->user_id = Auth::user()->id;
-        $author->biography = 'Биография';
+        $author->biography = $name;
         $author->approved = false;
         $author->save();
     }

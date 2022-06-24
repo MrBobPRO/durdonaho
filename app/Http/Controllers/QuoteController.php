@@ -207,7 +207,7 @@ class QuoteController extends Controller
         // used while generating route names
         $modelShortcut = self::MODEL_SHORTCUT;
 
-        $authors = Author::orderBy('name')->select('name', 'id')->get();
+        $authors = Author::approved()->orderBy('name')->select('name', 'id')->get();
         $categories = Category::approved()->orderBy('title')->select('title', 'id')->get();
         $sources = Source::get();
         $users = User::orderBy('name')->select('name', 'id')->get();
@@ -238,6 +238,7 @@ class QuoteController extends Controller
         $fields = ['body', 'user_id', 'popular'];
         Helper::fillModelColumns($quote, $fields, $request);
 
+        // set up quotes source
         $quote->source_id = Source::where('key', $request->source_key)->first()->id;
         $this->setupQuoteSource($quote, $request);
 
@@ -245,6 +246,7 @@ class QuoteController extends Controller
 
         $quote->verified = true;
         $quote->approved = true;
+        
         $quote->save();
 
         $quote->categories()->attach($request->categories);
@@ -265,9 +267,9 @@ class QuoteController extends Controller
 
         $item = Quote::find($id);
 
-        $authors = Author::orderBy('name')->select('name', 'id')->get();
-        $categories = Category::orderBy('title')->select('title', 'id')->get();
-        $sources = Source::orderBy('title')->select('title', 'id')->get();
+        $authors = Author::approved()->orderBy('name')->select('name', 'id')->get();
+        $categories = Category::approved()->orderBy('title')->select('title', 'id')->get();
+        $sources = Source::get();
         $users = User::orderBy('name')->select('name', 'id')->get();
 
         return view('dashboard.quotes.edit', compact('modelShortcut', 'item', 'authors', 'categories', 'sources', 'users'));
@@ -294,8 +296,21 @@ class QuoteController extends Controller
 
         // update quote
         $quote = Quote::find($request->id);
-        $fields = ['body', 'author_id', 'source_id', 'user_id', 'popular'];
+        $fields = ['body', 'user_id', 'popular'];
         Helper::fillModelColumns($quote, $fields, $request);
+        
+        // set up quotes source
+        $quote->source_id = Source::where('key', $request->source_key)->first()->id;
+
+        $quote->author_id = null;
+        $quote->source_book_id = null;
+        $quote->source_movie_id = null;
+        $quote->source_song_id = null;
+
+        $this->setupQuoteSource($quote, $request);
+        
+        Helper::uploadModelsFile($request, $quote, 'source_image', uniqid(), SourceController::IMAGE_PATH, 300);
+
         $quote->save();
 
         // reattach categories
@@ -368,9 +383,9 @@ class QuoteController extends Controller
         $item->timestamps = false;
         $item->save();
 
-        $authors = Author::orderBy('name')->select('name', 'id')->get();
-        $categories = Category::orderBy('title')->select('title', 'id')->get();
-        $sources = Source::orderBy('title')->select('title', 'id')->get();
+        $authors = Author::approved()->orderBy('name')->select('name', 'id')->get();
+        $categories = Category::approved()->orderBy('title')->select('title', 'id')->get();
+        $sources = Source::get();
         $users = User::orderBy('name')->select('name', 'id')->get();
 
         return view('dashboard.quotes.unapproved.edit', compact('modelShortcut', 'item', 'authors', 'categories', 'sources', 'users'));
@@ -389,16 +404,39 @@ class QuoteController extends Controller
         };
 
         $quote = Quote::find($request->id);
-        $quote->body = $request->body;
-        $quote->author_id = $request->author_id;
-        $quote->source_id = $request->source_id;
-        $quote->user_id = $request->user_id;
-        $quote->popular = $request->popular;
+        $fields = ['body', 'user_id', 'popular'];
+        Helper::fillModelColumns($quote, $fields, $request);
+        
+        // set up quotes source
+        $quote->source_id = Source::where('key', $request->source_key)->first()->id;
+
+        $quote->author_id = null;
+        $quote->source_book_id = null;
+        $quote->source_movie_id = null;
+        $quote->source_song_id = null;
+
+        $this->setupQuoteSource($quote, $request);
+        
+        Helper::uploadModelsFile($request, $quote, 'source_image', uniqid(), SourceController::IMAGE_PATH, 300);
+
         $quote->approved = true;
         $quote->save();
 
+        // reattach categories
         $quote->categories()->detach();
         $quote->categories()->attach($request->categories);
+
+        // also approve quotes unapproved author && unapproved categories
+        if($quote->author && !$quote->author->approved) {
+            $author = $quote->author;
+            $author->approved = true;
+            $author->save();
+        }
+
+        $quote->categories()->each(function ($category) {
+            $category->approved = true;
+            $category->save();
+        });
 
         return redirect()->route('quotes.dashboard.unapproved.index');
     }

@@ -42,6 +42,10 @@ img {
 .danger-color {
     color: var(--danger-color);
 }
+.new {
+    color: var(--danger-color);
+    font-weight: bold;
+}
 /* ------------ /end Main styles ------------ */
 
 
@@ -164,6 +168,14 @@ img {
     font-size: 20px;
     margin-right: 12px;
 }
+.alert--columned {
+    flex-direction: column;
+}
+.alert a {
+    font-weight: bold;
+    color: var(--danger-color);
+    text-decoration: underline;
+} 
 /* ------------ /end Alerts ------------ */
 
 

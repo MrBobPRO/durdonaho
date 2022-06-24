@@ -214,15 +214,15 @@ class UserController extends Controller
         $quote->body = $request->body;
         $quote->user_id = Auth::user()->id;
 
+        // set up quotes source
         $quote->source_id = Source::where('key', $request->source_key)->first()->id;
         
-        // set up quotes source
         $this->setupQuoteSource($quote, $request);
         
         $quote->save();
 
-        // validate & attach categories
-        $this->validateQuoteCategories($quote, $request);
+        // set up & attach categories
+        $this->setupQuoteCategories($quote, $request);
 
         return redirect()->back()->with(['status' => 'success']);
     }
@@ -236,7 +236,7 @@ class UserController extends Controller
             abort(404);
         }
 
-        $sources = Source::orderBy('title')->select('title', 'key')->get();
+        $sources = Source::select('title', 'key')->get();
         $authors = Author::approved()->orderBy('name')->select('name', 'id')->get();
         $categories = Category::approved()->orderBy('title')->select('title', 'id')->get();
 
@@ -267,9 +267,9 @@ class UserController extends Controller
         $quote->verified = false;
         $quote->approved = false;
 
+        // set up quotes source
         $quote->source_id = Source::where('key', $request->source_key)->first()->id;
         
-        // validate quotes source
         $quote->author_id = null;
         $quote->source_book_id = null;
         $quote->source_movie_id = null;
@@ -279,9 +279,9 @@ class UserController extends Controller
         
         $quote->save();
 
-        // validate & reattach categories
+        // set up & reattach categories
         $quote->categories()->detach();
-        $this->validateQuoteCategories($quote, $request);
+        $this->setupQuoteCategories($quote, $request);
 
         return redirect()->back()->with(['status' => 'success']);
     }

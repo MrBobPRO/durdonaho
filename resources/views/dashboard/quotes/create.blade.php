@@ -9,7 +9,7 @@
         <textarea class="form-textarea" name="body" rows="7" required>{{ old('body') }}</textarea>
     </div>
 
-    @php $activeSource = old('source_key', 'author'); @endphp
+    @php $activeSource = old('source_key', App\Models\Source::AUTHORS_QUOTE_KEY); @endphp
     {{-- Validating additional Source Inputs via JS (visibility and required statements) --}}
     <script>let activeSource = '{{ $activeSource }}';</script>
 
