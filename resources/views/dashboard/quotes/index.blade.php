@@ -28,7 +28,7 @@
                 </th>
 
                 <th>
-                    <a class="{{ $orderType }} {{ $orderBy == 'author_name' ? 'active' : '' }}" href="{{ route('dashboard.index') }}?page={{ $activePage }}&orderBy=author_name&orderType={{ $reversedOrderType }}">Автор</a>
+                    <a class="{{ $orderType }} {{ $orderBy == 'source_id' ? 'active' : '' }}" href="{{ route('dashboard.index') }}?page={{ $activePage }}&orderBy=source_id&orderType={{ $reversedOrderType }}">Источник</a>
                 </th>
 
                 <th>
@@ -60,7 +60,7 @@
                     </td>
 
                     <td>{{ mb_strlen($item->body) > 200 ? (mb_substr($item->body, 0, 200) . '...') : $item->body }}</td>
-                    <td>{{ $item->author->name }}</td>
+                    <td>{{ $item->source->title }}</td>
 
                     <td>
                         @if($orderBy == 'category_titles')

@@ -25,10 +25,14 @@ class Category extends Model
         return $query->where('approved', false);
     }
 
-    public static function createUnapprovedCategory($title)
+    /**
+     * Create unapproved category, while creating/updating quotes by USER
+     */
+    public static function createUnapprovedItem($title)
     {
         $category = new Category();
         $category->title = $title;
+        $category->approved = false;
         $category->save();
     }
 

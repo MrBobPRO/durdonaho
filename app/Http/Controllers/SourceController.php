@@ -11,6 +11,8 @@ class SourceController extends Controller
 {
     // used while generating route names in dashboard
     const MODEL_SHORTCUT = 'sources';
+    // used while uploading images
+    const IMAGE_PATH = 'img/sources';
 
     /**
      * Display a listing of the resource in dashboard

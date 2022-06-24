@@ -9,11 +9,27 @@ class SourceMovie extends Model
 {
     use HasFactory;
 
-    public static function createUnapprovedMovie($title, $year)
+    /**
+     * Create unapproved source while creating/updating quotes by USER
+     */
+    public static function createUnapprovedItem($title, $year)
     {
         $movie = new SourceMovie();
         $movie->title = $title;
         $movie->year = $year;
+        $movie->approved = false;
+        $movie->save();
+    }
+
+    /**
+     * Create approved source while creating/updating quotes by ADMIN
+     */
+    public static function createApprovedItem($title, $year)
+    {
+        $movie = new SourceMovie();
+        $movie->title = $title;
+        $movie->year = $year;
+        $movie->approved = true;
         $movie->save();
     }
 }

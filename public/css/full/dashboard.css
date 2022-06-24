@@ -451,6 +451,9 @@ img {
     background: white;
     border-radius: 6px;
 }
+.form-group--hidden {
+    display: none;
+}
 .form-group label {
     width: 100%;
     margin-bottom: 8px;

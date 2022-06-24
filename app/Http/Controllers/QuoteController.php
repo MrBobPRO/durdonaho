@@ -8,6 +8,9 @@ use App\Models\Category;
 use App\Models\Favorite;
 use App\Models\Quote;
 use App\Models\Source;
+use App\Models\SourceBook;
+use App\Models\SourceMovie;
+use App\Models\SourceSong;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -179,21 +182,13 @@ class QuoteController extends Controller
                 ->join('category_quote', 'quotes.id', '=', 'category_quote.quote_id')
                 ->join('categories', 'categories.id', '=', 'category_quote.category_id')
                 ->groupBy('quote_id')
-                ->approved()
+                ->where('quotes.approved', true)
                 ->orderBy($orderBy, $orderType)
                 ->paginate(30, ['*'], 'page', $activePage)
                 ->appends($request->except('page'));
         }
 
-        // orderBy Author name 
-        else if ($orderBy == 'author_name') {
-            $items = Quote::join('authors', 'quotes.author_id', '=', 'authors.id')
-                ->select('quotes.*', 'authors.name as author_name')
-                ->approved()
-                ->orderBy($orderBy, $orderType)
-                ->paginate(30, ['*'], 'page', $activePage)
-                ->appends($request->except('page'));
-        } else {
+        else {
             $items = Quote::approved()->orderBy($orderBy, $orderType)
                 ->paginate(30, ['*'], 'page', $activePage)
                 ->appends($request->except('page'));
@@ -213,8 +208,8 @@ class QuoteController extends Controller
         $modelShortcut = self::MODEL_SHORTCUT;
 
         $authors = Author::orderBy('name')->select('name', 'id')->get();
-        $categories = Category::orderBy('title')->select('title', 'id')->get();
-        $sources = Source::orderBy('title')->select('title', 'id')->get();
+        $categories = Category::approved()->orderBy('title')->select('title', 'id')->get();
+        $sources = Source::get();
         $users = User::orderBy('name')->select('name', 'id')->get();
 
         return view('dashboard.quotes.create', compact('modelShortcut', 'authors', 'categories', 'sources', 'users'));
@@ -240,8 +235,13 @@ class QuoteController extends Controller
 
         // store quote
         $quote = new Quote();
-        $fields = ['body', 'author_id', 'source_id', 'user_id', 'popular'];
+        $fields = ['body', 'user_id', 'popular'];
         Helper::fillModelColumns($quote, $fields, $request);
+
+        $quote->source_id = Source::where('key', $request->source_key)->first()->id;
+        $this->setupQuoteSource($quote, $request);
+
+        Helper::uploadModelsFile($request, $quote, 'source_image', uniqid(), SourceController::IMAGE_PATH, 300);
 
         $quote->verified = true;
         $quote->approved = true;
@@ -363,7 +363,7 @@ class QuoteController extends Controller
         $modelShortcut = self::MODEL_SHORTCUT;
 
         $item = Quote::find($id);
-        // set quote as verified
+        // set quote as verified without updating timestamps
         $item->verified = true;
         $item->timestamps = false;
         $item->save();
@@ -401,5 +401,74 @@ class QuoteController extends Controller
         $quote->categories()->attach($request->categories);
 
         return redirect()->route('quotes.dashboard.unapproved.index');
+    }
+
+    /**
+     * Setup quotes source (create unexisting sources), 
+     * while creating or updating by ADMIN (in dashboard)
+     */
+    private function setupQuoteSource($quote, $request)
+    {
+        switch ($request->source_key) {
+            case Source::OWN_QUOTE_KEY:
+            case Source::UNKNOWN_AUTHOR_KEY:
+            case Source::FROM_PROVERB_KEY:
+            case Source::FROM_PARABLE_KEY:
+                // code...
+                break;
+
+            // Author
+            case Source::AUTHORS_QUOTE_KEY:
+                $quote->author_id = $request->author_id;
+                break;
+
+            // From Book
+            case Source::FROM_BOOK_KEY:
+                $bookTitle = $request->book_title;
+                $bookAuthor = $request->book_author;
+
+                $sourceBook = SourceBook::where('title', $bookTitle)->where('author', $bookAuthor)->first();
+
+                // create new unapproved source book if its doens exists
+                if(!$sourceBook) {
+                    SourceBook::createApprovedItem($bookTitle, $bookAuthor);
+                }
+
+                $quote->source_book_id = SourceBook::where('title', $bookTitle)->where('author', $bookAuthor)->first()->id;
+
+                break;
+
+            // From Movie
+            case Source::FROM_MOVIE_KEY:
+                $movieTitle = $request->movie_title;
+                $movieYear = $request->movie_year;
+
+                $sourceMovie = SourceMovie::where('title', $movieTitle)->where('year', $movieYear)->first();
+
+                // create new unapproved source movie if its doens exists
+                if(!$sourceMovie) {
+                    SourceMovie::createApprovedItem($movieTitle, $movieYear);
+                }
+
+                $quote->source_movie_id = SourceMovie::where('title', $movieTitle)->where('year', $movieYear)->first()->id;
+
+                break;
+
+            // From song
+            case Source::FROM_SONG_KEY:
+                $songTitle = $request->song_title;
+                $songSinger = $request->song_singer;
+
+                $sourceSong = SourceSong::where('title', $songTitle)->where('singer', $songSinger)->first();
+
+                // create new unapproved source song if its doens exists
+                if(!$sourceSong) {
+                    SourceSong::createApprovedItem($songTitle, $songSinger);
+                }
+
+                $quote->source_song_id = SourceSong::where('title', $songTitle)->where('singer', $songSinger)->first()->id;
+
+                break;
+        }
     }
 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('singer');
             $table->unique(['title', 'singer']);
+            $table->boolean('approved');
             $table->timestamps();
         });
     }

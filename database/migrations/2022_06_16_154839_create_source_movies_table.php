@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('year');
             $table->unique(['title', 'year']);
+            $table->boolean('approved');
             $table->timestamps();
         });
     }

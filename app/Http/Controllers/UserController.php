@@ -216,8 +216,8 @@ class UserController extends Controller
 
         $quote->source_id = Source::where('key', $request->source_key)->first()->id;
         
-        // validate quotes source
-        $this->validateQuoteSource($quote, $request);
+        // set up quotes source
+        $this->setupQuoteSource($quote, $request);
         
         $quote->save();
 
@@ -275,7 +275,7 @@ class UserController extends Controller
         $quote->source_movie_id = null;
         $quote->source_song_id = null;
 
-        $this->validateQuoteSource($quote, $request);
+        $this->setupQuoteSource($quote, $request);
         
         $quote->save();
 
@@ -286,7 +286,11 @@ class UserController extends Controller
         return redirect()->back()->with(['status' => 'success']);
     }
 
-    private static function validateQuoteSource($quote, $request)
+    /**
+     * Set up quotes source (create unexisting sources as unapproved source), 
+     * while creating or updating quote by USER (not admin)
+     */
+    private static function setupQuoteSource($quote, $request)
     {
         switch ($request->source_key) {
             case Source::OWN_QUOTE_KEY:
@@ -304,7 +308,7 @@ class UserController extends Controller
 
                 // Create new unapproved author if author doesnt exists
                 if(!$author) {
-                    Author::createUnapprovedAuthor($authorName);
+                    Author::createUnapprovedItem($authorName);
                 }
 
                 $quote->author_id = Author::where('name', $authorName)->first()->id;
@@ -320,7 +324,7 @@ class UserController extends Controller
 
                 // create new unapproved source book if its doens exists
                 if(!$sourceBook) {
-                    SourceBook::createUnapprovedBook($bookTitle, $bookAuthor);
+                    SourceBook::createUnapprovedItem($bookTitle, $bookAuthor);
                 }
 
                 $quote->source_book_id = SourceBook::where('title', $bookTitle)->where('author', $bookAuthor)->first()->id;
@@ -336,7 +340,7 @@ class UserController extends Controller
 
                 // create new unapproved source movie if its doens exists
                 if(!$sourceMovie) {
-                    SourceMovie::createUnapprovedMovie($movieTitle, $movieYear);
+                    SourceMovie::createUnapprovedItem($movieTitle, $movieYear);
                 }
 
                 $quote->source_movie_id = SourceMovie::where('title', $movieTitle)->where('year', $movieYear)->first()->id;
@@ -352,7 +356,7 @@ class UserController extends Controller
 
                 // create new unapproved source song if its doens exists
                 if(!$sourceSong) {
-                    SourceSong::createUnapprovedSong($songTitle, $songSinger);
+                    SourceSong::createUnapprovedItem($songTitle, $songSinger);
                 }
 
                 $quote->source_song_id = SourceSong::where('title', $songTitle)->where('singer', $songSinger)->first()->id;
@@ -361,14 +365,18 @@ class UserController extends Controller
         }
     }
 
-    private static function validateQuoteCategories($quote, $request)
+    /**
+     * Set up quotes categories (create unexisting categories as unapproved categories), 
+     * while creating or updating quote by USER (not admin)
+     */
+    private static function setupQuoteCategories($quote, $request)
     {
         foreach ($request->categories as $requestedCategory) {
             $category = Category::where('title', $requestedCategory)->first();
             
             // create new unappoved category if category doesnt exists
             if (!$category) {
-                Category::createUnapprovedCategory($requestedCategory);
+                Category::createUnapprovedItem($requestedCategory);
             }
 
             $quote->categories()->attach(Category::where('title', $requestedCategory)->first()->id);

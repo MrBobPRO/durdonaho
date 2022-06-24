@@ -29,6 +29,7 @@ class SourceSeeder extends Seeder
         $sb = new SourceBook();
         $sb->title = 'Алиса в стране чудес';
         $sb->author = 'Полина Гагарина';
+        $sb->approved = false;
         $sb->save();
     }
 }

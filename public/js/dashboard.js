@@ -125,3 +125,46 @@ document.querySelectorAll('[data-action="show-image-from-local"]').forEach(input
         }
     });
 });
+
+
+//------------- Validating Source Inputs while Creating / Updating quote (visibility and required statements) -------------
+function validateSourceInputs(key) {
+    document.querySelectorAll(['[data-source-key]']).forEach((item) => {
+        if (item.dataset.sourceKey == key) {
+            item.classList.remove('form-group--hidden');
+
+            item.querySelectorAll('input').forEach((item) => {
+                item.required = true;
+            });
+
+            item.querySelectorAll('select').forEach((item) => {
+                item.required = true;
+            });
+        }
+
+        else {
+            item.classList.add('form-group--hidden');
+
+            item.querySelectorAll('input').forEach((item) => {
+                item.required = false;
+            });
+
+            item.querySelectorAll('select').forEach((item) => {
+                item.required = false;
+            });
+        }
+    });
+}
+
+let sourceSelect = document.querySelector('select[name="source_key"]');
+if (sourceSelect) {
+    $('.source-selectize').selectize({
+        onChange(value) {
+            validateSourceInputs(value);
+        }
+    });
+
+    // activeSource is initialized via PHP on blade view
+    validateSourceInputs(activeSource);
+}
+//------------- Validating Source Inputs while Creating / Updating quote -------------  

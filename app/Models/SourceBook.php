@@ -9,11 +9,27 @@ class SourceBook extends Model
 {
     use HasFactory;
 
-    public static function createUnapprovedBook($title, $author)
+    /**
+     * Create unapproved source while creating/updating quotes by USER
+     */
+    public static function createUnapprovedItem($title, $author)
     {
         $book = new SourceBook();
         $book->title = $title;
         $book->author = $author;
+        $book->approved = false;
+        $book->save();
+    }
+
+    /**
+     * Create approved source while creating/updating quotes by ADMIN
+     */
+    public static function createApprovedItem($title, $author)
+    {
+        $book = new SourceBook();
+        $book->title = $title;
+        $book->author = $author;
+        $book->approved = true;
         $book->save();
     }
 }

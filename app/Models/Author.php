@@ -46,13 +46,17 @@ class Author extends Model
         return $query->where('approved', false);
     }
 
-    public static function createUnapprovedAuthor($name)
+    /**
+     * Create unapproved author, while creating/updating quotes by USER
+     */
+    public static function createUnapprovedItem($name)
     {
         $author = new Author();
         $author->name = $name;
         $author->slug = Helper::generateUniqueSlug($name, Author::class);
         $author->user_id = Auth::user()->id;
         $author->biography = 'Биография';
+        $author->approved = false;
         $author->save();
     }
 
