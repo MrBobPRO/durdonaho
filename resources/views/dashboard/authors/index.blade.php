@@ -33,7 +33,7 @@
                 </th>
 
                 <th>
-                    <a class="{{ $orderType }} {{ $orderBy == 'quotes_count' ? 'active' : '' }}" href="{{ route($modelShortcut . '.dashboard.index') }}?page={{ $activePage }}&orderBy=quotes_count&orderType={{ $reversedOrderType }}">Количество цитат</a>
+                    <a class="{{ $orderType }} {{ $orderBy == 'quotes_count' ? 'active' : '' }}" href="{{ route($modelShortcut . '.dashboard.index') }}?page={{ $activePage }}&orderBy=quotes_count&orderType={{ $reversedOrderType }}">Кол-во/цитат</a>
                 </th>
 
                 <th>

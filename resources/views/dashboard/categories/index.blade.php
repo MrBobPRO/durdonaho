@@ -21,6 +21,10 @@
                 </th>
 
                 <th>
+                    <a class="{{ $orderType }} {{ $orderBy == 'approved' ? 'active' : '' }}" href="{{ route($modelShortcut . '.dashboard.index') }}?page={{ $activePage }}&orderBy=approved&orderType={{ $reversedOrderType }}">Одобрено</a>
+                </th>
+
+                <th>
                     <a class="{{ $orderType }} {{ $orderBy == 'quotes_count' ? 'active' : '' }}" href="{{ route($modelShortcut . '.dashboard.index') }}?page={{ $activePage }}&orderBy=quotes_count&orderType={{ $reversedOrderType }}">Количество цитат</a>
                 </th>
 
@@ -49,6 +53,7 @@
                     </td>
 
                     <td>{{ $item->title }}</td>
+                    <td>{!! $item->approved ? 'Да' : '<span class="highlight">В ОЖИДАНИИ</span>' !!}</td>
                     <td>{{ $item->quotes_count }}</td>
                     <td>{{ $item->popular ? 'Популярный' : '' }}</td>
 

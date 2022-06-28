@@ -80,6 +80,7 @@ class CategoryController extends Controller
         $category = new Category();
         $fields = ['title', 'popular'];
         Helper::fillModelColumns($category, $fields, $request);
+        $category->approved = true;
 
         Helper::uploadModelsFile($request, $category, 'image', uniqid(), self::IMAGE_PATH, 300);
 
@@ -132,6 +133,7 @@ class CategoryController extends Controller
         // update category
         $fields = ['title', 'popular'];
         Helper::fillModelColumns($category, $fields, $request);
+        $category->approved = true;
 
         Helper::uploadModelsFile($request, $category, 'image', uniqid(), self::IMAGE_PATH, 300);
 
