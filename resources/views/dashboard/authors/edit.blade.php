@@ -1,6 +1,13 @@
 @extends('dashboard.layouts.app')
 @section("main")
 
+@if(!$errors->any() && !$item->approved)
+    <div class="alert alert-warning">
+        <span class="material-icons alert-icon">warning</span>
+        Автор был добавлен со стороный пользователя. Вам необходимо проверить данные и одобрить автора, для того чтобы он отображался на сайте!
+    </div>
+@endif
+
 <form action="{{ route($modelShortcut . '.update') }}" method="POST" class="form" enctype="multipart/form-data">
     @csrf
     <input type="hidden" name="id" value="{{ $item->id }}">
@@ -42,7 +49,7 @@
 
     <div class="form__actions">
         <button class="button button--success" type="submit">
-            <span class="material-icons">done_all</span> Обновить
+            <span class="material-icons">done_all</span> Обновить @unless($item->approved) и одобрить @endunless
         </button>
 
         <button class="button button--danger" type="button" data-bs-toggle="modal" data-bs-target="#destroy-single-item-modal">

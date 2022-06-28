@@ -189,10 +189,10 @@ class AuthorController extends Controller
 
         Validator::make($request->all(), $validationRules, $validationMessages)->validate();
 
-        // store quote
         $author = new Author();
         $fields = ['name', 'user_id', 'biography', 'popular'];
         Helper::fillModelColumns($author, $fields, $request);
+        $author->approved = true;
         $author->slug = Helper::generateUniqueSlug($request->name, Author::class);
 
         Helper::uploadModelsFile($request, $author, 'image', $author->slug, self::IMAGE_PATH, 300);
@@ -247,6 +247,7 @@ class AuthorController extends Controller
         // update author
         $fields = ['name', 'user_id', 'biography', 'popular'];
         Helper::fillModelColumns($author, $fields, $request);
+        $author->approved = true;
         $author->slug = Helper::generateUniqueSlug($request->name, Author::class, $author->id);
 
         Helper::uploadModelsFile($request, $author, 'image', $author->slug, self::IMAGE_PATH, 300);

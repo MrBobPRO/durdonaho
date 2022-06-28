@@ -25,6 +25,10 @@
                 </th>
 
                 <th>
+                    <a class="{{ $orderType }} {{ $orderBy == 'approved' ? 'active' : '' }}" href="{{ route($modelShortcut . '.dashboard.index') }}?page={{ $activePage }}&orderBy=approved&orderType={{ $reversedOrderType }}">Одобрено</a>
+                </th>
+
+                <th>
                     Биография
                 </th>
 
@@ -58,6 +62,7 @@
 
                     <td><img src="{{ asset('img/authors/' . $item->image) }}"></td>
                     <td>{{ $item->name }}</td>
+                    <td>{!! $item->approved ? 'Да' : '<span class="highlight">В ОЖИДАНИИ</span>' !!}</td>
                     <td>{{ $item->biography }}</td>
 
                     <td>{{ $item->quotes_count }}</td>

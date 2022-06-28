@@ -42,10 +42,6 @@ img {
 .danger-color {
     color: var(--danger-color);
 }
-.new {
-    color: var(--danger-color);
-    font-weight: bold;
-}
 /* ------------ /end Main styles ------------ */
 
 
@@ -439,6 +435,10 @@ img {
 }
 .table__actions span {
     font-size: 22px;
+}
+.main-table .highlight {
+    color: var(--danger-color);
+    font-weight: bold;
 }
 /* ------------ /end Items Table ------------ */
 

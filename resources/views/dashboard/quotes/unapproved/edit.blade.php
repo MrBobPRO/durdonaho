@@ -6,7 +6,7 @@
     @if($item->categories()->unapproved()->count() || ($item->author_id && !$item->author->approved))
     <div class="alert alert-warning alert--columned">
         <h3 class="alert-title"><span class="material-icons alert-icon">warning</span>
-            Пользователь добавил нового автора или новую категорию! Новый автор или новые категории автоматический будут одобрены после одобрение цитаты!
+            Пользователь добавил нового автора или новую категорию! Новый автор или новые категории автоматический будут одобрены и опубликованы, после одобрение цитаты!
         </h3>
 
         <ul class="alert-list">
