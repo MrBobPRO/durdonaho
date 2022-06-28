@@ -114,12 +114,6 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
 
     Route::controller(SourceController::class)->prefix('/sources')->name('sources.')->group(function () {
         Route::get('/', 'dashboardIndex')->name('dashboard.index');
-        Route::get('/create', 'create')->name('create');
-        Route::get('/{id}', 'edit')->name('edit');
-
-        Route::post('/store', 'store')->name('store');
-        Route::post('/update', 'update')->name('update');
-        Route::post('/destroy', 'destroy')->name('destroy');
     });
 
     Route::controller(AuthorController::class)->prefix('/authors')->name('authors.')->group(function () {

@@ -1,13 +1,15 @@
 @extends('dashboard.layouts.app')
 @section("main")
 
-@if($item->categories()->unapproved()->count() || ($item->author_id && !$item->author->approved))
+{{-- Novelty created by user warning --}}
+@unless ($errors->any())
+    @if($item->categories()->unapproved()->count() || ($item->author_id && !$item->author->approved))
     <div class="alert alert-warning alert--columned">
-        <h3><span class="material-icons">warning</span>
+        <h3 class="alert-title"><span class="material-icons alert-icon">warning</span>
             Пользователь добавил нового автора или новую категорию! Новый автор или новые категории автоматический будут одобрены после одобрение цитаты!
         </h3>
 
-        <ul>
+        <ul class="alert-list">
             @if($item->categories()->unapproved()->count())
                 <li>
                     Новые категории добавленные пользователем:
@@ -25,7 +27,9 @@
             @endif
         </ul>
     </div>
-@endif
+    @endif
+@endunless
+{{-- Novelty created by user warning end --}}
 
 <form action="{{ route('quotes.approve') }}" method="POST" class="form" enctype="multipart/form-data">
     @csrf

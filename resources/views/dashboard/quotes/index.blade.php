@@ -3,7 +3,7 @@
 
 @if($activePage == 1)
     <div class="alert alert-warning">
-        <span class="material-icons">info</span>
+        <span class="material-icons alert-icon">info</span>
         Список всех цитат, которые прошли проверку администратора и отображаются на сайте
     </div>
 @endif
