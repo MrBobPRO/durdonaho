@@ -131,6 +131,7 @@ button {
 }
 .header-top__login {
     padding: 9px 48px;
+    text-transform:uppercase;
 }
 .header-top__add-quote {
     padding: 10px 24px;

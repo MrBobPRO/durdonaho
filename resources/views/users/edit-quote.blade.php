@@ -19,7 +19,7 @@
                 @elseif(session('status') == 'similar-quote-error')
                     <div class="alert alert--warning">
                         <span class="material-icons-outlined alert__icon">error</span>
-                        Похожая цитата уже существует. Пожалуйста, измените цитату и попробуйте заново! <br><br>
+                        Иқтибоси шумо такрорист. Пожалуйста, измените цитату и попробуйте заново! <br><br>
                         <b>Похожая цитата: </b> {{ session('similarQuote') }}
                     </div>
 
@@ -60,8 +60,7 @@
                     <script>let activeSource = '{{ $activeSource }}';</script>
 
                     <div class="form-group selectize-container">
-                        <select class="source-selectize" name="source_key" placeholder="Выберите источника цитаты">
-                            <option></option>
+                        <select class="source-selectize" name="source_key">
                             @foreach ($sources as $source)
                                 <option value="{{ $source->key }}" @selected($source->key == $activeSource)>{{ $source->title }}</option>
                             @endforeach
@@ -111,14 +110,14 @@
 
                 {{-- Body --}}
                 <div class="main-form__block">
-                    <h1 class="main-title">Текст цитаты</h1>
+                    <h1 class="main-title">Матни андарз</h1>
 
                     <div class="form-group">
                         <textarea class="textarea textrarea_resize_on_input" name="body">{{ old('body', $quote->body) }}</textarea>
                     </div>
                 </div>  {{-- /end Body --}}
 
-                <button class="button button--main main-form__submit">Обновить цитату</button>
+                <button class="button button--main main-form__submit">Нашри андарзҳо</button>
 
                 <x-terms-of-use class="accept-terms_with_dark_checkbox" id="update-quote-terms" />                
             </form> 

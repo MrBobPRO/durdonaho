@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
         for ($i = 0; $i < count($name); $i++) {
             $user = new User();
             $user->name = $name[$i];
-            $user->slug = Helper::generateUniqueSlug($name[$i], 'App\Models\User');
+            $user->slug = Helper::generateUniqueSlug($name[$i], User::class);
             $user->email = $email[$i];
             $user->role = $role[$i];
             $user->image = $image[$i];

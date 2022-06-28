@@ -16,7 +16,7 @@
     // Default values
     $favorite = 0;
     $formAction = '/quotes/ajax-get';
-    $placeholder = 'Ҷустуҷӯи иқтибосҳо';
+    $placeholder = 'Ҷустҷӯи андарзҳо';
 
     switch ($request->route()->getName()) {
         case 'quotes.index':
@@ -34,23 +34,23 @@
             break;
 
         case 'favorite.quotes':
-            $title = 'Цитаты в закладках';
+            $title = 'Иқтибосҳои мунтахаб';
             $favorite = 1;
             break;
 
         case 'favorite.authors':
-            $title = 'Авторы в закладках';
+            $title = 'Муаллифони барҷаста';
             $formAction = '/authors/ajax-get';
             $placeholder = 'Ҷустуҷӯи муаллифон';
             $favorite = 1;
             break;
 
         case 'users.quotes':
-            $title = 'Цитаты опубликованные пользователем ' . App\Models\User::find($userId)->name;
+            $title = 'Иқтибосҳои аз ҷониби ' . App\Models\User::find($userId)->name . ' нашршуда';
             break;
 
         case 'users.current.quotes':
-            $title = 'Цитаты опубликованные мною';
+            $title = 'Иқтибосҳои аз ҷониби ман нашршуда';
             break;
     }
 
@@ -86,7 +86,7 @@
 
             <div class="categories-filter__list">
                 {{-- All categories Button --}}
-                <button class="categories-filter__button @if(!$activeCategories) categories-filter__button--active @endif" id="categories-filter-all-btn" type="button">Все</button>
+                <button class="categories-filter__button @if(!$activeCategories) categories-filter__button--active @endif" id="categories-filter-all-btn" type="button">Ҳама</button>
 
                 {{-- Only first 14 of categories are visible while no active categories selected --}}
                 @foreach ($categories as $category)
@@ -103,7 +103,7 @@
 
                 {{-- Displays all hidden categories button --}}
                 @if(!$activeCategories && count($categories) > 13)
-                    <button class="categories-filter__button categories-filter__button--active" id="categories-filter-more-btn" type="button">Ещё {{ count($categories) - 13 }}</button>
+                    <button class="categories-filter__button categories-filter__button--active" id="categories-filter-more-btn" type="button">Бештар {{ count($categories) - 13 }}</button>
                 @endif
             </div>
         </form>

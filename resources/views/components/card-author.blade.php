@@ -58,7 +58,7 @@
             <div class="card__actions">
                 @guest
                     <button class="card__actions-button card__actions-favorite" data-action="show-modal" data-target-id="login-modal">
-                        <span class="material-icons-outlined card__actions-favorite-icon">bookmarks</span> В избранные
+                        <span class="material-icons-outlined card__actions-favorite-icon">bookmarks</span> Гулчинҳо
                     </button>
             
                     <button class="card__actions-button card__actions-share">
@@ -69,7 +69,7 @@
             
                     <button class="card__actions-button card__actions-like" data-action="show-modal" data-target-id="login-modal">
                         <span class="material-icons-outlined card__actions-like-icon">favorite_border</span> 
-                        Понравилось: <span class="card__actions-like-counter">{{ $author->likes->count() }}</span>
+                        Писандидан: <span class="card__actions-like-counter">{{ $author->likes->count() }}</span>
                     </button>
                 @endguest
 
@@ -79,7 +79,7 @@
                             $favorited = App\Models\Favorite::where('user_id', auth()->user()->id)->where('author_id', $author->id)->first();
                         @endphp
 
-                        <span class="material-icons{{ $favorited ? '' : '-outlined' }} card__actions-favorite-icon">bookmarks</span> В избранные
+                        <span class="material-icons{{ $favorited ? '' : '-outlined' }} card__actions-favorite-icon">bookmarks</span> Гулчинҳо
                     </button>
             
                     <button class="card__actions-button card__actions-share">
@@ -93,7 +93,7 @@
                             $liked = App\Models\Like::where('user_id', auth()->user()->id)->where('author_id', $author->id)->first();
                         @endphp
                         <span class="material-icons-outlined card__actions-like-icon">{{ $liked ? 'favorite' : 'favorite_border' }}</span>
-                        Понравилось: <span class="card__actions-like-counter">{{ $author->likes->count() }}</span>
+                        Писандидан: <span class="card__actions-like-counter">{{ $author->likes->count() }}</span>
                     </button>
                 @endauth
             </div>
@@ -104,7 +104,7 @@
                 @endphp
 
                 <p class="card__publication-date">{{ $formatted->isoFormat("DD.mm.YYYY HH:mm") }}</p>
-                <p class="card__publication-text">Опубликовано:</p>
+                <p class="card__publication-text">Мунташиршуда:</p>
                 <a class="card__publication-user" href="{{ route('users.show', $author->publisher->slug) }}"><span class="material-icons">person</span> {{ $author->publisher->name }}</a>
                 {{-- <a class="card__footer-chat" href="#"><span class="material-icons-outlined">message</span> Написать</a> --}}
             </div>

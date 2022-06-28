@@ -91,7 +91,7 @@
 .profile-dropdown .dropdown__menu {
     width: max-content;
     gap: 12px;
-    max-width: 280px;
+    max-width: 290px;
 }
 .profile-dropdown__username {
     font-weight: bold;

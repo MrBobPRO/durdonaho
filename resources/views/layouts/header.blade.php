@@ -16,30 +16,30 @@
                                 <li><p class="profile-dropdown__username">{{ auth()->user()->name }}</p></li>
 
                                 <li><a class="dropdown__item" href="{{ route('favorite.authors') }}">
-                                    <span class="material-icons dropdown__item-icon">face</span> Избранные авторы
+                                    <span class="material-icons dropdown__item-icon">face</span> Муаллифони барҷаста
                                 </a></li>
 
                                 <li><a class="dropdown__item" href="{{ route('favorite.quotes') }}">
-                                    <span class="material-icons dropdown__item-icon">bookmark</span> Избранные цитаты
+                                    <span class="material-icons dropdown__item-icon">bookmark</span> Иқтибосҳои мунтахаб
                                 </a></li>
 
                                 <li><a class="dropdown__item" href="{{ route('users.current.quotes') }}">
-                                    <span class="material-icons dropdown__item-icon">edit</span> Редактировать цитаты
+                                    <span class="material-icons dropdown__item-icon">edit</span> Вироиши андарзҳо
                                 </a></li>
 
                                 <li><a class="dropdown__item" href="{{ route('users.quotes.unverified') }}">
-                                    <span class="material-icons dropdown__item-icon">schedule</span> Цитаты на рассмотрении
+                                    <span class="material-icons dropdown__item-icon">schedule</span> Андарзҳои дар ҳоли баррасӣ
                                 </a></li>
 
                                 <li><a class="dropdown__item" href="{{ route('users.profile') }}">
-                                    <span class="material-icons dropdown__item-icon">settings</span> Настройки профиля
+                                    <span class="material-icons dropdown__item-icon">settings</span> Танзимоти намоя
                                 </a></li>
 
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST">
                                         @csrf
                                         <button class="dropdown__item dropdown__item--logout">
-                                            <span class="material-icons dropdown__item-icon">logout</span> Выйти
+                                            <span class="material-icons dropdown__item-icon">logout</span> Баромадан
                                         </button>
                                     </form>
                                 </li>
@@ -47,12 +47,12 @@
                         </div>
                     </div>
                     
-                    <a class="button button--main header-top__add-quote" href="{{ route('users.quotes.create') }}"><span class="material-icons-outlined">drive_file_rename_outline</span> Добавить цитату</a>
+                    <a class="button button--main header-top__add-quote" href="{{ route('users.quotes.create') }}"><span class="material-icons-outlined">drive_file_rename_outline</span> Илова намудани андарз</a>
                 @endauth
                 
                 @guest
                     <button class="button button--main header-top__login" data-action="show-modal" data-target-id="login-modal">
-                        <span class="material-icons">person</span> ВОЙТИ
+                        <span class="material-icons">person</span> Вуруд
                     </button>
                 @endguest
             </div>
@@ -77,7 +77,7 @@
                     </li>
 
                     <li class="header-nav__item">
-                        <a class="header-nav__link @if($route == "quotes.top") active @endif" href="{{ route('quotes.top') }}">Лучшие цитаты</a>
+                        <a class="header-nav__link @if($route == "quotes.top") active @endif" href="{{ route('quotes.top') }}">Андарзҳои беҳтарин</a>
                     </li>
                 </ul>
             </nav>

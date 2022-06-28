@@ -3,7 +3,7 @@
 <div class="{{ $class }} card">
     <div class="card__inner">
 
-        <h1 class="main-title users-card__main-title">Профиль пользователя</h1>
+        <h1 class="main-title users-card__main-title">Профили корбар</h1>
 
         {{-- Card Header start --}}
         <div class="card__header">

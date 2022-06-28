@@ -18,16 +18,16 @@
                 @if(session('status') == 'similar-quote-error')
                     <div class="alert alert--warning">
                         <span class="material-icons-outlined alert__icon">error</span>
-                        Похожая цитата уже существует. Пожалуйста, измените цитату и попробуйте заново! <br><br>
+                        Андарзи ба ин монанд қаблан вуҷуд дорад, лутфан андарзро тағйир диҳед ва бори дигар имтиҳон кунед! <br><br>
                         <b>Похожая цитата: </b> {{ session('similarQuote') }}
                     </div>
                 @endif
 
                 <div class="main-form__block">
-                    <h1 class="main-title main-title--indented">Добавить цитату</h1>
+                    <h1 class="main-title main-title--indented">Илова намудани андарз</h1>
     
                     <div class="form-group selectize-container">
-                        <select class="selectize-multiple-taggable" multiple name="categories[]" placeholder="Выберите категории цитаты или добавьте новый" required>
+                        <select class="selectize-multiple-taggable" multiple name="categories[]" placeholder="Категорияи андарзҳо" required>
                             <option></option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->title }}">{{ $category->title }}</option>
@@ -40,8 +40,7 @@
                     <script>let activeSource = '{{ $activeSource }}';</script>
 
                     <div class="form-group selectize-container">
-                        <select class="source-selectize" name="source_key" placeholder="Выберите источника цитаты" required>
-                            <option></option>
+                        <select class="source-selectize" name="source_key" required>
                             @foreach ($sources as $source)
                                 <option value="{{ $source->key }}" @selected($source->key == $activeSource)>{{ $source->title }}</option>
                             @endforeach
@@ -86,14 +85,14 @@
 
                 {{-- Body --}}
                 <div class="main-form__block">
-                    <h1 class="main-title">Текст цитаты</h1>
+                    <h1 class="main-title">Матни андарз</h1>
 
                     <div class="form-group">
                         <textarea class="textarea textrarea_resize_on_input" name="body" required>{{ old('body') }}</textarea>
                     </div>
                 </div>  {{-- /end Body --}}
 
-                <button class="button button--main main-form__submit">Опубликовать цитату</button>
+                <button class="button button--main main-form__submit">Нашри андарзҳо</button>
 
                 <x-terms-of-use class="accept-terms_with_dark_checkbox" id="create-quote-terms" />
             </form> 

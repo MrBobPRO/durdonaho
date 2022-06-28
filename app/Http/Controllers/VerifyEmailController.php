@@ -39,7 +39,7 @@ class VerifyEmailController extends Controller
         } elseif($user) {
             $user->verified_email = true;
             $user->save();
-            $message = 'Вы успешно подтвердили свою электронную почту!';
+            $message = 'Шумо бомуваффақият  имейли худро тасдиқ кардед!';
 
             VerifyEmail::where('token', $token)->delete();
 

@@ -28,7 +28,7 @@ $(document).ready(function () {
         },
         render: {
             option_create: function(data, escape) {
-              return '<div class="create">Добавить <strong>' + escape(data.input) + '</strong>&hellip;</div>';
+              return '<div class="create">Изофа кардан <strong>' + escape(data.input) + '</strong>&hellip;</div>';
             }
         }
     });
@@ -54,7 +54,7 @@ $(document).ready(function () {
         },
         render: {
             option_create: function(data, escape) {
-              return '<div class="create">Добавить <strong>' + escape(data.input) + '</strong>&hellip;</div>';
+              return '<div class="create">Изофа кардан <strong>' + escape(data.input) + '</strong>&hellip;</div>';
             }
         }
     });
@@ -257,7 +257,7 @@ if (loginForm) {
                 } else if (response == 'failed') {
                     // else display error messages
                     let errorsList = loginForm.querySelector('.modal-form__errors');
-                    errorsList.innerHTML = '<li>Неверный логин или пароль</li>';
+                    errorsList.innerHTML = '<li>Номи корбарӣ ё рамз иштибоҳ аст</li>';
                 }
 
                 spinner.classList.remove('spinner--show');
@@ -321,7 +321,7 @@ if (forgotPasswordForm) {
                 } else if (response == 'failed') {
                     // else display error messages
                     let errorsList = forgotPasswordForm.querySelector('.modal-form__errors');
-                    errorsList.innerHTML = '<li>Пользователь с такой электронной почтой не существует!</li>';
+                    errorsList.innerHTML = '<li>Корбаре бо чунин имейл вуҷуд надорад!</li>';
                 }
 
                 spinner.classList.remove('spinner--show');

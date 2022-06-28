@@ -8,7 +8,7 @@
 
         <div class="footer__block">
             <p>© 2017 - 2021 — ДУРДУРНАҲО</p>
-            <p>Все права защищены</p>
+            <p>Ҳамаи ҳуқуқ маҳфуз аст</p>
         </div>
 
         <div class="footer__block">

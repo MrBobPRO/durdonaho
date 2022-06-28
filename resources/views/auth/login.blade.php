@@ -98,13 +98,13 @@
 
             <!-- Email Address -->
             <div class="form-group">
-                <label class="label" for="email">Email</label>
+                <label class="label" for="email">Почтаи электронӣ</label>
                 <input class="input {{ $errors->any() ? 'input--error' : '' }}" id="email" type="email" name="email" value="{{ old('email') }}" required autofocus />
             </div>
 
             <!-- Password -->
             <div class="form-group">
-                <label class="label" for="password">Пароль</label>
+                <label class="label" for="password">Рамз</label>
                 <input class="input {{ $errors->any() ? 'input--error' : '' }}" id="password" type="password" name="password" required/>
             </div>
 
@@ -116,7 +116,7 @@
                 </label>
             </div>
 
-            <button class="submit">Войти</button>
+            <button class="submit">Вуруд</button>
         </form>
 
     </body>

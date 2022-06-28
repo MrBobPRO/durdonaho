@@ -1,11 +1,11 @@
 @extends('layouts.app')
 @section('main')
 
-@section('title', 'Лучшие цитаты')
+@section('title', 'Андарзҳои беҳтарин')
 
 <aside class="aside">
     <div class="aside-text theme-styled-block">
-        <h1 class="aside-text__title main-title">Лучшие цитаты</h1>
+        <h1 class="aside-text__title main-title">Андарзҳои беҳтарин</h1>
 
         <div class="aside-text__body">
             <p>Здесь короткое описание того, что здесь 10-20 лучших цитат всех времен и народов по мнению наших пользователей.</p>

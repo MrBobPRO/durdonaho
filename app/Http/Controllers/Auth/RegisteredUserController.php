@@ -40,12 +40,12 @@ class RegisteredUserController extends Controller
         //name
         if(User::where('name', $request->name)->first()) {
             array_push($failedInputs, 'name');
-            array_push($errorMessages, 'Пользователь с таким именем уже существует');
+            array_push($errorMessages, 'Корбаре бо чуни ном аллакай вуҷуд дорад');
         }
         //email
         if(User::where('email', $request->email)->first()) {
             array_push($failedInputs, 'email');
-            array_push($errorMessages, 'Пользователь с такой электронной почтой уже существует');
+            array_push($errorMessages, 'Корбаре бо чунин почтаи электронӣ аллакай вуҷуд дорад');
         }
         //password
         if(mb_strlen($request->password) < 5) {
@@ -55,7 +55,7 @@ class RegisteredUserController extends Controller
         //password-confirmartion
         if($request->password != $request->password_confirmation) {
             array_push($failedInputs, 'password_confirmation');
-            array_push($errorMessages, 'Пароли не совпадают');
+            array_push($errorMessages, 'Рамзи номувофиқ');
         }
 
         //return erros on validation fail

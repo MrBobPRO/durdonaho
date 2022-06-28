@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('main')
 
-@section('title', 'Цитаты опубликованные мною')
+@section('title', 'Иқтибосҳои аз ҷониби ман нашршуда')
 
 <div class="main__content users-quotes-page-content">
     <x-filter-categories :request="$request" :user-id="$userId" class="categories-filter--full_width"/>

@@ -229,7 +229,7 @@ class QuoteController extends Controller
         foreach ($quotes as $quote) {
             similar_text($body, $quote, $percentage);
             if ($percentage > 80) {
-                return redirect()->back()->withInput()->withErrors(['Похожая цитата уже существует : ' . $quote]);
+                return redirect()->back()->withInput()->withErrors(['Андарзи ба ин монанд қаблан  : ' . $quote]);
             }
         };
 
@@ -290,7 +290,7 @@ class QuoteController extends Controller
         foreach ($quotes as $quote) {
             similar_text($body, $quote, $percentage);
             if ($percentage > 80) {
-                return redirect()->back()->withInput()->withErrors(['Похожая цитата уже существует : ' . $quote]);
+                return redirect()->back()->withInput()->withErrors(['Андарзи ба ин монанд қаблан  : ' . $quote]);
             }
         };
 
@@ -399,7 +399,7 @@ class QuoteController extends Controller
         foreach ($quotes as $quote) {
             similar_text($body, $quote, $percentage);
             if ($percentage > 80) {
-                return redirect()->back()->withInput()->withErrors(['Похожая цитата уже существует : ' . $quote]);
+                return redirect()->back()->withInput()->withErrors(['Андарзи ба ин монанд қаблан  : ' . $quote]);
             }
         };
 

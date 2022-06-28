@@ -15,15 +15,15 @@
             <div class="modal-dialog__body-inner">
                 <form class="form modal-form" action="/forgot-password" method="POST" id="forgot-password-form">
                     <div class="form-group">
-                        <label>Забыли Ваш пароль? Просто сообщите нам свой адрес электронной почты, и мы отправим вам ссылку для сброса пароля, которая позволит вам задать новый пароль.</label>
+                        <label>Гузарвожаи худро фаромӯш кардаед? Фақат нишонии имейли худро ба мо бидиҳед ва мо пайванди бознишонии гузарвожаро барои шумо ирсол мекунем, ки ба шумо имкон медиҳад, то гузарвожаи наве танзим кунед.</label>
 
-                        <input class="input input--light" type="email" placeholder="Электронная почта" name="email" required>
+                        <input class="input input--light" type="email" placeholder="Почтаи электронӣ" name="email" required>
                     </div>
 
                     <ul class="modal-form__errors"></ul>
 
                     <button class="button button--main modal-submit">
-                        <span class="material-icons modal-submit-icon">lock_reset</span> Запросить ссылку для смены пароля
+                        <span class="material-icons modal-submit-icon">lock_reset</span> Барои танзими гузарвожаи худ пайванде дархост кунед
                     </button>
                 </form>
             </div>  {{-- Modal Body Inner end --}}

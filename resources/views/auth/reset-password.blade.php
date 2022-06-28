@@ -12,11 +12,11 @@
                     <h1 class="main-title main-title--indented">Обновить пароль</h1>
 
                     <div class="form-group">
-                        <input class="input" type="email" readonly value="{{ $email }}" placeholder="Электронная почта" required>
+                        <input class="input" type="email" readonly value="{{ $email }}" placeholder="Почтаи электронӣ" required>
                     </div>
 
                     <div class="form-group">
-                        @error('password') <span class="form-error-message">Пароли не совпадают !</span> @enderror
+                        @error('password') <span class="form-error-message">Рамзи номувофиқ !</span> @enderror
                         <input class="input @error('password') input--error  @enderror" type="password" name="password" minlength="5" autocomplete="new-password" placeholder="Новый пароль" required>
                     </div>
 

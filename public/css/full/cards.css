@@ -170,14 +170,14 @@
     font-size: 16px;
     visibility: hidden;
     position: relative;
-    width: 82px;
+    width: 147px;
 }
 .ya-share2__item_more .ya-share2__link_more .ya-share2__title::after {
     visibility: visible;
     position: absolute;
     top: 0;
     left: 6px;
-    content: "Мулохиза";
+    content: "Ҳамрасонӣ кардан";
 }
 
 

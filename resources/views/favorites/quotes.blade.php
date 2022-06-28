@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('main')
 
-@section('title', 'Избранные цитаты')
+@section('title', 'Иқтибосҳои мунтахаб')
 
 <div class="main__content favorite-quotes-page-content">
     <x-filter-categories :request="$request" class="categories-filter--full_width"/>

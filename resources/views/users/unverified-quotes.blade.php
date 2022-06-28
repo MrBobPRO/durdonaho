@@ -5,8 +5,8 @@
     <section class="unverified-quotes-section">
         <div class="theme-styled-block unverified-quotes-about">
             <div class="unverified-quotes-about__inner">
-                <h1 class="main-title unverified-quotes-about__title">Цитаты на рассмотрении</h1>
-                <p class="unverified-quotes-about__text">Здесь будут отображатся цитаты добавлении вами, которые нахдятся на рассмотрении у администратора!</p>
+                <h1 class="main-title unverified-quotes-about__title">Андарзҳои дар ҳоли баррасӣ</h1>
+                <p class="unverified-quotes-about__text">Иқтибосҳои аз ҷониби шумо иловашуда, ки аз ҷониби администратор баррасӣ карда мешаванд, дар ин ҷо намоиш дода мешаванд!</p>
             </div>
         </div>
 
