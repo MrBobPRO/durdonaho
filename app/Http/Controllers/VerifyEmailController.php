@@ -39,13 +39,13 @@ class VerifyEmailController extends Controller
         } elseif($user) {
             $user->verified_email = true;
             $user->save();
-            $message = 'Шумо бомуваффақият  имейли худро тасдиқ кардед!';
+            $message = 'Шумо бомуваффақият имейли худро тасдиқ кардед!';
 
             VerifyEmail::where('token', $token)->delete();
 
         // else if token is INVALID
         } elseif(!$user) {
-            $message = 'Неверный запрос! Возможно вы уже подтвердили свою электронную почту! Если это не так, то вы можете запросить новое письмо по странице <a href="' . route('verification.notice') . '">' . route('verification.notice') . '</a>. Ссылка доступна только авторизированным пользователям!';
+            $message = 'Неверный запрос! Возможно вы уже подтвердили свою электронную почту! Если это не так, то вы можете запросить новое письмо по ссылке <a href="' . route('verification.notice') . '">' . route('verification.notice') . '</a>. Ссылка доступна только авторизированным пользователям!';
         }
 
         return view('auth.verify-email-verification', compact('message'));

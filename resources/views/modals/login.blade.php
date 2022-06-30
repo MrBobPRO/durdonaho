@@ -32,7 +32,7 @@
                 </form>
 
                 <div class="login-modal__additional-actions">
-                    <button class="login-modal__forgot-password" id="login-modal-forgot-password">Рамзатонро фарош кардед? </button>
+                    <button class="login-modal__forgot-password" id="login-modal-forgot-password">Рамзатонро фаромӯш кардед? </button>
                     <button class="button--transparent login-modal__register" id="login-modal-register-button">Номнависӣ</button>
                 </div>
             </div>  {{-- Modal Body Inner end --}}

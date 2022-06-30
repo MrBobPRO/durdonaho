@@ -29,7 +29,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input class="input input--light" type="password" placeholder="Подтвердите пароль" name="password_confirmation" minlength="5" required>
+                        <input class="input input--light" type="password" placeholder="Тасдиқиди рамз" name="password_confirmation" minlength="5" required>
                     </div>
                     
                     <div class="form-group">

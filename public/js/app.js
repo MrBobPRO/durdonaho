@@ -214,7 +214,7 @@ if (registerForm) {
                     };
 
                     // unhighlight all previous failed inputs
-                    let failedInputs = registerForm.querySelector('.input--error');
+                    let failedInputs = registerForm.querySelectorAll('.input--error');
                     for (let failedInput of failedInputs) {
                         failedInput.classList.remove('input--error');
                     }

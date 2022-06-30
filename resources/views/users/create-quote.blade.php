@@ -19,7 +19,7 @@
                     <div class="alert alert--warning">
                         <span class="material-icons-outlined alert__icon">error</span>
                         Андарзи ба ин монанд қаблан вуҷуд дорад, лутфан андарзро тағйир диҳед ва бори дигар имтиҳон кунед! <br><br>
-                        <b>Похожая цитата: </b> {{ session('similarQuote') }}
+                        <b>Андарзи монанд: </b> {{ session('similarQuote') }}
                     </div>
                 @endif
 
@@ -49,11 +49,11 @@
 
                     {{-- Additional Source Inputs --}}
                     <div class="form-group" data-source-key="book">
-                        <input class="input" type="text" name="book_title" placeholder="Автор книги">
+                        <input class="input" type="text" name="book_title" placeholder="Муаллифи китоб">
                     </div>
 
                     <div class="form-group" data-source-key="book">
-                        <input class="input" type="text" name="book_author" placeholder="Название книги">
+                        <input class="input" type="text" name="book_author" placeholder="Номи китоб">
                     </div>
 
                     <div class="form-group" data-source-key="movie">

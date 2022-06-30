@@ -19,8 +19,8 @@
                 @elseif(session('status') == 'similar-quote-error')
                     <div class="alert alert--warning">
                         <span class="material-icons-outlined alert__icon">error</span>
-                        Иқтибоси шумо такрорист. Пожалуйста, измените цитату и попробуйте заново! <br><br>
-                        <b>Похожая цитата: </b> {{ session('similarQuote') }}
+                        Андарзи ба ин монанд қаблан вуҷуд дорад, лутфан андарзро тағйир диҳед ва бори дигар имтиҳон кунед! <br><br>
+                        <b>Андарзи монанд: </b> {{ session('similarQuote') }}
                     </div>
 
                 @elseif(!$quote->approved)
@@ -31,7 +31,7 @@
                 @endif
 
                 <div class="main-form__block">
-                    <h1 class="main-title main-title--indented">Редактировать цитату</h1>
+                    <h1 class="main-title main-title--indented">Вироиши андарз</h1>
     
                     <div class="form-group selectize-container">
                         <select class="selectize-multiple-taggable" multiple name="categories[]" placeholder="Выберите категории цитаты или добавьте новый" required>
@@ -69,11 +69,11 @@
 
                     {{-- Additional Source Inputs --}}
                     <div class="form-group" data-source-key="book">
-                        <input class="input" type="text" name="book_title" placeholder="Автор книги" value="{{ $quote->sourceBook ? $quote->sourceBook->author : '' }}">
+                        <input class="input" type="text" name="book_title" placeholder="Муаллифи китоб" value="{{ $quote->sourceBook ? $quote->sourceBook->author : '' }}">
                     </div>
 
                     <div class="form-group" data-source-key="book">
-                        <input class="input" type="text" name="book_author" placeholder="Название книги" value="{{ $quote->sourceBook ? $quote->sourceBook->title : '' }}">
+                        <input class="input" type="text" name="book_author" placeholder="Номи китоб" value="{{ $quote->sourceBook ? $quote->sourceBook->title : '' }}">
                     </div>
 
                     <div class="form-group" data-source-key="movie">
@@ -93,7 +93,7 @@
                     </div>
 
                     <div class="form-group selectize-container" data-source-key="author">
-                        <select class="selectize-singular-taggable" name="author" placeholder="Выберите автора цитаты" required>
+                        <select class="selectize-singular-taggable" name="author" placeholder="Выберите автора цитаты или добавьте нового" required>
                             <option></option>
 
                             @if($quote->author && !$quote->author->approved)

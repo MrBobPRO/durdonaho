@@ -4,7 +4,7 @@
     <h1 class="aside-categories__title main-title">Категорияҳо</h1>
 
     <form action="javascript:void(0);" class="search aside__search">
-        <input class="search__input" type="text" placeholder="Поиск категорий" id="aside-search-input">
+        <input class="search__input" type="text" placeholder="Ҷустҷӯи категорияҳо" id="aside-search-input">
         <button type="button" class="search__button"><span class="material-icons search__button-icon">search</span></button>
     </form>
 

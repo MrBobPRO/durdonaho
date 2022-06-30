@@ -5,7 +5,7 @@
         {{-- Modal Header start --}}
         <div class="modal-dialog__header">
             <div class="modal-dialog__header-inner">
-                <h2 class="modal-dialog__title">Сбросить пароль</h2>
+                <h2 class="modal-dialog__title">Танзими гузарвожа</h2>
                 <button class="modal-dissmiss" data-action="hide-modal" data-target-id="forgot-password-modal">X</button>
             </div>
         </div>  {{-- Modal Header end --}}
@@ -23,7 +23,7 @@
                     <ul class="modal-form__errors"></ul>
 
                     <button class="button button--main modal-submit">
-                        <span class="material-icons modal-submit-icon">lock_reset</span> Барои танзими гузарвожаи худ пайванде дархост кунед
+                        <span class="material-icons modal-submit-icon">lock_reset</span> Дархости пайванд
                     </button>
                 </form>
             </div>  {{-- Modal Body Inner end --}}
