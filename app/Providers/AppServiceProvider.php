@@ -49,5 +49,9 @@ class AppServiceProvider extends ServiceProvider
         View::composer(['components.filter-categories'], function ($view) {
             $view->with('categories', Category::approved()->orderBy('title')->get());
         });
+
+        View::composer(['dashboard.layouts.aside', 'dashboard.layouts.new-quote-notification'], function ($view) {
+            $view->with('unverifiedQuotesCount', Quote::where('verified', false)->count());
+        });
     }
 }

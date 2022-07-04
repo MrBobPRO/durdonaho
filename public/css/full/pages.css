@@ -166,3 +166,11 @@
     pointer-events: none;
 }
 /* ------------ /end Unverified quotes ------------ */
+
+
+/* ------------ Password reset page ------------ */
+.password-reset__error-text {
+    display: flex;
+    padding: 32px;
+}
+/* ------------ /end Password reset page ------------ */

@@ -35,6 +35,7 @@
 
     <main class="main" id="main">
         @include('dashboard.layouts.errors')
+        @include('dashboard.layouts.new-quote-notification')
         @yield('main')
     </main>
 

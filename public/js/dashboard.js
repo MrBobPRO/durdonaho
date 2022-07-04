@@ -167,4 +167,30 @@ if (sourceSelect) {
     // activeSource is initialized via PHP on blade view
     validateSourceInputs(activeSource);
 }
-//------------- Validating Source Inputs while Creating / Updating quote -------------  
+//------------- Validating Source Inputs while Creating / Updating quote -------------
+
+
+// New Quotes Notification
+setInterval(notifyNewQuotes, 60000); 
+
+function notifyNewQuotes() {
+    $.ajax({
+        type: 'POST',
+        url: '/dashboard/get-unverified-quotes-count',
+        success: function (newUnverifiedQuotesCount) {
+            // let unverifiedQuotesCount is initialized via php on notification blade
+            if (newUnverifiedQuotesCount > unverifiedQuotesCount) {
+                unverifiedQuotesCount = newUnverifiedQuotesCount;
+
+                document.querySelector('#new-quotes-notification').classList.add('notification--show');
+
+                document.querySelectorAll('.unverified-quotes-count').forEach((item) => {
+                    item.innerHTML = `(` + newUnverifiedQuotesCount + ')';
+                });
+            }
+        },
+        error: function () {
+            console.log('Ajax New Quotes Notification failed !');
+        }
+    });
+}

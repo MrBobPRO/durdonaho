@@ -15,8 +15,7 @@
                 <a class="@if( $route == 'dashboard.index' || strpos($route, 'quotes') !== false || strpos($route, 'sources') !== false) active @endif" href="{{route('dashboard.index')}}">
                     <span class="material-icons">article</span> Цитаты
 
-                    @php $newUnapprovedQuoteCount = App\Models\Quote::unapproved()->where('verified', false)->count(); @endphp
-                    @if($newUnapprovedQuoteCount) ({{ $newUnapprovedQuoteCount  }}) @endif
+                    @if($unverifiedQuotesCount) <i class="unverified-quotes-count">({{ $unverifiedQuotesCount  }})</i> @endif
                 </a>
             </li>
 
@@ -27,8 +26,7 @@
                         <a href="{{ route('quotes.dashboard.unapproved.index') }}" 
                             @if( strpos($route, 'unapproved') !== false ) class="active" @endif>На рассмотрении
                             
-                            @php $newUnapprovedQuoteCount = App\Models\Quote::unapproved()->where('verified', false)->count(); @endphp
-                            @if($newUnapprovedQuoteCount) ({{ $newUnapprovedQuoteCount  }}) @endif
+                            @if($unverifiedQuotesCount) <i class="unverified-quotes-count">({{ $unverifiedQuotesCount  }})</i> @endif
                         </a>
                     </li>
 

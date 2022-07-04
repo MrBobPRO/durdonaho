@@ -509,4 +509,9 @@ class QuoteController extends Controller
                 break;
         }
     }
+
+    public function getUnverifiedQuotesCount()
+    {
+        return Quote::where('verified', false)->count();
+    }
 }

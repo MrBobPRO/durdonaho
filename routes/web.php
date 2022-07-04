@@ -99,6 +99,7 @@ Route::controller(AuthorController::class)->prefix('authors')->name('authors.')-
 
 Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     Route::get('/', [QuoteController::class, 'dashboardIndex'])->name('dashboard.index');
+    Route::post('/get-unverified-quotes-count', [QuoteController::class, 'getUnverifiedQuotesCount']);
 
     Route::controller(QuoteController::class)->prefix('/quotes')->name('quotes.')->group(function () {
         Route::get('/create', 'create')->name('create');
