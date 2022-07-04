@@ -13,7 +13,7 @@
                 @if(session('status') == 'success')
                     <div class="alert alert--success">
                         <span class="material-icons-outlined alert__icon">error</span>
-                        Цитата успешно обновлена. Она будет опубликована после успешной проверки администратором!
+                        Андарз бо муваффақият нав карда шуд. Он пас аз санҷиши бомуваффақият аз ҷониби администратор нашр карда мешавад!
                     </div>
 
                 @elseif(session('status') == 'similar-quote-error')
@@ -26,7 +26,7 @@
                 @elseif(!$quote->approved)
                     <div class="alert alert--success">
                         <span class="material-icons-outlined alert__icon">error</span>
-                        Цитата будет опубликована после успешной проверки администратором!
+                        Андарз пас аз санҷиши бомуваффақият аз ҷониби администратор нашр карда мешавад!
                     </div>
                 @endif
 
@@ -77,23 +77,23 @@
                     </div>
 
                     <div class="form-group" data-source-key="movie">
-                        <input class="input" type="text" name="movie_title" placeholder="Название фильма" value="{{ $quote->sourceMovie ? $quote->sourceMovie->title : '' }}">
+                        <input class="input" type="text" name="movie_title" placeholder="Номи филм" value="{{ $quote->sourceMovie ? $quote->sourceMovie->title : '' }}">
                     </div>
 
                     <div class="form-group" data-source-key="movie">
-                        <input class="input" type="text" name="movie_year" placeholder="Год выпуска" value="{{ $quote->sourceMovie ? $quote->sourceMovie->year : '' }}">
+                        <input class="input" type="text" name="movie_year" placeholder="Соли нашр" value="{{ $quote->sourceMovie ? $quote->sourceMovie->year : '' }}">
                     </div>
 
                     <div class="form-group" data-source-key="song">
-                        <input class="input" type="text" name="song_title" placeholder="Название песни" value="{{ $quote->sourceSong ? $quote->sourceSong->title : '' }}">
+                        <input class="input" type="text" name="song_title" placeholder="Номи суруд" value="{{ $quote->sourceSong ? $quote->sourceSong->title : '' }}">
                     </div>
 
                     <div class="form-group" data-source-key="song">
-                        <input class="input" type="text" name="song_singer" placeholder="Исполнитель" value="{{ $quote->sourceSong ? $quote->sourceSong->singer : '' }}">
+                        <input class="input" type="text" name="song_singer" placeholder="Иҷрокунанда" value="{{ $quote->sourceSong ? $quote->sourceSong->singer : '' }}">
                     </div>
 
                     <div class="form-group selectize-container" data-source-key="author">
-                        <select class="selectize-singular-taggable" name="author" placeholder="Выберите автора цитаты или добавьте нового" required>
+                        <select class="selectize-singular-taggable" name="author" placeholder="Муаллифи андарзро интихоб кунед ё навашро илова кунед" required>
                             <option></option>
 
                             @if($quote->author && !$quote->author->approved)

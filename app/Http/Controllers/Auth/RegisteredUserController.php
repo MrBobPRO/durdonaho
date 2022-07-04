@@ -50,7 +50,7 @@ class RegisteredUserController extends Controller
         //password
         if(mb_strlen($request->password) < 5) {
             array_push($failedInputs, 'password');
-            array_push($errorMessages, 'Слишком короткий пароль');
+            array_push($errorMessages, 'Парол хеле кӯтоҳ аст');
         }
         //password-confirmartion
         if($request->password != $request->password_confirmation) {

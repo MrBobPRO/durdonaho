@@ -45,7 +45,7 @@ class VerifyEmailController extends Controller
 
         // else if token is INVALID
         } elseif(!$user) {
-            $message = 'Неверный запрос! Возможно вы уже подтвердили свою электронную почту! Если это не так, то вы можете запросить новое письмо по ссылке <a href="' . route('verification.notice') . '">' . route('verification.notice') . '</a>. Ссылка доступна только авторизированным пользователям!';
+            $message = 'Дархости беэътибор! Шумо шояд аллакай почтаи электронии худро тасдиқ карда бошед! Агар ин тавр набошад, шумо метавонед бо истиноди <a href="' . route('verification.notice') . '">' . route('verification.notice') . '</a> номаи нав дархост кунед. Истинод танҳо барои корбарони ваколатдор дастрас аст!';
         }
 
         return view('auth.verify-email-verification', compact('message'));

@@ -112,7 +112,7 @@
             <div class="form-group">
                 <label class="label" for="remember_me">
                     <input id="remember_me" type="checkbox" name="remember" checked>
-                    <span>Запомнить меня</span>
+                    <span>Дар хотир доштан</span>
                 </label>
             </div>
 

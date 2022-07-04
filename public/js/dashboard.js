@@ -171,7 +171,7 @@ if (sourceSelect) {
 
 
 // New Quotes Notification
-setInterval(notifyNewQuotes, 60000); 
+setInterval(notifyNewQuotes, 600000); 
 
 function notifyNewQuotes() {
     $.ajax({
@@ -194,3 +194,10 @@ function notifyNewQuotes() {
         }
     });
 }
+
+// hide notification buttons
+document.querySelectorAll('.notification__dissmiss-button').forEach((item) => {
+    item.addEventListener('click', (evt) => {
+        evt.target.closest('.notification').classList.remove('notification--show');
+    });
+});

@@ -11,7 +11,7 @@
                 @if(session('status') == 'success')
                     <div class="alert alert--success">
                         <span class="material-icons-outlined alert__icon">done_all</span>
-                        Цитата успешно добавлена. Она будет опубликована после успешной проверки администратором!
+                        Андарз бо муваффақият илова карда шуд. Он пас аз санҷиши бомуваффақият аз ҷониби администратор нашр карда мешавад!
                     </div>
                 @endif
 
@@ -57,23 +57,23 @@
                     </div>
 
                     <div class="form-group" data-source-key="movie">
-                        <input class="input" type="text" name="movie_title" placeholder="Название фильма">
+                        <input class="input" type="text" name="movie_title" placeholder="Номи филм">
                     </div>
 
                     <div class="form-group" data-source-key="movie">
-                        <input class="input" type="text" name="movie_year" placeholder="Год выпуска">
+                        <input class="input" type="text" name="movie_year" placeholder="Соли нашр">
                     </div>
 
                     <div class="form-group" data-source-key="song">
-                        <input class="input" type="text" name="song_title" placeholder="Название песни">
+                        <input class="input" type="text" name="song_title" placeholder="Номи суруд">
                     </div>
 
                     <div class="form-group" data-source-key="song">
-                        <input class="input" type="text" name="song_singer" placeholder="Исполнитель">
+                        <input class="input" type="text" name="song_singer" placeholder="Иҷрокунанда">
                     </div>
                     
                     <div class="form-group selectize-container" data-source-key="author">
-                        <select class="selectize-singular-taggable" name="author_name" placeholder="Выберите автора цитаты или добавьте нового">
+                        <select class="selectize-singular-taggable" name="author_name" placeholder="Муаллифи андарзро интихоб кунед ё навашро илова кунед">
                             <option></option>
                             @foreach ($authors as $author)
                                 <option value="{{ $author->name }}">{{ $author->name }}</option>

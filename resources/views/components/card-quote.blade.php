@@ -29,7 +29,7 @@
 
                 case App\Models\Source::UNKNOWN_AUTHOR_KEY:
                     $image = 'img/sources/' . ($quote->source_image ?? App\Models\Source::UNKNOWN_AUTHOR_DEFAULT_IMAGE);
-                    $title = 'Неизвестный автор';
+                    $title = 'Муаллифи номаълум';
                     $link = null;
                     break;
 
@@ -53,13 +53,13 @@
 
                 case App\Models\Source::FROM_PROVERB_KEY:
                     $image = 'img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_PROVERB_DEFAULT_IMAGE);
-                    $title = 'Пословица/поговорка';
+                    $title = 'Зарбулмасал/гуфтор';
                     $link = null;
                     break;
 
                 case App\Models\Source::FROM_PARABLE_KEY:
                     $image = 'img/sources/' . ($quote->source_image ?? App\Models\Source::FROM_PARABLE_DEFAULT_IMAGE);
-                    $title = 'Притча';
+                    $title = 'Масал';
                     $link = null;
                     break;
             }

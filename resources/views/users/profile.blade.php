@@ -68,14 +68,14 @@
                         @enderror
 
                         <div class="block_with_edit_button @error('old_password') block_with_edit_button--error @enderror">
-                            <input class="input" name="old_password" type="password" placeholder="Старый пароль" minlength="5" readonly>
+                            <input class="input" name="old_password" type="password" placeholder="Калидвожаи пешина" minlength="5" readonly>
                             <button class="button" type="button" data-action="enable-readonly-input" data-target-input-name="old_password"><span class="material-icons">edit</span> Вироиш</button>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="block_with_edit_button">
-                            <input class="input" name="new_password" type="password" placeholder="Новый пароль" minlength="5" autocomplete="new-password" readonly>
+                            <input class="input" name="new_password" type="password" placeholder="Калидвожаи нав" minlength="5" autocomplete="new-password" readonly>
                         </div>
                     </div>
                 </div> {{-- /end Password --}}

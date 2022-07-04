@@ -66,7 +66,7 @@
                     </li>
         
                     <li class="header-nav__item">
-                        <a class="header-nav__link @if($route == "quotes.index") active @endif" href="{{ route('quotes.index') }}">Иқтибосҳо</a>
+                        <a class="header-nav__link @if($route == "quotes.index") active @endif" href="{{ route('quotes.index') }}">Андарзҳо</a>
                     </li>
         
                     <li class="header-nav__item">
