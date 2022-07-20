@@ -213,6 +213,9 @@ button {
     color: #1D1D1D;
     font-weight: 500;
 }
+.aside-text__body--center {
+    text-align: center;
+}
 
 
 /* Aside Categories */
@@ -238,7 +241,7 @@ button {
     margin-bottom: 20px;
 }
 .aside-popular-categories__text {
-    margin-bottom: 28px;
+    padding-bottom: 12px;
 }
 
 
